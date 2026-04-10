@@ -39,9 +39,12 @@ def send_whatsapp_message(chat_id: str, text: str):
 async def webhook(request: Request):
     data = await request.json()
 
+    import json
     type_webhook = data.get("typeWebhook")
+    print(f"DEBUG webhook: typeWebhook={type_webhook}")
     if type_webhook != "incomingMessageReceived":
         return {"status": "ignored"}
+    print(f"DEBUG full data: {json.dumps(data, ensure_ascii=False)}")
 
     message_id = data.get("idMessage", "")
     if is_message_processed(message_id):
