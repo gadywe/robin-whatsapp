@@ -32,6 +32,8 @@ def send_whatsapp_message(to: str, text: str):
         "text": {"body": text},
     }
     resp = httpx.post(url, json=payload, headers=headers, timeout=30)
+    if not resp.is_success:
+        print(f"ERROR send_whatsapp_message {resp.status_code}: {resp.text}")
     resp.raise_for_status()
     return resp.json()
 
