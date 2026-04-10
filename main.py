@@ -18,6 +18,15 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
+def get_green_api_download_url(chat_id: str, message_id: str) -> str:
+    """Ask Green API to give us the download URL for a media message."""
+    url = f"{GREEN_API_URL}/waInstance{GREEN_API_INSTANCE}/downloadFile/{GREEN_API_TOKEN}"
+    payload = {"chatId": chat_id, "idMessage": message_id}
+    resp = httpx.post(url, json=payload, timeout=30)
+    resp.raise_for_status()
+    return resp.json().get("downloadUrl", "")
+
+
 def send_whatsapp_message(chat_id: str, text: str):
     url = f"{GREEN_API_URL}/waInstance{GREEN_API_INSTANCE}/sendMessage/{GREEN_API_TOKEN}"
     payload = {"chatId": chat_id, "message": text}
@@ -55,27 +64,20 @@ async def webhook(request: Request):
     elif type_message == "extendedTextMessage":
         text = message_data.get("extendedTextMessageData", {}).get("text", "")
     elif type_message in ("audioMessage", "pttMessage", "voiceMessage"):
-        # Voice message - download and transcribe
-        # Green API uses audioMessageData or fileMessageData depending on version
-        audio_data = (
-            message_data.get("audioMessageData") or
-            message_data.get("fileMessageData") or
-            {}
-        )
-        audio_url = audio_data.get("downloadUrl", "")
-        if not audio_url:
-            # Log full message_data to help debug
-            import json
-            print(f"DEBUG audio message_data: {json.dumps(message_data)}")
-            send_whatsapp_message(chat_id, "מנסה לתמלל... 🎤")
-            return {"status": "no_audio_url", "message_data": message_data}
+        # Voice message - use Green API downloadFile endpoint to get the URL
+        message_id = data.get("idMessage", "")
         try:
+            audio_url = get_green_api_download_url(chat_id, message_id)
+            if not audio_url:
+                send_whatsapp_message(chat_id, "לא הצלחתי להוריד את ההודעה הקולית 🎤")
+                return {"status": "no_audio_url"}
             transcribed = transcribe_audio(audio_url)
             if not transcribed:
                 send_whatsapp_message(chat_id, "לא הצלחתי לתמלל את ההודעה הקולית 🎤")
                 return {"status": "empty_transcription"}
             text = f"[הודעה קולית שתומללה]: {transcribed}"
         except Exception as e:
+            print(f"ERROR voice transcription: {e}")
             send_whatsapp_message(chat_id, "אירעה שגיאה בתמלול ההודעה הקולית 😕")
             return {"status": "transcription_error", "error": str(e)}
     else:
