@@ -3,10 +3,15 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-# Green API
+# Green API (kept for reference)
 GREEN_API_URL = os.getenv("GREEN_API_URL")
 GREEN_API_INSTANCE = os.getenv("GREEN_API_INSTANCE")
 GREEN_API_TOKEN = os.getenv("GREEN_API_TOKEN")
+
+# Meta WhatsApp Cloud API
+META_ACCESS_TOKEN = os.getenv("META_ACCESS_TOKEN")
+META_PHONE_NUMBER_ID = os.getenv("META_PHONE_NUMBER_ID")
+META_WEBHOOK_VERIFY_TOKEN = os.getenv("META_WEBHOOK_VERIFY_TOKEN", "robin_webhook_2026")
 
 # Anthropic
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")

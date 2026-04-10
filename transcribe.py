@@ -4,27 +4,19 @@ import os
 from config import OPENAI_API_KEY
 
 
-def transcribe_audio(audio_url: str) -> str:
-    """Download audio from Green API and transcribe with Whisper."""
-
-    # Download the audio file
-    with httpx.Client(timeout=60) as client:
-        audio_resp = client.get(audio_url)
-        audio_resp.raise_for_status()
-
-    # Save to temp file
-    with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as f:
-        f.write(audio_resp.content)
+def transcribe_audio_bytes(audio_bytes: bytes, mime_type: str = "audio/ogg") -> str:
+    """Transcribe audio from raw bytes using OpenAI Whisper."""
+    suffix = ".ogg" if "ogg" in mime_type else ".mp4"
+    with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as f:
+        f.write(audio_bytes)
         temp_path = f.name
-
     try:
-        # Send to Whisper API
         with open(temp_path, "rb") as audio_file:
             with httpx.Client(timeout=60) as client:
                 resp = client.post(
                     "https://api.openai.com/v1/audio/transcriptions",
                     headers={"Authorization": f"Bearer {OPENAI_API_KEY}"},
-                    files={"file": ("audio.ogg", audio_file, "audio/ogg")},
+                    files={"file": (f"audio{suffix}", audio_file, mime_type)},
                     data={"model": "whisper-1", "language": "he"},
                 )
                 resp.raise_for_status()
