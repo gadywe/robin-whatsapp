@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from config import GREEN_API_URL, GREEN_API_INSTANCE, GREEN_API_TOKEN
 from database import init_db, is_message_processed, mark_message_processed
 from agent import get_response
+from transcribe import transcribe_audio
 
 
 @asynccontextmanager
@@ -53,6 +54,21 @@ async def webhook(request: Request):
         text = message_data.get("textMessageData", {}).get("textMessage", "")
     elif type_message == "extendedTextMessage":
         text = message_data.get("extendedTextMessageData", {}).get("text", "")
+    elif type_message in ("audioMessage", "pttMessage"):
+        # Voice message - download and transcribe
+        audio_data = message_data.get("fileMessageData", {})
+        audio_url = audio_data.get("downloadUrl", "")
+        if not audio_url:
+            return {"status": "no_audio_url"}
+        try:
+            transcribed = transcribe_audio(audio_url)
+            if not transcribed:
+                send_whatsapp_message(chat_id, "לא הצלחתי לתמלל את ההודעה הקולית 🎤")
+                return {"status": "empty_transcription"}
+            text = f"[הודעה קולית שתומללה]: {transcribed}"
+        except Exception as e:
+            send_whatsapp_message(chat_id, "אירעה שגיאה בתמלול ההודעה הקולית 😕")
+            return {"status": "transcription_error", "error": str(e)}
     else:
         return {"status": "unsupported_type"}
 

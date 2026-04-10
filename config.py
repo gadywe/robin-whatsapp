@@ -12,6 +12,9 @@ GREEN_API_TOKEN = os.getenv("GREEN_API_TOKEN")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 LLM_MODEL = "claude-sonnet-4-5"
 
+# OpenAI Whisper (transcription)
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
 # Agent
 AGENT_NAME = "רובין"
 MAX_HISTORY = 20
