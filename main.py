@@ -82,6 +82,7 @@ async def webhook(request: Request):
 
                 from_number = message.get("from", "")
                 msg_type = message.get("type", "")
+                print(f"DEBUG: from={from_number} type={msg_type} id={message_id}")
 
                 if msg_type == "text":
                     text = message.get("text", {}).get("body", "")
@@ -104,8 +105,11 @@ async def webhook(request: Request):
                 if not text.strip():
                     continue
 
+                print(f"DEBUG: text={text!r}")
                 response_text = get_response(from_number, text)
+                print(f"DEBUG: response={response_text!r}")
                 send_whatsapp_message(from_number, response_text)
+                print(f"DEBUG: sent to {from_number}")
 
     return {"status": "ok"}
 
