@@ -54,12 +54,21 @@ async def webhook(request: Request):
         text = message_data.get("textMessageData", {}).get("textMessage", "")
     elif type_message == "extendedTextMessage":
         text = message_data.get("extendedTextMessageData", {}).get("text", "")
-    elif type_message in ("audioMessage", "pttMessage"):
+    elif type_message in ("audioMessage", "pttMessage", "voiceMessage"):
         # Voice message - download and transcribe
-        audio_data = message_data.get("fileMessageData", {})
+        # Green API uses audioMessageData or fileMessageData depending on version
+        audio_data = (
+            message_data.get("audioMessageData") or
+            message_data.get("fileMessageData") or
+            {}
+        )
         audio_url = audio_data.get("downloadUrl", "")
         if not audio_url:
-            return {"status": "no_audio_url"}
+            # Log full message_data to help debug
+            import json
+            print(f"DEBUG audio message_data: {json.dumps(message_data)}")
+            send_whatsapp_message(chat_id, "מנסה לתמלל... 🎤")
+            return {"status": "no_audio_url", "message_data": message_data}
         try:
             transcribed = transcribe_audio(audio_url)
             if not transcribed:
