@@ -15,7 +15,11 @@ def _detect_format(audio_bytes: bytes) -> tuple[str, str]:
     elif audio_bytes[:4] == b'fLaC':
         return ".flac", "audio/flac"
     elif len(audio_bytes) > 8 and audio_bytes[4:8] == b'ftyp':
-        return ".mp4", "audio/mp4"
+        # Check ftyp brand - M4A files have 'M4A ', 'mp42', 'isom' etc.
+        ftyp_brand = audio_bytes[8:12]
+        if ftyp_brand in (b'M4A ', b'M4B ', b'mp42', b'm4a '):
+            return ".m4a", "audio/mp4"
+        return ".m4a", "audio/mp4"  # Use .m4a for all MP4 audio - more reliable with Whisper
     elif audio_bytes[:4] == b'\x1aE\xdf\xa3':  # WebM/MKV
         return ".webm", "audio/webm"
     else:
@@ -31,7 +35,7 @@ def _suffix_from_mime(mime_type: str) -> tuple[str, str]:
     elif "mp3" in mime or "mpeg" in mime:
         return ".mp3", "audio/mpeg"
     elif "mp4" in mime or "m4a" in mime or "aac" in mime:
-        return ".mp4", "audio/mp4"
+        return ".m4a", "audio/mp4"
     elif "wav" in mime:
         return ".wav", "audio/wav"
     elif "webm" in mime:
