@@ -6,6 +6,7 @@ from config import META_ACCESS_TOKEN, META_PHONE_NUMBER_ID, META_WEBHOOK_VERIFY_
 from database import init_db, is_message_processed, mark_message_processed
 from agent import get_response
 from transcribe import transcribe_audio_bytes
+from file_tool import process_file_by_mime
 
 META_API_URL = "https://graph.facebook.com/v19.0"
 
@@ -97,6 +98,19 @@ async def webhook(request: Request):
                     except Exception as e:
                         print(f"ERROR voice transcription: {e}")
                         send_whatsapp_message(from_number, "אירעה שגיאה בתמלול ההודעה הקולית 😕")
+                        continue
+                elif msg_type == "document":
+                    doc = message.get("document", {})
+                    doc_id = doc.get("id", "")
+                    mime_type = doc.get("mime_type", "")
+                    filename = doc.get("filename", "")
+                    try:
+                        file_bytes = download_meta_media(doc_id)
+                        file_content = process_file_by_mime(file_bytes, mime_type, filename)
+                        text = f"[קובץ שנשלח: {filename}]\n{file_content}"
+                    except Exception as e:
+                        print(f"ERROR document processing: {e}")
+                        send_whatsapp_message(from_number, f"לא הצלחתי לקרוא את הקובץ {filename} 😕")
                         continue
                 else:
                     continue

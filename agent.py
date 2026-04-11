@@ -4,6 +4,7 @@ from datetime import datetime
 from config import ANTHROPIC_API_KEY, LLM_MODEL, MAX_HISTORY
 from database import get_history, save_message
 from calendar_tool import get_upcoming_events, create_event, delete_event
+from file_tool import create_docx_bytes, create_pdf_bytes, send_document_whatsapp, fetch_link_content
 
 SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנטלי של גדי. יש לך שני כובעים:
 
@@ -91,6 +92,31 @@ TOOLS = [
             },
             "required": ["event_id"]
         }
+    },
+    {
+        "name": "fetch_url",
+        "description": "פותח לינק ומחזיר את תוכן הדף. השתמש כשגדי שולח לינק או כשנמצא לינק בקובץ שנשלח.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "url": {"type": "string", "description": "ה-URL לפתוח"}
+            },
+            "required": ["url"]
+        }
+    },
+    {
+        "name": "create_document",
+        "description": "יוצר קובץ Word או PDF ושולח אותו לגדי בוואטסאפ. השתמש כשגדי מבקש ליצור מסמך, דוח, סיכום, רשימה וכו'.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "title": {"type": "string", "description": "כותרת המסמך"},
+                "content": {"type": "string", "description": "תוכן המסמך (טקסט, שורות חדשות מפרידות בין פסקאות)"},
+                "format": {"type": "string", "enum": ["docx", "pdf"], "description": "פורמט הקובץ: docx לWord, pdf ל-PDF"},
+                "to": {"type": "string", "description": "מספר הטלפון לשליחה (בפורמט בינלאומי, למשל 972501234567)"}
+            },
+            "required": ["title", "content", "format", "to"]
+        }
     }
 ]
 
@@ -126,6 +152,25 @@ def run_tool(tool_name: str, tool_input: dict) -> str:
         elif tool_name == "delete_calendar_event":
             success = delete_event(tool_input["event_id"])
             return "נמחק בהצלחה" if success else "שגיאה במחיקה"
+
+        elif tool_name == "fetch_url":
+            return fetch_link_content(tool_input["url"])
+
+        elif tool_name == "create_document":
+            fmt = tool_input.get("format", "docx")
+            title = tool_input.get("title", "מסמך")
+            content = tool_input.get("content", "")
+            to = tool_input.get("to", "")
+            if fmt == "docx":
+                file_bytes = create_docx_bytes(content, title=title)
+                mime = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                filename = f"{title}.docx"
+            else:
+                file_bytes = create_pdf_bytes(content, title=title)
+                mime = "application/pdf"
+                filename = f"{title}.pdf"
+            send_document_whatsapp(to, file_bytes, mime, filename, caption=title)
+            return f"קובץ '{filename}' נשלח בהצלחה"
 
         else:
             return f"כלי לא מוכר: {tool_name}"
