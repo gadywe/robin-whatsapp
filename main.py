@@ -87,10 +87,12 @@ async def webhook(request: Request):
                 if msg_type == "text":
                     text = message.get("text", {}).get("body", "")
                 elif msg_type == "audio":
-                    audio_id = message.get("audio", {}).get("id", "")
+                    audio_obj = message.get("audio", {})
+                    audio_id = audio_obj.get("id", "")
+                    audio_mime = audio_obj.get("mime_type", "audio/ogg")
                     try:
                         audio_bytes = download_meta_media(audio_id)
-                        text = transcribe_audio_bytes(audio_bytes)
+                        text = transcribe_audio_bytes(audio_bytes, mime_type=audio_mime)
                         if not text:
                             send_whatsapp_message(from_number, "לא הצלחתי לתמלל את ההודעה הקולית 🎤")
                             continue
