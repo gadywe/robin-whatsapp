@@ -1,3 +1,4 @@
+import time
 import httpx
 import uvicorn
 from fastapi import FastAPI, Request, Response
@@ -7,6 +8,8 @@ from database import init_db, is_message_processed, mark_message_processed
 from agent import get_response
 from transcribe import transcribe_audio_bytes
 from file_tool import process_file_by_mime
+
+MAX_MESSAGE_AGE_SECONDS = 300  # התעלם מהודעות ישנות מ-5 דקות (מונע retry storms)
 
 META_API_URL = "https://graph.facebook.com/v19.0"
 
@@ -77,6 +80,13 @@ async def webhook(request: Request):
             value = change.get("value", {})
             for message in value.get("messages", []):
                 message_id = message.get("id", "")
+
+                # התעלם מהודעות ישנות (Meta retries אחרי restart)
+                msg_ts = int(message.get("timestamp", 0))
+                if msg_ts and (time.time() - msg_ts) > MAX_MESSAGE_AGE_SECONDS:
+                    print(f"SKIP old message {message_id} age={(time.time()-msg_ts):.0f}s")
+                    continue
+
                 if is_message_processed(message_id):
                     continue
                 mark_message_processed(message_id)
