@@ -2,7 +2,7 @@ services:
   - type: web
     name: robin-whatsapp-agent
     runtime: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: apt-get install -y ffmpeg && pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: GREEN_API_URL

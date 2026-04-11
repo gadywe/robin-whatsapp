@@ -1,3 +1,4 @@
+import io
 import tempfile
 import os
 from openai import OpenAI
@@ -43,6 +44,16 @@ def _suffix_from_mime(mime_type: str) -> str:
         return ".ogg"
 
 
+def _convert_to_mp3(audio_bytes: bytes, src_suffix: str) -> bytes:
+    """Convert audio bytes to mp3 using pydub+ffmpeg."""
+    from pydub import AudioSegment
+    fmt = src_suffix.lstrip(".")
+    seg = AudioSegment.from_file(io.BytesIO(audio_bytes), format=fmt)
+    buf = io.BytesIO()
+    seg.export(buf, format="mp3")
+    return buf.getvalue()
+
+
 def transcribe_audio_bytes(audio_bytes: bytes, mime_type: str = "audio/ogg") -> str:
     """Transcribe audio from raw bytes using OpenAI Whisper."""
     suffix = _detect_format(audio_bytes)
@@ -53,20 +64,26 @@ def transcribe_audio_bytes(audio_bytes: bytes, mime_type: str = "audio/ogg") -> 
 
     print(f"DEBUG transcribe: mime_type={mime_type}, suffix={suffix}, size={len(audio_bytes)}")
 
-    with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as f:
-        f.write(audio_bytes)
-        temp_path = f.name
+    # Convert non-ogg/mp3/wav formats to mp3 via ffmpeg for reliability
+    if suffix not in (".ogg", ".mp3", ".wav", ".flac", ".webm"):
+        try:
+            print(f"DEBUG converting {suffix} to mp3 via ffmpeg")
+            audio_bytes = _convert_to_mp3(audio_bytes, suffix)
+            suffix = ".mp3"
+        except Exception as e:
+            print(f"WARNING ffmpeg conversion failed: {e}, sending original")
+
+    import io as _io
+    buf = _io.BytesIO(audio_bytes)
+    buf.name = f"audio{suffix}"
 
     try:
-        with open(temp_path, "rb") as audio_file:
-            transcription = _openai_client.audio.transcriptions.create(
-                model="whisper-1",
-                file=audio_file,
-                language="he",
-            )
-            return transcription.text
+        transcription = _openai_client.audio.transcriptions.create(
+            model="whisper-1",
+            file=buf,
+            language="he",
+        )
+        return transcription.text
     except Exception as e:
         print(f"ERROR transcribe (OpenAI SDK): {e}")
         raise
-    finally:
-        os.unlink(temp_path)
