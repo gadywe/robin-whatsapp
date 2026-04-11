@@ -1,4 +1,5 @@
 import io
+import subprocess
 import tempfile
 import os
 from openai import OpenAI
@@ -44,14 +45,27 @@ def _suffix_from_mime(mime_type: str) -> str:
         return ".ogg"
 
 
-def _convert_to_mp3(audio_bytes: bytes, src_suffix: str) -> bytes:
-    """Convert audio bytes to mp3 using pydub+ffmpeg."""
-    from pydub import AudioSegment
-    fmt = src_suffix.lstrip(".")
-    seg = AudioSegment.from_file(io.BytesIO(audio_bytes), format=fmt)
-    buf = io.BytesIO()
-    seg.export(buf, format="mp3")
-    return buf.getvalue()
+def _convert_to_mp3_ffmpeg(audio_bytes: bytes, src_suffix: str) -> bytes:
+    """Convert audio to mp3 using ffmpeg subprocess directly (no pydub)."""
+    with tempfile.NamedTemporaryFile(suffix=src_suffix, delete=False) as f_in:
+        f_in.write(audio_bytes)
+        input_path = f_in.name
+
+    output_path = input_path + ".mp3"
+    try:
+        result = subprocess.run(
+            ["ffmpeg", "-y", "-i", input_path, "-acodec", "libmp3lame", "-q:a", "4", output_path],
+            capture_output=True,
+            timeout=30,
+        )
+        if result.returncode != 0:
+            raise RuntimeError(f"ffmpeg error: {result.stderr.decode()}")
+        with open(output_path, "rb") as f:
+            return f.read()
+    finally:
+        os.unlink(input_path)
+        if os.path.exists(output_path):
+            os.unlink(output_path)
 
 
 def transcribe_audio_bytes(audio_bytes: bytes, mime_type: str = "audio/ogg") -> str:
@@ -64,17 +78,17 @@ def transcribe_audio_bytes(audio_bytes: bytes, mime_type: str = "audio/ogg") -> 
 
     print(f"DEBUG transcribe: mime_type={mime_type}, suffix={suffix}, size={len(audio_bytes)}")
 
-    # Convert non-ogg/mp3/wav formats to mp3 via ffmpeg for reliability
+    # Convert non-native formats to mp3 via ffmpeg for reliability
     if suffix not in (".ogg", ".mp3", ".wav", ".flac", ".webm"):
         try:
             print(f"DEBUG converting {suffix} to mp3 via ffmpeg")
-            audio_bytes = _convert_to_mp3(audio_bytes, suffix)
+            audio_bytes = _convert_to_mp3_ffmpeg(audio_bytes, suffix)
             suffix = ".mp3"
+            print(f"DEBUG converted to mp3, size={len(audio_bytes)}")
         except Exception as e:
             print(f"WARNING ffmpeg conversion failed: {e}, sending original")
 
-    import io as _io
-    buf = _io.BytesIO(audio_bytes)
+    buf = io.BytesIO(audio_bytes)
     buf.name = f"audio{suffix}"
 
     try:
