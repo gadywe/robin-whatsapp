@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
 from config import META_ACCESS_TOKEN, META_PHONE_NUMBER_ID, META_WEBHOOK_VERIFY_TOKEN
-from database import init_db, is_message_processed, mark_message_processed
+from db_postgres import init_db, is_message_processed, mark_message_processed
 from agent import get_response
 from transcribe import transcribe_audio_bytes
 from file_tool import process_file_by_mime

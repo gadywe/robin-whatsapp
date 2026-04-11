@@ -2,7 +2,7 @@ import httpx
 import json
 from datetime import datetime
 from config import ANTHROPIC_API_KEY, LLM_MODEL, MAX_HISTORY
-from database import get_history, save_message
+from db_postgres import get_history, save_message
 from calendar_tool import get_upcoming_events, create_event, delete_event
 from file_tool import create_docx_bytes, create_pdf_bytes, send_document_whatsapp, fetch_link_content
 from apps_tool import (
