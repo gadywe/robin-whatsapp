@@ -15,7 +15,7 @@ META_WEBHOOK_VERIFY_TOKEN = os.getenv("META_WEBHOOK_VERIFY_TOKEN", "robin_webhoo
 
 # Anthropic
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
-LLM_MODEL = "claude-sonnet-4-5"
+LLM_MODEL = "claude-haiku-4-5-20251001"
 
 # OpenAI Whisper (transcription)
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -27,4 +27,4 @@ GOOGLE_REFRESH_TOKEN = os.getenv("GOOGLE_REFRESH_TOKEN")
 
 # Agent
 AGENT_NAME = "רובין"
-MAX_HISTORY = 20
+MAX_HISTORY = 10
