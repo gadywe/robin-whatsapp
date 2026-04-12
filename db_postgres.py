@@ -47,6 +47,21 @@ def init_db():
     );
 
     CREATE INDEX IF NOT EXISTS idx_processed_timestamp ON processed_messages(timestamp);
+
+    CREATE TABLE IF NOT EXISTS reminders (
+        id SERIAL PRIMARY KEY,
+        chat_id TEXT NOT NULL,
+        text TEXT NOT NULL,
+        remind_at TIMESTAMP WITH TIME ZONE NOT NULL,
+        is_recurring BOOLEAN DEFAULT FALSE,
+        recurrence_rule TEXT,
+        status TEXT DEFAULT 'active',
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        sent_at TIMESTAMP WITH TIME ZONE
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_reminders_due ON reminders(remind_at) WHERE status = 'active';
+    CREATE INDEX IF NOT EXISTS idx_reminders_chat ON reminders(chat_id, status);
     """
 
     with get_connection() as conn:

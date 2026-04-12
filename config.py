@@ -28,6 +28,9 @@ GOOGLE_REFRESH_TOKEN = os.getenv("GOOGLE_REFRESH_TOKEN")
 # PostgreSQL (Neon)
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+# Cron (for reminders)
+CRON_SECRET = os.getenv("CRON_SECRET", "robin_cron_secret_2026")
+
 # Agent
 AGENT_NAME = "רובין"
 MAX_HISTORY = 10

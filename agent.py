@@ -5,6 +5,12 @@ from config import ANTHROPIC_API_KEY, LLM_MODEL, MAX_HISTORY
 from db_postgres import get_history, save_message
 from calendar_tool import get_upcoming_events, create_event, delete_event
 from file_tool import create_docx_bytes, create_pdf_bytes, send_document_whatsapp, fetch_link_content
+from reminders import (
+    create_reminder as db_create_reminder,
+    get_reminders as db_get_reminders,
+    delete_reminder as db_delete_reminder,
+    snooze_reminder as db_snooze_reminder,
+)
 from apps_tool import (
     finance_get_expenses, finance_add_expense, finance_get_income, finance_add_income,
     schedule_get_categories, schedule_get_habits, schedule_log_habit,
@@ -27,6 +33,12 @@ SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנ
 - הודעות קצרות וממוקדות, כמו בוואטסאפ אמיתי. לא מאמרים ארוכים
 
 כלים שיש לך:
+- תזכורות - ליצור, לראות, למחוק ולדחות תזכורות. כשגדי מבקש תזכורת, תמיד השתמש בכלי create_reminder
+  - כשמבקשים תזכורת חוזרת, השתמש ב-is_recurring=true וב-recurrence_rule:
+    - "כל יום" → daily
+    - "כל יום ראשון" → weekly:0 (0=ראשון, 1=שני, ..., 6=שבת)
+    - "כל 15 לחודש" → monthly:15
+  - כשגדי אומר "תזכורות", השתמש ב-list_reminders
 - יומן Google - לראות ולהוסיף אירועים
 - Finance Tracker - לראות הוצאות והכנסות, להוסיף הוצאות/הכנסות חדשות
 - My Schedule - לראות ולתעד שעות עבודה, לעקוב אחרי הרגלים
@@ -250,6 +262,52 @@ TOOLS = [
             },
             "required": []
         }
+    },
+    {
+        "name": "create_reminder",
+        "description": "יוצר תזכורת חדשה. השתמש כשגדי מבקש שתזכיר לו משהו בזמן מסוים.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "text": {"type": "string", "description": "תוכן התזכורת"},
+                "remind_at": {"type": "string", "description": "תאריך ושעה בפורמט ISO 8601 עם timezone ישראל, למשל: 2026-04-15T08:00:00+03:00"},
+                "is_recurring": {"type": "boolean", "description": "האם תזכורת חוזרת (ברירת מחדל: false)"},
+                "recurrence_rule": {"type": "string", "description": "כלל חזרה: daily, weekly:0-6, monthly:1-31, yearly:MM-DD"}
+            },
+            "required": ["text", "remind_at"]
+        }
+    },
+    {
+        "name": "list_reminders",
+        "description": "מציג את כל התזכורות הפעילות של גדי, מקובצות לפי תאריך. השתמש כשגדי אומר 'תזכורות' או שואל מה יש לו.",
+        "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "delete_reminder",
+        "description": "מוחק תזכורת לפי ID. השתמש אחרי שקיבלת את ה-ID מ-list_reminders.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "reminder_id": {"type": "integer", "description": "ה-ID של התזכורת למחיקה"}
+            },
+            "required": ["reminder_id"]
+        }
+    },
+    {
+        "name": "snooze_reminder",
+        "description": "דוחה תזכורת לזמן חדש. השתמש כשגדי מבקש להזכיר שוב בעוד X דקות/שעות/ימים.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "reminder_id": {"type": "integer", "description": "ה-ID של התזכורת"},
+                "new_remind_at": {"type": "string", "description": "הזמן החדש בפורמט ISO 8601 עם timezone ישראל"}
+            },
+            "required": ["reminder_id", "new_remind_at"]
+        }
     }
 ]
 
@@ -414,6 +472,43 @@ def run_tool(tool_name: str, tool_input: dict) -> str:
             for cat in report:
                 lines.append(f"• {cat['categoryName']}: ממוצע {cat['weeklyAverage']} שעות/שבוע")
             return "\n".join(lines)
+
+        elif tool_name == "create_reminder":
+            result = db_create_reminder(
+                chat_id="972552909434",
+                text=tool_input["text"],
+                remind_at=tool_input["remind_at"],
+                is_recurring=tool_input.get("is_recurring", False),
+                recurrence_rule=tool_input.get("recurrence_rule"),
+            )
+            recurring_text = f" (חוזרת: {result.get('recurrence_rule')})" if result.get("is_recurring") else ""
+            return f"תזכורת נוצרה (#{result['id']}): \"{result['text']}\" ב-{result['remind_at']}{recurring_text}"
+
+        elif tool_name == "list_reminders":
+            reminders = db_get_reminders("972552909434")
+            if not reminders:
+                return "אין תזכורות פעילות"
+            lines = []
+            current_date = ""
+            for r in reminders:
+                remind_dt = r["remind_at"][:10]
+                if remind_dt != current_date:
+                    current_date = remind_dt
+                    lines.append(f"\n📅 {current_date}:")
+                time_str = r["remind_at"][11:16] if len(r["remind_at"]) > 11 else ""
+                recurring = " 🔁" if r["is_recurring"] else ""
+                lines.append(f"  #{r['id']} {time_str} — {r['text']}{recurring}")
+            return "\n".join(lines)
+
+        elif tool_name == "delete_reminder":
+            success = db_delete_reminder(tool_input["reminder_id"])
+            return f"תזכורת #{tool_input['reminder_id']} נמחקה" if success else "תזכורת לא נמצאה"
+
+        elif tool_name == "snooze_reminder":
+            result = db_snooze_reminder(tool_input["reminder_id"], tool_input["new_remind_at"])
+            if result:
+                return f"תזכורת #{result['id']} נדחתה ל-{result['remind_at']}"
+            return "תזכורת לא נמצאה"
 
         else:
             return f"כלי לא מוכר: {tool_name}"
