@@ -438,52 +438,67 @@ def get_response(chat_id: str, user_message: str) -> str:
         "content-type": "application/json",
     }
 
-    # Agentic loop - allow multiple tool calls
-    for _ in range(5):
-        payload = {
-            "model": LLM_MODEL,
-            "max_tokens": 1024,
-            "system": system,
-            "tools": TOOLS,
-            "messages": messages,
-        }
+    try:
+        # Agentic loop - allow multiple tool calls
+        for _ in range(5):
+            payload = {
+                "model": LLM_MODEL,
+                "max_tokens": 1024,
+                "system": system,
+                "tools": TOOLS,
+                "messages": messages,
+            }
 
-        with httpx.Client(timeout=60.0) as client:
-            response = client.post(ANTHROPIC_API_URL, headers=headers, json=payload)
-            response.raise_for_status()
-            data = response.json()
+            try:
+                with httpx.Client(timeout=60.0) as client:
+                    response = client.post(ANTHROPIC_API_URL, headers=headers, json=payload)
+                    response.raise_for_status()
+                    data = response.json()
+            except httpx.HTTPError as e:
+                print(f"ERROR API call: {e}")
+                return f"שגיאת API: {response.status_code} - {str(e)[:100]}"
+            except Exception as e:
+                print(f"ERROR request: {e}")
+                return f"שגיאה בבקשה: {type(e).__name__}"
 
-        stop_reason = data.get("stop_reason")
-        content = data.get("content", [])
+            stop_reason = data.get("stop_reason")
+            content = data.get("content", [])
 
-        if stop_reason == "end_turn":
-            # Extract text response
-            for block in content:
-                if block.get("type") == "text":
-                    assistant_message = block["text"]
-                    save_message(chat_id, "assistant", assistant_message)
-                    return assistant_message
-            return "..."
+            if stop_reason == "end_turn":
+                # Extract text response
+                for block in content:
+                    if block.get("type") == "text":
+                        assistant_message = block["text"]
+                        save_message(chat_id, "assistant", assistant_message)
+                        return assistant_message
+                return "..."
 
-        elif stop_reason == "tool_use":
-            # Add assistant message with tool calls
-            messages.append({"role": "assistant", "content": content})
+            elif stop_reason == "tool_use":
+                # Add assistant message with tool calls
+                messages.append({"role": "assistant", "content": content})
 
-            # Run all tools and collect results
-            tool_results = []
-            for block in content:
-                if block.get("type") == "tool_use":
-                    tool_result = run_tool(block["name"], block.get("input", {}))
-                    print(f"TOOL {block['name']}: {tool_result[:100]}")
-                    tool_results.append({
-                        "type": "tool_result",
-                        "tool_use_id": block["id"],
-                        "content": tool_result,
-                    })
+                # Run all tools and collect results
+                tool_results = []
+                for block in content:
+                    if block.get("type") == "tool_use":
+                        tool_result = run_tool(block["name"], block.get("input", {}))
+                        print(f"TOOL {block['name']}: {tool_result[:100]}")
+                        tool_results.append({
+                            "type": "tool_result",
+                            "tool_use_id": block["id"],
+                            "content": tool_result,
+                        })
 
-            messages.append({"role": "user", "content": tool_results})
+                messages.append({"role": "user", "content": tool_results})
 
-        else:
-            break
+            else:
+                print(f"ERROR unknown stop_reason: {stop_reason}")
+                return f"שגיאה לא ידועה: {stop_reason}"
 
-    return "משהו השתבש, נסה שוב"
+    except Exception as e:
+        import traceback
+        print(f"ERROR get_response: {e}")
+        traceback.print_exc()
+        return f"שגיאה: {type(e).__name__}: {str(e)[:80]}"
+
+    return "משהו השתבש, נסה שוב (לולאה הגיעה לגבול)"
