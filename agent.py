@@ -314,7 +314,7 @@ TOOLS = [
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 
 
-def run_tool(tool_name: str, tool_input: dict) -> str:
+def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
     try:
         if tool_name == "get_upcoming_events":
             days = tool_input.get("days", 7)
@@ -475,7 +475,7 @@ def run_tool(tool_name: str, tool_input: dict) -> str:
 
         elif tool_name == "create_reminder":
             result = db_create_reminder(
-                chat_id="972552909434",
+                chat_id=chat_id,
                 text=tool_input["text"],
                 remind_at=tool_input["remind_at"],
                 is_recurring=tool_input.get("is_recurring", False),
@@ -485,7 +485,7 @@ def run_tool(tool_name: str, tool_input: dict) -> str:
             return f"תזכורת נוצרה (#{result['id']}): \"{result['text']}\" ב-{result['remind_at']}{recurring_text}"
 
         elif tool_name == "list_reminders":
-            reminders = db_get_reminders("972552909434")
+            reminders = db_get_reminders(chat_id)
             if not reminders:
                 return "אין תזכורות פעילות"
             lines = []
@@ -576,7 +576,7 @@ def get_response(chat_id: str, user_message: str) -> str:
                 tool_results = []
                 for block in content:
                     if block.get("type") == "tool_use":
-                        tool_result = run_tool(block["name"], block.get("input", {}))
+                        tool_result = run_tool(block["name"], block.get("input", {}), chat_id)
                         print(f"TOOL {block['name']}: {tool_result[:100]}")
                         tool_results.append({
                             "type": "tool_result",
