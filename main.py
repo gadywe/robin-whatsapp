@@ -121,8 +121,11 @@ async def webhook(request: Request):
                         file_content = process_file_by_mime(file_bytes, mime_type, filename)
                         text = f"[קובץ שנשלח: {filename}]\n{file_content}"
                     except Exception as e:
-                        print(f"ERROR document processing: {e}")
-                        send_whatsapp_message(from_number, f"לא הצלחתי לקרוא את הקובץ {filename} 😕")
+                        import traceback
+                        error_msg = f"{type(e).__name__}: {str(e)}"
+                        print(f"ERROR document processing: {error_msg}")
+                        traceback.print_exc()
+                        send_whatsapp_message(from_number, f"לא הצלחתי לקרוא את הקובץ {filename} (שגיאה: {type(e).__name__}) 😕")
                         continue
                 else:
                     continue

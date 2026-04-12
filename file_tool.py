@@ -20,14 +20,34 @@ def read_text_file(content: bytes, encoding: str = "utf-8") -> str:
 
 
 def read_pdf_file(content: bytes) -> str:
-    import pdfplumber
-    text_parts = []
-    with pdfplumber.open(io.BytesIO(content)) as pdf:
-        for page in pdf.pages:
-            t = page.extract_text()
-            if t:
-                text_parts.append(t)
-    return "\n\n".join(text_parts) if text_parts else "לא נמצא טקסט ב-PDF"
+    try:
+        import pdfplumber
+        text_parts = []
+        with pdfplumber.open(io.BytesIO(content)) as pdf:
+            for page in pdf.pages:
+                t = page.extract_text()
+                if t:
+                    text_parts.append(t)
+        if text_parts:
+            return "\n\n".join(text_parts)
+    except Exception as e:
+        print(f"DEBUG: pdfplumber failed: {e}")
+        # Fallback to pypdf
+        try:
+            import pypdf
+            text_parts = []
+            reader = pypdf.PdfReader(io.BytesIO(content))
+            for page in reader.pages:
+                t = page.extract_text()
+                if t:
+                    text_parts.append(t)
+            if text_parts:
+                return "\n\n".join(text_parts)
+        except Exception as e2:
+            print(f"DEBUG: pypdf also failed: {e2}")
+            return f"לא הצלחתי לקרוא את ה-PDF (שגיאה: {type(e).__name__})"
+
+    return "לא נמצא טקסט ב-PDF"
 
 
 def read_docx_file(content: bytes) -> str:
