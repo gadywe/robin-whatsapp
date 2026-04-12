@@ -223,7 +223,7 @@ async def check_reminders(token: str = ""):
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "agent": "robin"}
+    return {"status": "ok", "agent": "robin", "version": "reminders-v2"}
 
 
 if __name__ == "__main__":
