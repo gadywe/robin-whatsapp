@@ -520,11 +520,25 @@ def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
         return f"שגיאה בביצוע הכלי: {e}"
 
 
-def get_response(chat_id: str, user_message: str) -> str:
+def get_response(chat_id: str, user_message: str, image_bytes: bytes = None, image_mime: str = "image/jpeg") -> str:
+    import base64
     save_message(chat_id, "user", user_message)
 
     history = get_history(chat_id, limit=MAX_HISTORY)
     messages = [{"role": m["role"], "content": m["content"]} for m in history]
+
+    # Replace last user message with vision content if image provided
+    if image_bytes:
+        image_b64 = base64.standard_b64encode(image_bytes).decode("utf-8")
+        vision_content = [
+            {"type": "image", "source": {"type": "base64", "media_type": image_mime, "data": image_b64}},
+            {"type": "text", "text": user_message or "מה יש בתמונה?"},
+        ]
+        # Replace last message (just added by save_message/get_history) with vision block
+        if messages and messages[-1]["role"] == "user":
+            messages[-1]["content"] = vision_content
+        else:
+            messages.append({"role": "user", "content": vision_content})
 
     current_datetime = datetime.now().strftime("%A %d/%m/%Y %H:%M")
     system = SYSTEM_PROMPT.format(current_datetime=current_datetime)

@@ -143,6 +143,20 @@ async def webhook(request: Request):
                         print(f"ERROR voice transcription: {e}")
                         send_whatsapp_message(from_number, "אירעה שגיאה בתמלול ההודעה הקולית 😕")
                         continue
+                elif msg_type == "image":
+                    image_obj = message.get("image", {})
+                    image_id = image_obj.get("id", "")
+                    image_mime = image_obj.get("mime_type", "image/jpeg")
+                    caption = image_obj.get("caption", "")
+                    try:
+                        image_bytes = download_meta_media(image_id)
+                        response_text = get_response(from_number, caption or "[המשתמש שלח תמונה]", image_bytes=image_bytes, image_mime=image_mime)
+                        send_whatsapp_message(from_number, response_text)
+                        continue
+                    except Exception as e:
+                        print(f"ERROR image processing: {e}")
+                        send_whatsapp_message(from_number, "לא הצלחתי לראות את התמונה 😕")
+                        continue
                 elif msg_type == "document":
                     doc = message.get("document", {})
                     doc_id = doc.get("id", "")
