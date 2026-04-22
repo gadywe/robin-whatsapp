@@ -16,6 +16,10 @@ from apps_tool import (
     schedule_get_categories, schedule_get_habits, schedule_log_habit,
     schedule_get_time_entries, schedule_log_time, schedule_get_report,
 )
+from taskboard_tool import (
+    taskboard_get_tasks, taskboard_get_projects,
+    taskboard_add_task, taskboard_update_task, taskboard_delete_task,
+)
 
 SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנטלי של גדי. יש לך שני כובעים:
 
@@ -42,6 +46,7 @@ SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנ
     - "כל 15 לחודש" → monthly:15
   - כשגדי אומר "תזכורות", השתמש ב-list_reminders
 - יומן Google - לראות ולהוסיף אירועים
+- Taskboard - לראות משימות, להוסיף משימה, לסמן כבוצע, למחוק
 - Finance Tracker - לראות הוצאות והכנסות, להוסיף הוצאות/הכנסות חדשות
 - My Schedule - לראות ולתעד שעות עבודה, לעקוב אחרי הרגלים
 - יצירת מסמכים - Word ו-PDF
@@ -300,6 +305,67 @@ TOOLS = [
         }
     },
     {
+        "name": "taskboard_get_tasks",
+        "description": "מחזיר משימות מה-Taskboard של גדי. השתמש כשגדי שואל על המשימות שלו, מה יש לו לעשות, משימות פתוחות וכו'.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "date_from": {"type": "string", "description": "תאריך התחלה YYYY-MM-DD (אופציונלי)"},
+                "date_to": {"type": "string", "description": "תאריך סיום YYYY-MM-DD (אופציונלי)"},
+                "status": {"type": "string", "enum": ["new", "working", "done"], "description": "סנן לפי סטטוס (אופציונלי)"}
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "taskboard_get_projects",
+        "description": "מחזיר את כל הפרויקטים והתחומים מה-Taskboard. השתמש לפני הוספת משימה כדי לדעת איזה project_id להשתמש.",
+        "input_schema": {"type": "object", "properties": {}, "required": []}
+    },
+    {
+        "name": "taskboard_add_task",
+        "description": "מוסיף משימה חדשה ל-Taskboard של גדי.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string", "description": "שם המשימה"},
+                "project_id": {"type": "integer", "description": "ID הפרויקט (קבל מ-taskboard_get_projects)"},
+                "due_date": {"type": "string", "description": "תאריך יעד YYYY-MM-DD"},
+                "due_time": {"type": "string", "description": "שעה HH:MM (אופציונלי)"},
+                "description": {"type": "string", "description": "תיאור (אופציונלי)"},
+                "status": {"type": "string", "enum": ["new", "working", "done"], "description": "סטטוס (ברירת מחדל: new)"}
+            },
+            "required": ["name", "project_id", "due_date"]
+        }
+    },
+    {
+        "name": "taskboard_update_task",
+        "description": "מעדכן משימה קיימת ב-Taskboard — שינוי שם, סטטוס, תאריך וכו'. השתמש כשגדי אומר שסיים משימה או רוצה לשנות אותה.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "task_id": {"type": "integer", "description": "ID המשימה"},
+                "name": {"type": "string", "description": "שם חדש (אופציונלי)"},
+                "status": {"type": "string", "enum": ["new", "working", "done"], "description": "סטטוס חדש (אופציונלי)"},
+                "due_date": {"type": "string", "description": "תאריך חדש YYYY-MM-DD (אופציונלי)"},
+                "due_time": {"type": "string", "description": "שעה חדשה HH:MM (אופציונלי)"},
+                "description": {"type": "string", "description": "תיאור חדש (אופציונלי)"}
+            },
+            "required": ["task_id"]
+        }
+    },
+    {
+        "name": "taskboard_delete_task",
+        "description": "מוחק משימה מה-Taskboard לפי ID.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "task_id": {"type": "integer", "description": "ID המשימה למחיקה"}
+            },
+            "required": ["task_id"]
+        }
+    },
+    {
         "name": "snooze_reminder",
         "description": "דוחה תזכורת לזמן חדש. השתמש כשגדי מבקש להזכיר שוב בעוד X דקות/שעות/ימים.",
         "input_schema": {
@@ -505,6 +571,67 @@ def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
         elif tool_name == "delete_reminder":
             success = db_delete_reminder(tool_input["reminder_id"])
             return f"תזכורת #{tool_input['reminder_id']} נמחקה" if success else "תזכורת לא נמצאה"
+
+        elif tool_name == "taskboard_get_tasks":
+            tasks = taskboard_get_tasks(
+                date_from=tool_input.get("date_from"),
+                date_to=tool_input.get("date_to"),
+                status=tool_input.get("status"),
+            )
+            if not tasks:
+                return "אין משימות"
+            status_map = {"new": "⬜", "working": "🔄", "done": "✅"}
+            lines = []
+            current_date = ""
+            for t in tasks:
+                d = t.get("due_date", "")
+                if d != current_date:
+                    current_date = d
+                    lines.append(f"\n📅 {d}:")
+                icon = status_map.get(t.get("status", "new"), "⬜")
+                proj = t.get("project", {}) or {}
+                domain = (proj.get("domain") or {}).get("name", "")
+                proj_name = proj.get("name", "")
+                time_str = f" {t['due_time'][:5]}" if t.get("due_time") else ""
+                lines.append(f"  {icon} #{t['id']}{time_str} {t['name']} [{domain}/{proj_name}]")
+            return "\n".join(lines)
+
+        elif tool_name == "taskboard_get_projects":
+            projects = taskboard_get_projects()
+            if not projects:
+                return "אין פרויקטים"
+            lines = []
+            for p in projects:
+                domain = (p.get("domain") or {}).get("name", "")
+                lines.append(f"• #{p['id']} {p['name']} (תחום: {domain})")
+            return "\n".join(lines)
+
+        elif tool_name == "taskboard_add_task":
+            result = taskboard_add_task(
+                name=tool_input["name"],
+                project_id=tool_input["project_id"],
+                due_date=tool_input["due_date"],
+                due_time=tool_input.get("due_time"),
+                description=tool_input.get("description"),
+                status=tool_input.get("status", "new"),
+            )
+            return f"משימה נוצרה ✅ #{result.get('id')}: \"{result.get('name')}\" לתאריך {result.get('due_date')}"
+
+        elif tool_name == "taskboard_update_task":
+            result = taskboard_update_task(
+                task_id=tool_input["task_id"],
+                name=tool_input.get("name"),
+                status=tool_input.get("status"),
+                due_date=tool_input.get("due_date"),
+                due_time=tool_input.get("due_time"),
+                description=tool_input.get("description"),
+                project_id=tool_input.get("project_id"),
+            )
+            return f"משימה עודכנה ✅ #{result.get('id')}: \"{result.get('name')}\" סטטוס: {result.get('status')}"
+
+        elif tool_name == "taskboard_delete_task":
+            taskboard_delete_task(tool_input["task_id"])
+            return f"משימה #{tool_input['task_id']} נמחקה ✅"
 
         elif tool_name == "snooze_reminder":
             result = db_snooze_reminder(tool_input["reminder_id"], tool_input["new_remind_at"])
