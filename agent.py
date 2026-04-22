@@ -21,6 +21,7 @@ from taskboard_tool import (
     taskboard_add_task, taskboard_update_task, taskboard_delete_task,
 )
 from gmail_tool import gmail_search, gmail_read
+from quotes_tool import get_random_quote
 
 SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנטלי של גדי. יש לך שני כובעים:
 
@@ -53,6 +54,7 @@ SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנ
 - My Schedule - לראות ולתעד שעות עבודה, לעקוב אחרי הרגלים
 - יצירת מסמכים - Word ו-PDF
 - פתיחת לינקים וקריאת קבצים
+- ציטוט יומי - יש לך מאגר של 200 הוגי דעות, פילוסופים ומנהיגים עם ציטוטים. כשגדי מבקש ציטוט יומי / השראה / ציטוט אקראי - השתמש ב-get_random_quote (עם daily=true בשביל ציטוט קבוע ליום, או בלי בשביל אקראי לגמרי).
 
 כללים:
 - אתה תמיד בצד של גדי
@@ -400,6 +402,18 @@ TOOLS = [
         }
     },
     {
+        "name": "get_random_quote",
+        "description": "מחזיר ציטוט אקראי ממאגר של 200 פילוסופים, הוגי דעות ומנהיגים (אריסטו, אפלטון, סוקרטס, מרקוס אורליוס, ג'וקו וויליק ועוד). השתמש כשגדי מבקש ציטוט, השראה, ציטוט יומי, או מבקש לשמוע משהו ממישהו ספציפי.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "person_name": {"type": "string", "description": "שם של אדם ספציפי לסנן לפיו (אופציונלי). חיפוש case-insensitive חלקי."},
+                "daily": {"type": "boolean", "description": "אם true — מחזיר את אותו ציטוט לאורך כל היום (ציטוט יומי). אם false — אקראי בכל פעם. ברירת מחדל: false"}
+            },
+            "required": []
+        }
+    },
+    {
         "name": "snooze_reminder",
         "description": "דוחה תזכורת לזמן חדש. השתמש כשגדי מבקש להזכיר שוב בעוד X דקות/שעות/ימים.",
         "input_schema": {
@@ -682,6 +696,17 @@ def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
         elif tool_name == "taskboard_delete_task":
             taskboard_delete_task(tool_input["task_id"])
             return f"משימה #{tool_input['task_id']} נמחקה ✅"
+
+        elif tool_name == "get_random_quote":
+            result = get_random_quote(
+                person_name=tool_input.get("person_name"),
+                daily=tool_input.get("daily", False),
+            )
+            if "error" in result:
+                return result["error"]
+            dates = f" ({result['dates']})" if result.get("dates") else ""
+            field = f" — {result['field']}" if result.get("field") else ""
+            return f"\"{result['quote']}\"\n\n— {result['name']}{field}{dates}"
 
         elif tool_name == "snooze_reminder":
             result = db_snooze_reminder(tool_input["reminder_id"], tool_input["new_remind_at"])

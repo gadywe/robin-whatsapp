@@ -1,0 +1,3002 @@
+[
+  {
+    "id": 1,
+    "name": "Aristotle",
+    "field": "Philosopher",
+    "dates": "384–322 BC",
+    "quotes": [
+      "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+      "It is the mark of an educated mind to be able to entertain a thought without accepting it.",
+      "Happiness is the meaning and the purpose of life, the whole aim and end of human existence.",
+      "The more you know, the more you realize you don't know.",
+      "In all things of nature there is something of the marvelous.",
+      "Pleasure in the job puts perfection in the work.",
+      "The whole is more than the sum of its parts."
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Plato",
+    "field": "Philosopher",
+    "dates": "428–348 BC",
+    "quotes": [
+      "The price good men pay for indifference to public affairs is to be ruled by evil men.",
+      "Wise men speak because they have something to say; fools because they have to say something.",
+      "At the touch of love everyone becomes a poet.",
+      "Ignorance, the root and stem of every evil.",
+      "We can easily forgive a child who is afraid of the dark; the real tragedy of life is when men are afraid of the light.",
+      "Only the dead have seen the end of war.",
+      "Knowledge which is acquired under compulsion has no hold on the mind."
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Socrates",
+    "field": "Philosopher",
+    "dates": "470–399 BC",
+    "quotes": [
+      "The unexamined life is not worth living.",
+      "I know that I know nothing.",
+      "To find yourself, think for yourself.",
+      "Strong minds discuss ideas, average minds discuss events, weak minds discuss people.",
+      "Be as you wish to seem.",
+      "Education is the kindling of a flame, not the filling of a vessel.",
+      "He who is not contented with what he has, would not be contented with what he would like to have."
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Marcus Aurelius",
+    "field": "Stoic Emperor",
+    "dates": "121–180 AD",
+    "quotes": [
+      "You have power over your mind, not outside events. Realize this, and you will find strength.",
+      "The impediment to action advances action. What stands in the way becomes the way.",
+      "Very little is needed to make a happy life; it is all within yourself, in your way of thinking.",
+      "If it is not right, do not do it; if it is not true, do not say it.",
+      "The soul becomes dyed with the color of its thoughts.",
+      "Accept the things to which fate binds you, and love the people with whom fate brings you together.",
+      "Waste no more time arguing about what a good man should be. Be one."
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Seneca",
+    "field": "Stoic Philosopher",
+    "dates": "4 BC–65 AD",
+    "quotes": [
+      "Luck is what happens when preparation meets opportunity.",
+      "We suffer more in imagination than in reality.",
+      "It is not that I'm so smart. But I stay with the questions much longer.",
+      "Begin at once to live, and count each separate day as a separate life.",
+      "He who is brave is free.",
+      "The greatest obstacle to living is expectancy, which hangs upon tomorrow and loses today.",
+      "Life is long if you know how to use it."
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Epictetus",
+    "field": "Stoic Philosopher",
+    "dates": "50–135 AD",
+    "quotes": [
+      "Make the best use of what is in your power, and take the rest as it happens.",
+      "Men are disturbed not by the things which happen, but by the opinions about the things.",
+      "It's not what happens to you, but how you react to it that matters.",
+      "First say to yourself what you would be; and then do what you have to do.",
+      "He is a wise man who does not grieve for the things which he has not, but rejoices for those which he has.",
+      "Seek not the good in external things; seek it in yourself.",
+      "No man is free who is not master of himself."
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Confucius",
+    "field": "Chinese Philosopher",
+    "dates": "551–479 BC",
+    "quotes": [
+      "It does not matter how slowly you go as long as you do not stop.",
+      "The man who asks a question is a fool for a minute; the man who does not ask is a fool for life.",
+      "Life is really simple, but we insist on making it complicated.",
+      "Our greatest glory is not in never falling, but in rising every time we fall.",
+      "Wherever you go, go with all your heart.",
+      "The man of wisdom is never of two minds; the man of benevolence never worries; the man of courage is never afraid.",
+      "Study the past if you would define the future."
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Lao Tzu",
+    "field": "Taoist Philosopher",
+    "dates": "6th century BC",
+    "quotes": [
+      "A journey of a thousand miles begins with a single step.",
+      "Nature does not hurry, yet everything is accomplished.",
+      "Knowing others is wisdom, knowing yourself is enlightenment.",
+      "When you realize there is nothing lacking, the whole world belongs to you.",
+      "The flame that burns twice as bright burns half as long.",
+      "To the mind that is still, the whole universe surrenders.",
+      "Life is a series of natural and spontaneous changes. Don't resist them."
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Siddhartha Gautama",
+    "field": "Spiritual Teacher",
+    "dates": "563–483 BC",
+    "quotes": [
+      "The mind is everything. What you think you become.",
+      "Three things cannot be long hidden: the sun, the moon, and the truth.",
+      "Pain is certain, suffering is optional.",
+      "You yourself, as much as anybody in the entire universe, deserve your love and affection.",
+      "In the end, only three things matter: how much you loved, how gently you lived, and how gracefully you let go.",
+      "The root of suffering is attachment.",
+      "Peace comes from within. Do not seek it without."
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Sun Tzu",
+    "field": "Military Strategist",
+    "dates": "544–496 BC",
+    "quotes": [
+      "The supreme art of war is to subdue the enemy without fighting.",
+      "In the midst of chaos, there is also opportunity.",
+      "Know yourself and you will win all battles.",
+      "Appear weak when you are strong, and strong when you are weak.",
+      "The greatest victory is that which requires no battle.",
+      "Opportunities multiply as they are seized.",
+      "All warfare is based on deception."
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Leonardo da Vinci",
+    "field": "Polymath & Artist",
+    "dates": "1452–1519",
+    "quotes": [
+      "Simplicity is the ultimate sophistication.",
+      "Learning never exhausts the mind.",
+      "The noblest pleasure is the joy of understanding.",
+      "Iron rusts from disuse; water loses its purity from stagnation and in cold weather becomes frozen; even so does inaction sap the vigor of the mind.",
+      "Art is never finished, only abandoned.",
+      "Nothing strengthens authority so much as silence.",
+      "Time stays long enough for those who use it."
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Michelangelo",
+    "field": "Sculptor & Painter",
+    "dates": "1475–1564",
+    "quotes": [
+      "The greater danger for most of us lies not in setting our aim too high and falling short; but in setting our aim too low, and achieving our mark.",
+      "I am still learning.",
+      "If people knew how hard I worked to get my mastery, it wouldn't seem so wonderful at all.",
+      "Every block of stone has a statue inside it and it is the task of the sculptor to discover it.",
+      "The true work of art is but a shadow of the divine perfection.",
+      "Lord, grant that I may always desire more than I can accomplish.",
+      "Beauty is the purgation of superfluities."
+    ]
+  },
+  {
+    "id": 13,
+    "name": "William Shakespeare",
+    "field": "Playwright & Poet",
+    "dates": "1564–1616",
+    "quotes": [
+      "To thine own self be true.",
+      "We know what we are, but know not what we may be.",
+      "All the world's a stage, and all the men and women merely players.",
+      "Good night, good night! Parting is such sweet sorrow.",
+      "The course of true love never did run smooth.",
+      "What a piece of work is a man, how noble in reason, how infinite in faculties.",
+      "Cowards die many times before their deaths; the valiant never taste of death but once."
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Mark Twain",
+    "field": "Author & Humorist",
+    "dates": "1835–1910",
+    "quotes": [
+      "The two most important days in your life are the day you are born and the day you find out why.",
+      "If you tell the truth, you don't have to remember anything.",
+      "Keep away from people who try to belittle your ambitions. Small people always do that.",
+      "The secret of getting ahead is getting started.",
+      "A man who does not read has no advantage over the man who cannot read.",
+      "Whenever you find yourself on the side of the majority, it is time to pause and reflect.",
+      "Courage is resistance to fear, mastery of fear — not absence of fear."
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Abraham Lincoln",
+    "field": "U.S. President",
+    "dates": "1809–1865",
+    "quotes": [
+      "Give me six hours to chop down a tree and I will spend the first four sharpening the axe.",
+      "Nearly all men can stand adversity, but if you want to test a man's character, give him power.",
+      "In the end, it's not the years in your life that count. It's the life in your years.",
+      "Whatever you are, be a good one.",
+      "I am a slow walker, but I never walk back.",
+      "Those who look for the bad in people will surely find it.",
+      "No man has a good enough memory to be a successful liar."
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Winston Churchill",
+    "field": "Prime Minister",
+    "dates": "1874–1965",
+    "quotes": [
+      "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+      "We make a living by what we get, but we make a life by what we give.",
+      "Attitude is a little thing that makes a big difference.",
+      "The pessimist sees difficulty in every opportunity. The optimist sees opportunity in every difficulty.",
+      "Continuous effort — not strength or intelligence — is the key to unlocking our potential.",
+      "To improve is to change; to be perfect is to change often.",
+      "You have enemies? Good. That means you've stood up for something sometime in your life."
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Albert Einstein",
+    "field": "Theoretical Physicist",
+    "dates": "1879–1955",
+    "quotes": [
+      "Imagination is more important than knowledge.",
+      "Life is like riding a bicycle. To keep your balance, you must keep moving.",
+      "A person who never made a mistake never tried anything new.",
+      "The measure of intelligence is the ability to change.",
+      "Try not to become a man of success. Rather become a man of value.",
+      "In the middle of difficulty lies opportunity.",
+      "The important thing is to not stop questioning. Curiosity has its own reason for existing."
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Isaac Newton",
+    "field": "Mathematician & Physicist",
+    "dates": "1643–1727",
+    "quotes": [
+      "If I have seen further it is by standing on the shoulders of giants.",
+      "What we know is a drop, what we don't know is an ocean.",
+      "Tact is the knack of making a point without making an enemy.",
+      "No great discovery was ever made without a bold guess.",
+      "Truth is ever to be found in simplicity, and not in the multiplicity and confusion of things.",
+      "To every action there is always opposed an equal reaction.",
+      "I can calculate the motion of heavenly bodies, but not the madness of people."
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Nikola Tesla",
+    "field": "Inventor & Engineer",
+    "dates": "1856–1943",
+    "quotes": [
+      "The present is theirs; the future, for which I really worked, is mine.",
+      "Our virtues and our failings are inseparable, like force and matter.",
+      "Of all things, I liked books best.",
+      "If your hate could be turned into electricity, it would light up the whole world.",
+      "I do not think you can name many great inventions that have been made by married men.",
+      "Be alone — that is the secret of invention; be alone, that is when ideas are born.",
+      "The scientists of today think deeply instead of clearly."
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Charles Darwin",
+    "field": "Naturalist",
+    "dates": "1809–1882",
+    "quotes": [
+      "It is not the strongest of the species that survives, nor the most intelligent; it is the one most adaptable to change.",
+      "A man who dares to waste one hour of time has not discovered the value of life.",
+      "Ignorance more frequently begets confidence than does knowledge.",
+      "In the long history of humankind, those who learned to collaborate and improvise most effectively have prevailed.",
+      "The mystery of the beginning of all things is insoluble by us.",
+      "I love fools' experiments. I am always making them.",
+      "To suppose that the eye could have been formed by natural selection seems, I freely confess, absurd in the highest degree."
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Marie Curie",
+    "field": "Physicist & Chemist",
+    "dates": "1867–1934",
+    "quotes": [
+      "Nothing in life is to be feared, it is only to be understood.",
+      "Be less curious about people and more curious about ideas.",
+      "I was taught that the way of progress is neither swift nor easy.",
+      "One never notices what has been done; one can only see what remains to be done.",
+      "I have no dress except the one I wear every day. If you are going to be kind enough to give me one, please let it be practical and dark so that I can put it on afterwards to go to the laboratory.",
+      "Life is not easy for any of us. But what of that? We must have perseverance and above all confidence in ourselves.",
+      "We must not forget that when radium was discovered no one knew that it would prove useful in hospitals."
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Richard Feynman",
+    "field": "Theoretical Physicist",
+    "dates": "1918–1988",
+    "quotes": [
+      "The first principle is that you must not fool yourself, and you are the easiest person to fool.",
+      "Study hard what interests you the most in the most undisciplined, irreverent and original manner possible.",
+      "If you think you understand quantum mechanics, you don't understand quantum mechanics.",
+      "I would rather have questions that can't be answered than answers that can't be questioned.",
+      "I learned very early the difference between knowing the name of something and knowing something.",
+      "Physics is like sex: sure, it may give some practical results, but that's not why we do it.",
+      "Fall in love with some activity, and do it! Nobody ever figures out what life is all about."
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Galileo Galilei",
+    "field": "Astronomer & Physicist",
+    "dates": "1564–1642",
+    "quotes": [
+      "All truths are easy to understand once they are discovered; the point is to discover them.",
+      "You cannot teach a man anything; you can only help him find it within himself.",
+      "Mathematics is the language in which God has written the universe.",
+      "The sun, with all those planets revolving around it and dependent on it, can still ripen a bunch of grapes as if it had nothing else in the universe to do.",
+      "I have never met a man so ignorant that I couldn't learn something from him.",
+      "Where the senses fail us, reason must step in.",
+      "Doubt is the father of invention."
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Benjamin Franklin",
+    "field": "Statesman & Inventor",
+    "dates": "1706–1790",
+    "quotes": [
+      "An investment in knowledge pays the best interest.",
+      "Tell me and I forget. Teach me and I remember. Involve me and I learn.",
+      "By failing to prepare, you are preparing to fail.",
+      "Early to bed and early to rise makes a man healthy, wealthy, and wise.",
+      "Three can keep a secret, if two of them are dead.",
+      "Well done is better than well said.",
+      "Without continual growth and progress, such words as improvement, achievement, and success have no meaning."
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Thomas Jefferson",
+    "field": "U.S. President",
+    "dates": "1743–1826",
+    "quotes": [
+      "I cannot live without books.",
+      "Do you want to know who you are? Don't ask. Act! Action will delineate and define you.",
+      "I find that the harder I work, the more luck I seem to have.",
+      "When angry, count to ten before you speak. If very angry, count to one hundred.",
+      "Honesty is the first chapter in the book of wisdom.",
+      "Nothing can stop the man with the right mental attitude from achieving his goal.",
+      "The most valuable of all talents is that of never using two words when one will do."
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Napoleon Bonaparte",
+    "field": "French Emperor",
+    "dates": "1769–1821",
+    "quotes": [
+      "Impossible is a word found only in the dictionary of fools.",
+      "The best way to keep one's word is not to give it.",
+      "A leader is a dealer in hope.",
+      "Never interrupt your enemy when he is making a mistake.",
+      "The world suffers a lot. Not because of the violence of bad people, but because of the silence of good people.",
+      "In politics, stupidity is not a handicap.",
+      "Ability is nothing without opportunity."
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Julius Caesar",
+    "field": "Roman General & Statesman",
+    "dates": "100–44 BC",
+    "quotes": [
+      "Experience is the teacher of all things.",
+      "It is better to create than to learn. Creating is the essence of life.",
+      "I came, I saw, I conquered.",
+      "As a rule, men worry more about what they can't see than about what they can.",
+      "In war, events of importance are the result of trivial causes.",
+      "I love the name of honor, more than I fear death.",
+      "Men willingly believe what they wish."
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Alexander the Great",
+    "field": "Macedonian King",
+    "dates": "356–323 BC",
+    "quotes": [
+      "There is nothing impossible to him who will try.",
+      "I am not afraid of an army of lions led by a sheep; I am afraid of an army of sheep led by a lion.",
+      "In the end, when it's over, all that matters is what you've done.",
+      "Remember upon the conduct of each depends the fate of all.",
+      "I am indebted to my father for living, but to my teacher for living well.",
+      "Heaven cannot brook two suns, nor earth two masters.",
+      "How great are the dangers I face to win a good name in Athens."
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Mahatma Gandhi",
+    "field": "Independence Leader",
+    "dates": "1869–1948",
+    "quotes": [
+      "Be the change you wish to see in the world.",
+      "The weak can never forgive. Forgiveness is the attribute of the strong.",
+      "First they ignore you, then they laugh at you, then they fight you, then you win.",
+      "An eye for an eye will only make the whole world blind.",
+      "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+      "Happiness is when what you think, what you say, and what you do are in harmony.",
+      "You must be the change you wish to see in the world."
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Nelson Mandela",
+    "field": "South African President",
+    "dates": "1918–2013",
+    "quotes": [
+      "Education is the most powerful weapon which you can use to change the world.",
+      "It always seems impossible until it's done.",
+      "I learned that courage was not the absence of fear, but the triumph over it.",
+      "A winner is a dreamer who never gives up.",
+      "If you talk to a man in a language he understands, that goes to his head. If you talk to him in his language, that goes to his heart.",
+      "After climbing a great hill, one only finds that there are many more hills to climb.",
+      "Do not judge me by my successes, judge me by how many times I fell down and got back up again."
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Martin Luther King Jr.",
+    "field": "Civil Rights Leader",
+    "dates": "1929–1968",
+    "quotes": [
+      "Darkness cannot drive out darkness; only light can do that. Hate cannot drive out hate; only love can do that.",
+      "Faith is taking the first step even when you don't see the whole staircase.",
+      "The time is always right to do what is right.",
+      "Our lives begin to end the day we become silent about things that matter.",
+      "If you can't fly then run, if you can't run then walk, if you can't walk then crawl, but whatever you do you have to keep moving forward.",
+      "Intelligence plus character — that is the goal of true education.",
+      "In the end, we will remember not the words of our enemies, but the silence of our friends."
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Friedrich Nietzsche",
+    "field": "Philosopher",
+    "dates": "1844–1900",
+    "quotes": [
+      "That which does not kill us, makes us stronger.",
+      "Without music, life would be a mistake.",
+      "He who has a why to live can bear almost any how.",
+      "The higher we soar, the smaller we appear to those who cannot fly.",
+      "In individuals, insanity is rare; but in groups, parties, nations, and epochs, it is the rule.",
+      "One must still have chaos in oneself to be able to give birth to a dancing star.",
+      "It is not a lack of love, but a lack of friendship that makes unhappy marriages."
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Immanuel Kant",
+    "field": "Philosopher",
+    "dates": "1724–1804",
+    "quotes": [
+      "Act only according to that maxim whereby you can, at the same time, will that it should become a universal law.",
+      "Science is organized knowledge. Wisdom is organized life.",
+      "We are not rich by what we possess but by what we can do without.",
+      "All our knowledge begins with the senses, proceeds then to the understanding, and ends with reason.",
+      "Seek not the favor of the multitude; it is seldom got by honest and lawful means.",
+      "Two things awe me most, the starry sky above me and the moral law within me.",
+      "Out of the crooked timber of humanity, no straight thing was ever made."
+    ]
+  },
+  {
+    "id": 34,
+    "name": "René Descartes",
+    "field": "Philosopher & Mathematician",
+    "dates": "1596–1650",
+    "quotes": [
+      "I think, therefore I am.",
+      "Divide each difficulty into as many parts as is feasible and necessary to resolve it.",
+      "The greatest minds are capable of the greatest vices as well as of the greatest virtues.",
+      "It is not enough to have a good mind; the main thing is to use it well.",
+      "Cogito ergo sum — I think, therefore I am.",
+      "If you would be a real seeker after truth, it is necessary that at least once in your life you doubt, as far as possible, all things.",
+      "The reading of all good books is like conversation with the finest minds of past centuries."
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Voltaire",
+    "field": "Philosopher & Writer",
+    "dates": "1694–1778",
+    "quotes": [
+      "Common sense is not so common.",
+      "Judge a man by his questions rather than by his answers.",
+      "The best is the enemy of the good.",
+      "Those who can make you believe absurdities can make you commit atrocities.",
+      "God is a comedian playing to an audience that is too afraid to laugh.",
+      "I disapprove of what you say, but I will defend to the death your right to say it.",
+      "Appreciation is a wonderful thing: it makes what is excellent in others belong to us as well."
+    ]
+  },
+  {
+    "id": 36,
+    "name": "Jean-Jacques Rousseau",
+    "field": "Philosopher",
+    "dates": "1712–1778",
+    "quotes": [
+      "Man is born free, and everywhere he is in chains.",
+      "The world of reality has its limits; the world of imagination is boundless.",
+      "Patience is bitter, but its fruit is sweet.",
+      "I may be no better, but at least I am different.",
+      "People who know little are usually great talkers, while men who know much say little.",
+      "The first step towards vice is to shroud innocent actions in mystery.",
+      "Do not judge, and you will never be mistaken."
+    ]
+  },
+  {
+    "id": 37,
+    "name": "John Locke",
+    "field": "Philosopher",
+    "dates": "1632–1704",
+    "quotes": [
+      "Reading furnishes the mind only with materials of knowledge; it is thinking that makes what we read ours.",
+      "New opinions are always suspected, and usually opposed, without any other reason but because they are not already common.",
+      "I have always thought the actions of men the best interpreters of their thoughts.",
+      "The discipline of desire is the background of character.",
+      "We are like chameleons, we take our hue and the color of our moral character, from those around us.",
+      "No man's knowledge here can go beyond his experience.",
+      "Parents wonder why the streams are bitter, when they themselves have poisoned the fountain."
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Arthur Schopenhauer",
+    "field": "Philosopher",
+    "dates": "1788–1860",
+    "quotes": [
+      "Talent hits a target no one else can hit; Genius hits a target no one else can see.",
+      "All truth passes through three stages. First, it is ridiculed. Second, it is violently opposed. Third, it is accepted as being self-evident.",
+      "A man can be himself only so long as he is alone.",
+      "Wealth is like sea-water; the more we drink, the thirstier we become.",
+      "The two enemies of human happiness are pain and boredom.",
+      "Almost all of our sorrows spring out of our relations with other people.",
+      "Every man takes the limits of his own field of vision for the limits of the world."
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Søren Kierkegaard",
+    "field": "Philosopher",
+    "dates": "1813–1855",
+    "quotes": [
+      "Life can only be understood backwards; but it must be lived forwards.",
+      "The most common form of despair is not being who you are.",
+      "To dare is to lose one's footing momentarily. Not to dare is to lose oneself.",
+      "Anxiety is the dizziness of freedom.",
+      "Face the facts of being what you are, for that is what changes what you are.",
+      "The truth is a trap: you cannot get it without it getting you; you cannot get the truth by capturing it, only by its capturing you.",
+      "People demand freedom of speech as a compensation for the freedom of thought which they seldom use."
+    ]
+  },
+  {
+    "id": 40,
+    "name": "Blaise Pascal",
+    "field": "Mathematician & Philosopher",
+    "dates": "1623–1662",
+    "quotes": [
+      "The heart has its reasons which reason knows nothing of.",
+      "All of humanity's problems stem from man's inability to sit quietly in a room alone.",
+      "In difficult times, carry something beautiful in your heart.",
+      "We know truth, not only by reason, but also by the heart.",
+      "Man is obviously made to think. It is his whole dignity and his whole merit.",
+      "Kind words do not cost much. Yet they accomplish much.",
+      "Man is but a reed, the most feeble thing in nature; but he is a thinking reed."
+    ]
+  },
+  {
+    "id": 41,
+    "name": "Francis Bacon",
+    "field": "Philosopher & Statesman",
+    "dates": "1561–1626",
+    "quotes": [
+      "Knowledge is power.",
+      "A wise man will make more opportunities than he finds.",
+      "Read not to contradict and confute; nor to believe and take for granted; nor to find talk and discourse; but to weigh and consider.",
+      "It is a sad fate for a man to die too well known to everybody else, and still unknown to himself.",
+      "The remedy is worse than the disease.",
+      "Silence is the sleep that nourishes wisdom.",
+      "If a man will begin with certainties, he shall end in doubts; but if he will be content to begin with doubts, he shall end in certainties."
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Ralph Waldo Emerson",
+    "field": "Philosopher & Poet",
+    "dates": "1803–1882",
+    "quotes": [
+      "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.",
+      "Do not go where the path may lead, go instead where there is no path and leave a trail.",
+      "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
+      "The only way to have a friend is to be one.",
+      "Nothing great was ever achieved without enthusiasm.",
+      "For every minute you are angry you lose sixty seconds of happiness.",
+      "The secret of health for both mind and body is not to mourn for the past, nor to worry about the future, but to live the present moment wisely."
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Henry David Thoreau",
+    "field": "Philosopher & Author",
+    "dates": "1817–1862",
+    "quotes": [
+      "Not all those who wander are lost.",
+      "Go confidently in the direction of your dreams. Live the life you have imagined.",
+      "It is not enough to be busy; so too are the ants. The question is: what are we busy about?",
+      "Rather than love, than money, than fame, give me truth.",
+      "If you have built castles in the air, your work need not be lost; that is where they should be. Now put foundations under them.",
+      "I went to the woods because I wished to live deliberately.",
+      "The price of anything is the amount of life you exchange for it."
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Walt Whitman",
+    "field": "Poet",
+    "dates": "1819–1892",
+    "quotes": [
+      "Be curious, not judgmental.",
+      "I am large, I contain multitudes.",
+      "Do anything, but let it produce joy.",
+      "I exist as I am, that is enough.",
+      "Keep your face always toward the sunshine, and shadows will fall behind you.",
+      "The powerful play goes on and you may contribute a verse.",
+      "Either define the moment or the moment will define you."
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Ernest Hemingway",
+    "field": "Author & Journalist",
+    "dates": "1899–1961",
+    "quotes": [
+      "The best way to find out if you can trust somebody is to trust them.",
+      "There is no friend as loyal as a book.",
+      "We are all broken, that's how the light gets in.",
+      "Courage is grace under pressure.",
+      "The world breaks everyone, and afterward, some are strong at the broken places.",
+      "The most painful thing is losing yourself in the process of loving someone too much.",
+      "There is nothing to writing. All you do is sit down at a typewriter and bleed."
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Leo Tolstoy",
+    "field": "Author",
+    "dates": "1828–1910",
+    "quotes": [
+      "Everyone thinks of changing the world, but no one thinks of changing himself.",
+      "All great literature is one of two stories; a man goes on a journey or a stranger comes to town.",
+      "Wrong does not cease to be wrong because the majority share in it.",
+      "If you want to be happy, be.",
+      "The two most powerful warriors are patience and time.",
+      "There is only one time that is important — now! It is the most important time because it is the only time when we have any power.",
+      "We lost because we told ourselves we lost."
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Fyodor Dostoevsky",
+    "field": "Author",
+    "dates": "1821–1881",
+    "quotes": [
+      "Pain and suffering are always inevitable for a large intelligence and a deep heart.",
+      "To love someone means to see them as God intended them.",
+      "The darker the night, the brighter the stars.",
+      "Much unhappiness has come into the world because of bewilderment and things left unsaid.",
+      "Man grows used to everything, the scoundrel!",
+      "Above all, don't lie to yourself. The man who lies to himself and listens to his own lie comes to a point that he cannot distinguish the truth within him, or around him.",
+      "Beauty will save the world."
+    ]
+  },
+  {
+    "id": 48,
+    "name": "Oscar Wilde",
+    "field": "Author & Playwright",
+    "dates": "1854–1900",
+    "quotes": [
+      "Be yourself; everyone else is already taken.",
+      "To live is the rarest thing in the world. Most people exist, that is all.",
+      "I can resist everything except temptation.",
+      "The truth is rarely pure and never simple.",
+      "Always forgive your enemies; nothing annoys them so much.",
+      "The only way to get rid of a temptation is to yield to it.",
+      "A good friend will always stab you in the front."
+    ]
+  },
+  {
+    "id": 49,
+    "name": "George Orwell",
+    "field": "Author & Journalist",
+    "dates": "1903–1950",
+    "quotes": [
+      "In a time of deceit, telling the truth is a revolutionary act.",
+      "The most effective way to destroy people is to deny and obliterate their own understanding of their history.",
+      "All animals are equal, but some animals are more equal than others.",
+      "If you want to keep a secret, you must also hide it from yourself.",
+      "War is peace. Freedom is slavery. Ignorance is strength.",
+      "Happiness can exist only in acceptance.",
+      "Not all those who wander are lost."
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Franz Kafka",
+    "field": "Author",
+    "dates": "1883–1924",
+    "quotes": [
+      "A book must be the axe for the frozen sea within us.",
+      "I am a cage, in search of a bird.",
+      "Start with what is right rather than what is acceptable.",
+      "Anyone who keeps the ability to see beauty never grows old.",
+      "There is infinite hope, but not for us.",
+      "In the struggle between yourself and the world, second the world.",
+      "My peers, lately, have found companionship through means I can't condone."
+    ]
+  },
+  {
+    "id": 51,
+    "name": "Victor Hugo",
+    "field": "Author & Poet",
+    "dates": "1802–1885",
+    "quotes": [
+      "Even the darkest night will end and the sun will rise.",
+      "To love another person is to see the face of God.",
+      "The future has many names. For the weak, it means the unattainable. For the fearful, it means the unknown. For the courageous, it means opportunity.",
+      "Laughter is the sun that drives winter from the human face.",
+      "Nothing is more powerful than an idea whose time has come.",
+      "A creditor is worse than a slave-owner; for the master owns only your person, but a creditor owns your dignity.",
+      "Life's greatest happiness is to be convinced we are loved."
+    ]
+  },
+  {
+    "id": 52,
+    "name": "Dante Alighieri",
+    "field": "Poet",
+    "dates": "1265–1321",
+    "quotes": [
+      "The secret to getting things done is to act.",
+      "Consider your origins: you were not made to live as brutes, but to follow virtue and knowledge.",
+      "From a little spark may burst a mighty flame.",
+      "Remember tonight, for it is the beginning of always.",
+      "Be as a tower firmly set; shakes not its top for any blast that blows.",
+      "Pride, envy, avarice — these are the sparks have set on fire the hearts of all men.",
+      "The wisest are the most annoyed at the loss of time."
+    ]
+  },
+  {
+    "id": 53,
+    "name": "Homer",
+    "field": "Poet",
+    "dates": "8th century BC",
+    "quotes": [
+      "The difficulty is not so great to die for a friend, as to find a friend worth dying for.",
+      "Even a fool learns something once it hits him.",
+      "A man who has been through bitter experiences and traveled far enjoys even his sufferings after a time.",
+      "There is a time for many words, and there is also a time for sleep.",
+      "The journey is the thing.",
+      "Light is sweet and it is pleasant for the eyes to see the sun.",
+      "Of all creatures that breathe and move upon the earth, nothing is bred that is weaker than man."
+    ]
+  },
+  {
+    "id": 54,
+    "name": "Cicero",
+    "field": "Roman Statesman & Philosopher",
+    "dates": "106–43 BC",
+    "quotes": [
+      "If you have a garden and a library, you have everything you need.",
+      "To be ignorant of what occurred before you were born is to remain always a child.",
+      "A room without books is like a body without a soul.",
+      "The more laws, the less justice.",
+      "Gratitude is not only the greatest of virtues, but the parent of all others.",
+      "He does not seem to me to be a free man who does not sometimes do nothing.",
+      "In times of war, the law falls silent."
+    ]
+  },
+  {
+    "id": 55,
+    "name": "Niccolò Machiavelli",
+    "field": "Philosopher & Statesman",
+    "dates": "1469–1527",
+    "quotes": [
+      "The end justifies the means.",
+      "It is better to be feared than loved, if you cannot be both.",
+      "Never was anything great achieved without danger.",
+      "Men judge generally more by the eye than by the hand.",
+      "The lion cannot protect himself from traps, and the fox cannot defend himself from wolves. One must therefore be a fox to recognize traps, and a lion to frighten wolves.",
+      "Whosoever desires constant success must change his conduct with the times.",
+      "There is no other way to guard yourself against flattery than by making men understand that telling you the truth will not offend you."
+    ]
+  },
+  {
+    "id": 56,
+    "name": "Thomas Edison",
+    "field": "Inventor",
+    "dates": "1847–1931",
+    "quotes": [
+      "Genius is one percent inspiration and ninety-nine percent perspiration.",
+      "Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.",
+      "I have not failed. I've just found 10,000 ways that won't work.",
+      "The three great essentials to achieve anything worthwhile are: hard work, stick-to-itiveness, and common sense.",
+      "Opportunity is missed by most people because it is dressed in overalls and looks like work.",
+      "There is no substitute for hard work.",
+      "Everything comes to him who hustles while he waits."
+    ]
+  },
+  {
+    "id": 57,
+    "name": "Archimedes",
+    "field": "Mathematician & Inventor",
+    "dates": "287–212 BC",
+    "quotes": [
+      "Give me a place to stand, and I will move the world.",
+      "Eureka! I have found it!",
+      "Mathematics reveals its secrets only to those who approach it with pure love, for its own beauty.",
+      "The shortest distance between two points is a straight line.",
+      "Eureka — the cry of a man who has discovered something remarkable.",
+      "Do not disturb my circles.",
+      "Rise above oneself and grasp the world."
+    ]
+  },
+  {
+    "id": 58,
+    "name": "Heraclitus",
+    "field": "Pre-Socratic Philosopher",
+    "dates": "535–475 BC",
+    "quotes": [
+      "The only thing that is constant is change.",
+      "You cannot step into the same river twice.",
+      "There is nothing permanent except change.",
+      "Big results require big ambitions.",
+      "Opposition brings concord. Out of discord comes the fairest harmony.",
+      "The soul is dyed the color of its thoughts.",
+      "Character is destiny."
+    ]
+  },
+  {
+    "id": 59,
+    "name": "Pythagoras",
+    "field": "Mathematician & Philosopher",
+    "dates": "570–495 BC",
+    "quotes": [
+      "Do not say a little in many words, but a great deal in a few.",
+      "Silence is better than unmeaning words.",
+      "Choose rather to be strong of soul than strong of body.",
+      "Above the cloud with its shadow is the star with its light.",
+      "As long as man continues to be the ruthless destroyer of lower living beings, he will never know health or peace.",
+      "Rest satisfied with doing well, and leave others to talk of you as they will.",
+      "Friends are as companions on a journey, who ought to aid each other to persevere in the road to a happier life."
+    ]
+  },
+  {
+    "id": 60,
+    "name": "Diogenes",
+    "field": "Cynic Philosopher",
+    "dates": "412–323 BC",
+    "quotes": [
+      "The foundation of every state is the education of its youth.",
+      "He has the most who is most content with the least.",
+      "It is the privilege of the gods to want nothing, and of godlike men to want little.",
+      "The mob is the mother of tyrants.",
+      "I am a citizen of the world.",
+      "In a rich man's house there is no place to spit but his face.",
+      "Why not whip the teacher when the pupil misbehaves?"
+    ]
+  },
+  {
+    "id": 61,
+    "name": "Theodore Roosevelt",
+    "field": "U.S. President",
+    "dates": "1858–1919",
+    "quotes": [
+      "Believe you can and you're halfway there.",
+      "Do what you can, with what you have, where you are.",
+      "It is not the critic who counts; not the man who points out how the strong man stumbles.",
+      "Keep your eyes on the stars, and your feet on the ground.",
+      "The only man who never makes a mistake is the man who never does anything.",
+      "Far better is it to dare mighty things, than to rank with those timid spirits who neither enjoy nor suffer much.",
+      "With self-discipline, almost anything is possible."
+    ]
+  },
+  {
+    "id": 62,
+    "name": "Franklin D. Roosevelt",
+    "field": "U.S. President",
+    "dates": "1882–1945",
+    "quotes": [
+      "The only thing we have to fear is fear itself.",
+      "When you reach the end of your rope, tie a knot in it and hang on.",
+      "The test of our progress is not whether we add more to the abundance of those who have much; it is whether we provide enough for those who have too little.",
+      "Happiness lies in the joy of achievement and the thrill of creative effort.",
+      "Men are not prisoners of fate, but only prisoners of their own minds.",
+      "If civilization is to survive, we must cultivate the science of human relationships.",
+      "It is common sense to take a method and try it. If it fails, admit it frankly and try another."
+    ]
+  },
+  {
+    "id": 63,
+    "name": "John F. Kennedy",
+    "field": "U.S. President",
+    "dates": "1917–1963",
+    "quotes": [
+      "Ask not what your country can do for you — ask what you can do for your country.",
+      "Change is the law of life. And those who look only to the past and present are certain to miss the future.",
+      "Conformity is the jailer of freedom and the enemy of growth.",
+      "The time to repair the roof is when the sun is shining.",
+      "My fellow Americans, ask not what your country can do for you, ask what you can do for your country.",
+      "Forgive your enemies, but never forget their names.",
+      "A man may die, nations may rise and fall, but an idea lives on."
+    ]
+  },
+  {
+    "id": 64,
+    "name": "Frederick Douglass",
+    "field": "Abolitionist & Author",
+    "dates": "1818–1895",
+    "quotes": [
+      "If there is no struggle, there is no progress.",
+      "Once you learn to read, you will be forever free.",
+      "It is easier to build strong children than to repair broken men.",
+      "Without a struggle, there can be no progress.",
+      "I didn't know I was a slave until I found out I couldn't do the things I wanted.",
+      "A gentleman will not insult me, and no man not a gentleman can insult me.",
+      "If you want to know where your heart is, look where your mind goes when it wanders."
+    ]
+  },
+  {
+    "id": 65,
+    "name": "Eleanor Roosevelt",
+    "field": "Diplomat & Activist",
+    "dates": "1884–1962",
+    "quotes": [
+      "No one can make you feel inferior without your consent.",
+      "The future belongs to those who believe in the beauty of their dreams.",
+      "You gain strength, courage and confidence by every experience in which you really stop to look fear in the face.",
+      "Great minds discuss ideas; average minds discuss events; small minds discuss people.",
+      "Beautiful young people are accidents of nature, but beautiful old people are works of art.",
+      "Do one thing every day that scares you.",
+      "It is not fair to ask of others what you are not willing to do yourself."
+    ]
+  },
+  {
+    "id": 66,
+    "name": "Florence Nightingale",
+    "field": "Nurse & Reformer",
+    "dates": "1820–1910",
+    "quotes": [
+      "I attribute my success to this: I never gave or took any excuse.",
+      "How very little can be done under the spirit of fear.",
+      "Were there none who were discontented with what they have, the world would never reach anything better.",
+      "Live life when you have it. Life is a splendid gift.",
+      "The very first requirement in a hospital is that it should do the sick no harm.",
+      "I think one's feelings waste themselves in words; they ought all to be distilled into actions.",
+      "I never lose an opportunity of urging a practical beginning."
+    ]
+  },
+  {
+    "id": 67,
+    "name": "Ada Lovelace",
+    "field": "Mathematician & Pioneer",
+    "dates": "1815–1852",
+    "quotes": [
+      "I am in a curious and unusual position with respect to my own desires, which are so many and so various — and yet withal so seemingly contradictory.",
+      "Mathematical science shows what is. It is the language of unseen relations between things.",
+      "The Analytical Engine weaves algebraic patterns just as the Jacquard loom weaves flowers and leaves.",
+      "I never am really satisfied that I understand anything; because, understand it well as I may, my comprehension can only be an infinitesimal fraction of all I want to understand.",
+      "That brain of mine is something more than merely mortal; as time will show.",
+      "If you can't give me poetry, can't you give me poetical science?",
+      "The more I study, the more insatiable do I feel my genius for it to be."
+    ]
+  },
+  {
+    "id": 68,
+    "name": "Hypatia",
+    "field": "Mathematician & Philosopher",
+    "dates": "360–415 AD",
+    "quotes": [
+      "Reserve your right to think, for even to think wrongly is better than not to think at all.",
+      "To teach superstitions as truth is a most terrible thing.",
+      "Fables should be taught as fables, myths as myths, and miracles as poetic fancies.",
+      "All formal dogmatic religions are fallacious and must never be accepted by self-respecting persons as final.",
+      "Life is an unfoldment, and the further we travel the more truth we can comprehend.",
+      "In fact men will fight for a superstition quite as quickly as for a living truth.",
+      "The world's great thinkers have found wisdom in questions, not answers."
+    ]
+  },
+  {
+    "id": 69,
+    "name": "Carl Sagan",
+    "field": "Astronomer & Author",
+    "dates": "1934–1996",
+    "quotes": [
+      "Somewhere, something incredible is waiting to be known.",
+      "The cosmos is within us. We are made of star-stuff.",
+      "We are a way for the cosmos to know itself.",
+      "Extraordinary claims require extraordinary evidence.",
+      "The universe is a pretty big place. If it's just us, seems like an awful waste of space.",
+      "In order to make an apple pie from scratch, you must first create the universe.",
+      "Science is not only compatible with spirituality; it is a profound source of spirituality."
+    ]
+  },
+  {
+    "id": 70,
+    "name": "C.S. Lewis",
+    "field": "Author & Theologian",
+    "dates": "1898–1963",
+    "quotes": [
+      "You are never too old to set another goal or to dream a new dream.",
+      "Hardships often prepare ordinary people for an extraordinary destiny.",
+      "There are far, far better things ahead than any we leave behind.",
+      "Integrity is doing the right thing even when no one is watching.",
+      "We are what we believe we are.",
+      "Friendship is born at the moment when one person says to another, 'What! You too? I thought I was the only one.'",
+      "You can't go back and change the beginning, but you can start where you are and change the ending."
+    ]
+  },
+  {
+    "id": 71,
+    "name": "G.K. Chesterton",
+    "field": "Author & Philosopher",
+    "dates": "1874–1936",
+    "quotes": [
+      "It isn't that they can't see the solution. It is that they can't see the problem.",
+      "The paradox of courage is that a man must be a little careless of his life even in order to keep it.",
+      "Fallacies do not cease to be fallacies because they become fashions.",
+      "A man who says that no patriot should attack the war until it is over is not worth answering intelligently; he is saying that no good son should warn his mother of a cliff until she has fallen over it.",
+      "Angels can fly because they can take themselves lightly.",
+      "The purpose of life is not to be happy. It is to be useful, to be honorable, to be compassionate, to have it make some difference that you have lived.",
+      "To have a right to do a thing is not at all the same as to be right in doing it."
+    ]
+  },
+  {
+    "id": 72,
+    "name": "Edgar Allan Poe",
+    "field": "Author & Poet",
+    "dates": "1809–1849",
+    "quotes": [
+      "I became insane, with long intervals of horrible sanity.",
+      "Those who dream by day are cognizant of many things which escape those who dream only by night.",
+      "All that we see or seem is but a dream within a dream.",
+      "We loved with a love that was more than love.",
+      "The true genius shudders at incompleteness — and usually prefers silence to saying something which is not everything it should be.",
+      "Deep in earth my love is lying, and I must weep alone.",
+      "I wish I could write as mysterious as a cat."
+    ]
+  },
+  {
+    "id": 73,
+    "name": "Lord Byron",
+    "field": "Poet",
+    "dates": "1788–1824",
+    "quotes": [
+      "The great art of life is sensation, to feel that we exist, even in pain.",
+      "I have great hopes that we shall love each other all our lives as much as if we had never married at all.",
+      "Always laugh when you can. It is cheap medicine.",
+      "There is no instinct like that of the heart.",
+      "Friendship is Love without his wings.",
+      "The heart will break, but broken live on.",
+      "I only go out to get me a fresh appetite for being alone."
+    ]
+  },
+  {
+    "id": 74,
+    "name": "Percy Bysshe Shelley",
+    "field": "Poet",
+    "dates": "1792–1822",
+    "quotes": [
+      "Poets are the unacknowledged legislators of the world.",
+      "Fear not for the future, weep not for the past.",
+      "The pleasure of love is in loving.",
+      "Soul meets soul on lovers' lips.",
+      "Enthusiasm is the breath of poetry.",
+      "History is a cyclic poem written by time upon the memories of man.",
+      "Rise like Lions after slumber in unvanquishable number."
+    ]
+  },
+  {
+    "id": 75,
+    "name": "John Keats",
+    "field": "Poet",
+    "dates": "1795–1821",
+    "quotes": [
+      "Beauty is truth, truth beauty — that is all ye know on earth, and all ye need to know.",
+      "I am certain of nothing but the holiness of the heart's affections and the truth of imagination.",
+      "Nothing ever becomes real till it is experienced.",
+      "Give me books, fruit, French wine and fine weather and a little music out of doors.",
+      "A thing of beauty is a joy forever.",
+      "The poetry of the earth is never dead.",
+      "Scenery is fine — but human nature is finer."
+    ]
+  },
+  {
+    "id": 76,
+    "name": "William Wordsworth",
+    "field": "Poet",
+    "dates": "1770–1850",
+    "quotes": [
+      "Fill your paper with the breathings of your heart.",
+      "Poetry is the spontaneous overflow of powerful feelings: it takes its origin from emotion recollected in tranquility.",
+      "The best portion of a good man's life is his little, nameless, unremembered acts of kindness and of love.",
+      "Nature never did betray the heart that loved her.",
+      "Not in Utopia, subterranean fields, or some secreted island, heaven knows where! But in the very world, which is the world of all of us.",
+      "Come forth into the light of things, let nature be your teacher.",
+      "Sweet is the lore which Nature brings; our meddling intellect mis-shapes the beauteous forms of things."
+    ]
+  },
+  {
+    "id": 77,
+    "name": "Samuel Johnson",
+    "field": "Author & Lexicographer",
+    "dates": "1709–1784",
+    "quotes": [
+      "The true measure of a man is how he treats someone who can do him absolutely no good.",
+      "Knowledge is of two kinds. We know a subject ourselves, or we know where we can find information upon it.",
+      "Nothing will ever be attempted if all possible objections must be first overcome.",
+      "Courage is reckoned the greatest of all virtues; because, unless a man has that virtue, he has no security for preserving any other.",
+      "Almost all absurdity of conduct arises from the imitation of those whom we cannot resemble.",
+      "People need to be reminded more often than they need to be instructed.",
+      "In order that all men may be taught to speak truth, it is necessary that all likewise should learn to hear it."
+    ]
+  },
+  {
+    "id": 78,
+    "name": "Jonathan Swift",
+    "field": "Author & Satirist",
+    "dates": "1667–1745",
+    "quotes": [
+      "May you live every day of your life.",
+      "Vision is the art of seeing what is invisible to others.",
+      "Every man desires to live long, but no man wishes to be old.",
+      "The power of fortune is confessed only by the miserable, for the happy impute all their success to prudence or merit.",
+      "Blessed is he who expects nothing, for he shall never be disappointed.",
+      "We have enough religion to make us hate, but not enough to make us love one another.",
+      "It is impossible that anything so natural, so necessary, and so universal as death, should ever have been designed by Providence as an evil to mankind."
+    ]
+  },
+  {
+    "id": 79,
+    "name": "Miguel de Cervantes",
+    "field": "Author",
+    "dates": "1547–1616",
+    "quotes": [
+      "Too much sanity may be madness and the maddest of all, to see life as it is and not as it should be.",
+      "Every man was young once.",
+      "Never stand begging for that which you have the power to earn.",
+      "The pen is the tongue of the mind.",
+      "Delay always breeds danger and to protract a great design is often to ruin it.",
+      "The gratitude of a donkey is kicks.",
+      "Tell me what company you keep and I'll tell you what you are."
+    ]
+  },
+  {
+    "id": 80,
+    "name": "Johann Wolfgang von Goethe",
+    "field": "Author & Polymath",
+    "dates": "1749–1832",
+    "quotes": [
+      "Whatever you can do, or dream you can, begin it. Boldness has genius, power and magic in it.",
+      "Knowing is not enough; we must apply. Willing is not enough; we must do.",
+      "The world is so empty if one thinks only of mountains, rivers and cities; but to know someone here and there who thinks and feels with us, and who, though distant, is close to us in spirit — this makes the earth for us an inhabited garden.",
+      "He who moves not forward goes backward.",
+      "Magic is believing in yourself. If you can do that, you can make anything happen.",
+      "Treat people as if they were what they ought to be and you help them to become what they are capable of being.",
+      "One ought, every day at least, to hear a little song, read a good poem, see a fine picture, and, if it were possible, to speak a few reasonable words."
+    ]
+  },
+  {
+    "id": 81,
+    "name": "Friedrich Schiller",
+    "field": "Poet & Playwright",
+    "dates": "1759–1805",
+    "quotes": [
+      "Life is serious, art is joyful.",
+      "The brave man is not he who feels no fear, for that were stupid and irrational; but he whose noble soul subdues its fear, and bravely dares the danger nature shrinks from.",
+      "It does not prove a thing to be right because the majority say it is so.",
+      "Keep true to the dreams of thy youth.",
+      "The world's history is the world's judgment.",
+      "Dare to be wrong, and to dream.",
+      "Against stupidity the gods themselves contend in vain."
+    ]
+  },
+  {
+    "id": 82,
+    "name": "Rumi",
+    "field": "Persian Poet & Mystic",
+    "dates": "1207–1273",
+    "quotes": [
+      "Out beyond ideas of wrongdoing and rightdoing, there is a field. I'll meet you there.",
+      "What you seek is seeking you.",
+      "The wound is the place where the Light enters you.",
+      "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself.",
+      "Do not be satisfied with the stories that come before you. Unfold your own myth.",
+      "Respond to every call that excites your spirit.",
+      "Let yourself be silently drawn by the strange pull of what you really love."
+    ]
+  },
+  {
+    "id": 83,
+    "name": "Rabindranath Tagore",
+    "field": "Poet & Author",
+    "dates": "1861–1941",
+    "quotes": [
+      "You can't cross the sea merely by standing and staring at the water.",
+      "If you cry because the sun has gone out of your life, your tears will prevent you from seeing the stars.",
+      "The one who plants trees, knowing that he will never sit in their shade, has at least started to understand the meaning of life.",
+      "Don't limit a child to your own learning, for he was born in another time.",
+      "I slept and dreamt that life was joy. I awoke and saw that life was service. I acted and behold, service was joy.",
+      "Let my love, like sunlight, surround you and yet give you illumined freedom.",
+      "Everything comes to us that belongs to us if we create the capacity to receive it."
+    ]
+  },
+  {
+    "id": 84,
+    "name": "Herodotus",
+    "field": "Historian",
+    "dates": "484–425 BC",
+    "quotes": [
+      "In peace, sons bury their fathers. In war, fathers bury their sons.",
+      "Great things are won by great dangers.",
+      "Men trust their ears less than their eyes.",
+      "Some men give up their designs when they have almost reached the goal, while others, on the contrary, obtain a victory by exerting, at the last moment, more vigorous efforts than ever before.",
+      "Of all men's miseries the bitterest is this: to know so much and to have control over nothing.",
+      "The most hateful human misfortune is for a wise man to have no influence.",
+      "It is better by noble boldness to run the risk of being subject to half the evils we anticipate than to remain in cowardly listlessness for fear of what may happen."
+    ]
+  },
+  {
+    "id": 85,
+    "name": "Mary Wollstonecraft",
+    "field": "Writer & Pioneer",
+    "dates": "1759–1797",
+    "quotes": [
+      "I do not wish women to have power over men; but over themselves.",
+      "The beginning is always today.",
+      "Strengthen the female mind by enlarging it, and there will be an end to blind obedience.",
+      "It is time to effect a revolution in female manners — time to restore to them their lost dignity.",
+      "I love man as my fellow; but his scepter, real, or usurped, extends not to me.",
+      "Independence I have long considered as the grand blessing of life, the basis of every virtue.",
+      "Virtue can only flourish among equals."
+    ]
+  },
+  {
+    "id": 86,
+    "name": "Harriet Tubman",
+    "field": "Abolitionist & Activist",
+    "dates": "1822–1913",
+    "quotes": [
+      "Every great dream begins with a dreamer.",
+      "I never ran my train off the track and I never lost a passenger.",
+      "When I found I had crossed that line, I looked at my hands to see if I was the same person. There was such a glory over everything.",
+      "I freed a thousand slaves. I could have freed a thousand more if only they knew they were slaves.",
+      "If you hear the dogs, keep going. If you see the torches in the woods, keep going. If there's shouting after you, keep going. Don't ever stop.",
+      "I was the conductor of the Underground Railroad for eight years, and I can say what most conductors can't say — I never ran my train off the track.",
+      "I would fight for my liberty so long as my strength lasted."
+    ]
+  },
+  {
+    "id": 87,
+    "name": "Harriet Beecher Stowe",
+    "field": "Author & Abolitionist",
+    "dates": "1811–1896",
+    "quotes": [
+      "Never give up, for that is just the place and time that the tide will turn.",
+      "When you get into a tight place and everything goes against you, till it seems as though you could not hang on a minute longer, never give up then.",
+      "The bitterest tears shed over graves are for words left unsaid and deeds left undone.",
+      "In all ranks of life the human heart yearns for the beautiful, and the beautiful things that God makes are his gift to all alike.",
+      "I did not write it. God wrote it. I merely did his dictation.",
+      "So much has been given to me I have not time to ponder over that which has been denied.",
+      "It's a matter of taking the side of the weak against the strong, something the best people have always done."
+    ]
+  },
+  {
+    "id": 88,
+    "name": "Sojourner Truth",
+    "field": "Abolitionist & Activist",
+    "dates": "1797–1883",
+    "quotes": [
+      "Truth is powerful and it prevails.",
+      "I am not going to die, I'm going home like a shooting star.",
+      "If the first woman God ever made was strong enough to turn the world upside down all alone, these women together ought to be able to turn it back, and get it right side up again.",
+      "I have borne thirteen children, and seen most all sold off to slavery, and when I cried out with my mother's grief, none but Jesus heard me!",
+      "Life is a hard battle anyway. If we laugh and sing a little as we fight the good fight of freedom, it makes it all go better.",
+      "Ain't I a woman?",
+      "Religion without humanity is very poor human stuff."
+    ]
+  },
+  {
+    "id": 89,
+    "name": "David Hume",
+    "field": "Philosopher & Historian",
+    "dates": "1711–1776",
+    "quotes": [
+      "A wise man proportions his belief to the evidence.",
+      "Beauty in things exists in the mind which contemplates them.",
+      "Custom is the great guide of human life.",
+      "The life of man is of no greater importance to the universe than that of an oyster.",
+      "Reason is, and ought only to be the slave of the passions.",
+      "Generally speaking, the errors in religion are dangerous; those in philosophy only ridiculous.",
+      "He is happy whom circumstances suit his temper; but he is more excellent who suits his temper to any circumstance."
+    ]
+  },
+  {
+    "id": 90,
+    "name": "William James",
+    "field": "Philosopher & Psychologist",
+    "dates": "1842–1910",
+    "quotes": [
+      "Act as if what you do makes a difference. It does.",
+      "The greatest discovery of any generation is that a human can alter his life by altering his attitude.",
+      "The art of being wise is knowing what to overlook.",
+      "Begin to be now what you will be hereafter.",
+      "The greatest weapon against stress is our ability to choose one thought over another.",
+      "Believe that life is worth living and your belief will help create the fact.",
+      "It is our attitude at the beginning of a difficult task which, more than anything else, will affect its successful outcome."
+    ]
+  },
+  {
+    "id": 91,
+    "name": "John Stuart Mill",
+    "field": "Philosopher & Economist",
+    "dates": "1806–1873",
+    "quotes": [
+      "It is better to be Socrates dissatisfied than a fool satisfied.",
+      "A person may cause evil to others not only by his actions but by his inaction, and in either case he is justly accountable to them for the injury.",
+      "The only freedom which deserves the name is that of pursuing our own good in our own way.",
+      "War is an ugly thing, but not the ugliest of things: the decayed and degraded state of moral and patriotic feeling which thinks that nothing is worth war is much worse.",
+      "Ask yourself whether you are happy and you cease to be so.",
+      "Conservatives are not necessarily stupid, but most stupid people are conservatives.",
+      "There is a limit to the legitimate interference of collective opinion with individual independence."
+    ]
+  },
+  {
+    "id": 92,
+    "name": "Georg Hegel",
+    "field": "Philosopher",
+    "dates": "1770–1831",
+    "quotes": [
+      "The owl of Minerva spreads its wings only with the falling of the dusk.",
+      "Nothing great in the world was accomplished without passion.",
+      "We may affirm absolutely that nothing great in the world has been accomplished without passion.",
+      "What is rational is real, and what is real is rational.",
+      "The truth is the whole.",
+      "History is not the soil in which happiness grows.",
+      "To be independent of public opinion is the first formal condition of achieving anything great."
+    ]
+  },
+  {
+    "id": 93,
+    "name": "Karl Marx",
+    "field": "Philosopher & Economist",
+    "dates": "1818–1883",
+    "quotes": [
+      "The philosophers have only interpreted the world, in various ways. The point, however, is to change it.",
+      "Workers of the world, unite! You have nothing to lose but your chains.",
+      "From each according to his ability, to each according to his needs.",
+      "History repeats itself, first as tragedy, second as farce.",
+      "The oppressed are allowed once every few years to decide which particular representatives of the oppressing class are to represent and repress them.",
+      "Religion is the opium of the people.",
+      "Social progress can be measured by the social position of the female sex."
+    ]
+  },
+  {
+    "id": 94,
+    "name": "Hannah Arendt",
+    "field": "Philosopher & Political Theorist",
+    "dates": "1906–1975",
+    "quotes": [
+      "The most radical revolutionary will become a conservative the day after the revolution.",
+      "Power corresponds to the human ability not just to act but to act in concert.",
+      "Storytelling reveals meaning without committing the error of defining it.",
+      "The smallest act in the most limited circumstances bears the seed of the same boundlessness, because one deed, and sometimes one word, suffices to change every constellation.",
+      "Forgiveness is the only way to reverse the irreversible flow of history.",
+      "Evil comes from a failure to think.",
+      "The life of the mind is the only life worth living."
+    ]
+  },
+  {
+    "id": 95,
+    "name": "Bertrand Russell",
+    "field": "Philosopher & Mathematician",
+    "dates": "1872–1970",
+    "quotes": [
+      "The good life is one inspired by love and guided by knowledge.",
+      "The fundamental cause of the trouble is that in the modern world the stupid are cocksure while the intelligent are full of doubt.",
+      "War does not determine who is right — only who is left.",
+      "To conquer fear is the beginning of wisdom.",
+      "The whole problem with the world is that fools and fanatics are always so certain of themselves, and wiser people so full of doubts.",
+      "One of the symptoms of an approaching nervous breakdown is the belief that one's work is terribly important.",
+      "The good life is inspired by love and guided by knowledge."
+    ]
+  },
+  {
+    "id": 96,
+    "name": "Ludwig Wittgenstein",
+    "field": "Philosopher",
+    "dates": "1889–1951",
+    "quotes": [
+      "The limits of my language mean the limits of my world.",
+      "Whereof one cannot speak, thereof one must be silent.",
+      "If a lion could talk, we could not understand him.",
+      "The world of the happy man is a different one from that of the unhappy man.",
+      "What can be shown cannot be said.",
+      "To understand is to know what to do.",
+      "A serious and good philosophical work could be written consisting entirely of jokes."
+    ]
+  },
+  {
+    "id": 97,
+    "name": "Albert Camus",
+    "field": "Author & Philosopher",
+    "dates": "1913–1960",
+    "quotes": [
+      "In the midst of winter, I found there was, within me, an invincible summer.",
+      "You will never be happy if you continue to search for what happiness consists of. You will never live if you are looking for the meaning of life.",
+      "Don't walk in front of me — I may not follow. Don't walk behind me — I may not lead. Walk beside me — just be my friend.",
+      "The only way to deal with an unfree world is to become so absolutely free that your very act of rebellion becomes an act of creation.",
+      "Man is the only creature who refuses to be what he is.",
+      "We must imagine Sisyphus happy.",
+      "To be happy, we must not be too concerned with others."
+    ]
+  },
+  {
+    "id": 98,
+    "name": "Jean-Paul Sartre",
+    "field": "Philosopher & Author",
+    "dates": "1905–1980",
+    "quotes": [
+      "Existence precedes essence.",
+      "Hell is other people.",
+      "We are our choices.",
+      "Man is condemned to be free; because once thrown into the world, he is responsible for everything he does.",
+      "Life has no meaning the moment you lose the illusion of being eternal.",
+      "Freedom is what you do with what's been done to you.",
+      "If you are lonely when you're alone, you are in bad company."
+    ]
+  },
+  {
+    "id": 99,
+    "name": "Simone de Beauvoir",
+    "field": "Philosopher & Author",
+    "dates": "1908–1986",
+    "quotes": [
+      "One is not born, but rather becomes, a woman.",
+      "Change your life today. Don't gamble on the future, act now, without delay.",
+      "I am too intelligent, too demanding, and too resourceful for anyone to be able to take charge of me entirely.",
+      "Self-knowledge is no guarantee of happiness, but it is on the side of happiness and can supply the courage to fight for it.",
+      "One's life has value so long as one attributes value to the life of others.",
+      "To catch a husband is an art; to hold him is a job.",
+      "The most mediocre of males feels himself a demigod as compared with women."
+    ]
+  },
+  {
+    "id": 100,
+    "name": "Cleopatra VII",
+    "field": "Queen of Egypt",
+    "dates": "69–30 BC",
+    "quotes": [
+      "I will not be triumphed over.",
+      "All strange and terrible events are welcome, but comforts we despise.",
+      "A woman's crowning glory is her family, for which she sacrifices everything.",
+      "My honour was not yielded, but conquered merely.",
+      "There is nothing in nature worth speaking of other than love.",
+      "I will not be made a fool of.",
+      "Show me a person who has never made a mistake and I'll show you someone who has never achieved much."
+    ]
+  },
+  {
+    "id": 101,
+    "name": "Dale Carnegie",
+    "field": "Self-Help Pioneer",
+    "dates": "1888–1955",
+    "quotes": [
+      "You can make more friends in two months by becoming interested in other people than you can in two years by trying to get other people interested in you.",
+      "Any fool can criticize, condemn, and complain — but it takes character and self-control to be understanding and forgiving.",
+      "Most of the important things in the world have been accomplished by people who have kept on trying when there seemed to be no hope at all.",
+      "When dealing with people, remember you are not dealing with creatures of logic, but with creatures of emotion.",
+      "Don't be afraid of enemies who attack you. Be afraid of the friends who flatter you.",
+      "It isn't what you have or who you are or where you are or what you are doing that makes you happy or unhappy. It is what you think about it.",
+      "The successful man will profit from his mistakes and try again in a different way."
+    ]
+  },
+  {
+    "id": 102,
+    "name": "Napoleon Hill",
+    "field": "Success Author",
+    "dates": "1883–1970",
+    "quotes": [
+      "Whatever the mind can conceive and believe, it can achieve.",
+      "The starting point of all achievement is desire.",
+      "Every adversity, every failure, every heartbreak carries with it the seed of an equal or greater benefit.",
+      "Patience, persistence, and perspiration make an unbeatable combination for success.",
+      "A goal is a dream with a deadline.",
+      "One of the most common causes of failure is the habit of quitting when overtaken by temporary defeat.",
+      "Tell me how you use your spare time and how you spend your money, and I will tell you where and what you will be in ten years."
+    ]
+  },
+  {
+    "id": 103,
+    "name": "Stephen Covey",
+    "field": "Leadership Author",
+    "dates": "1932–2012",
+    "quotes": [
+      "The key is not to prioritize what's on your schedule, but to schedule your priorities.",
+      "Most people do not listen with the intent to understand; they listen with the intent to reply.",
+      "I am not a product of my circumstances. I am a product of my decisions.",
+      "Trust is the glue of life. It's the most essential ingredient in effective communication.",
+      "Strength lies in differences, not in similarities.",
+      "The main thing is to keep the main thing the main thing.",
+      "Begin with the end in mind."
+    ]
+  },
+  {
+    "id": 104,
+    "name": "Tony Robbins",
+    "field": "Life Coach & Speaker",
+    "dates": "1960–",
+    "quotes": [
+      "The path to success is to take massive, determined action.",
+      "It's not the lack of resources, it's your lack of resourcefulness that stops you.",
+      "Setting goals is the first step in turning the invisible into the visible.",
+      "In life you need either inspiration or desperation.",
+      "The quality of your life is the quality of your relationships.",
+      "Stay committed to your decisions, but stay flexible in your approach.",
+      "Life is a gift, and it offers us the privilege, opportunity, and responsibility to give something back by becoming more."
+    ]
+  },
+  {
+    "id": 105,
+    "name": "Viktor Frankl",
+    "field": "Psychiatrist & Author",
+    "dates": "1905–1997",
+    "quotes": [
+      "Everything can be taken from a man but one thing: the last of the human freedoms — to choose one's attitude in any given set of circumstances.",
+      "When we are no longer able to change a situation, we are challenged to change ourselves.",
+      "Those who have a 'why' to live can bear with almost any 'how'.",
+      "Life is never made unbearable by circumstances, but only by lack of meaning and purpose.",
+      "What is to give light must endure burning.",
+      "The one thing you can't take away from me is the way I choose to respond to what you do to me.",
+      "Each man is questioned by life; and he can only answer to life by answering for his own life."
+    ]
+  },
+  {
+    "id": 106,
+    "name": "Carl Jung",
+    "field": "Analytical Psychologist",
+    "dates": "1875–1961",
+    "quotes": [
+      "Until you make the unconscious conscious, it will direct your life and you will call it fate.",
+      "The privilege of a lifetime is to become who you truly are.",
+      "In all chaos there is a cosmos, in all disorder a secret order.",
+      "The most terrifying thing is to accept oneself completely.",
+      "Knowing your own darkness is the best method for dealing with the darknesses of other people.",
+      "Your vision will become clear only when you can look into your own heart.",
+      "The meeting of two personalities is like the contact of two chemical substances: if there is any reaction, both are transformed."
+    ]
+  },
+  {
+    "id": 107,
+    "name": "Abraham Maslow",
+    "field": "Humanistic Psychologist",
+    "dates": "1908–1970",
+    "quotes": [
+      "If the only tool you have is a hammer, you tend to see every problem as a nail.",
+      "What is necessary to change a person is to change his awareness of himself.",
+      "In any given moment we have two options: to step forward into growth or to step back into safety.",
+      "The story of the human race is the story of men and women selling themselves short.",
+      "If you plan on being anything less than you are capable of being, you will probably be unhappy all the days of your life.",
+      "A musician must make music, an artist must paint, a poet must write, if he is to ultimately be at peace with himself.",
+      "Almost all creativity involves purposeful play."
+    ]
+  },
+  {
+    "id": 108,
+    "name": "Carl Rogers",
+    "field": "Humanistic Psychologist",
+    "dates": "1902–1987",
+    "quotes": [
+      "The curious paradox is that when I accept myself just as I am, then I can change.",
+      "What I am is good enough if I would only be it openly.",
+      "The only person who is educated is the one who has learned how to learn and change.",
+      "The good life is a process, not a state of being. It is a direction, not a destination.",
+      "People are just as wonderful as sunsets if you let them be.",
+      "When I look at the world I'm pessimistic, but when I look at people I am optimistic.",
+      "Empathy is seeing with the eyes of another, listening with the ears of another, and feeling with the heart of another."
+    ]
+  },
+  {
+    "id": 109,
+    "name": "Paulo Freire",
+    "field": "Educator & Philosopher",
+    "dates": "1921–1997",
+    "quotes": [
+      "Washing one's hands of the conflict between the powerful and the powerless means to side with the powerful.",
+      "Whoever teaches learns in the act of teaching, and whoever learns teaches in the act of learning.",
+      "Education is an act of love, and thus an act of courage.",
+      "The more radical the person is, the more fully he or she enters into reality so that, knowing it better, he or she can transform it.",
+      "There is no such thing as a neutral educational process.",
+      "Reading the world always precedes reading the word.",
+      "We cannot enter the struggle as objects in order to later become subjects."
+    ]
+  },
+  {
+    "id": 110,
+    "name": "Maria Montessori",
+    "field": "Educational Pioneer",
+    "dates": "1870–1952",
+    "quotes": [
+      "The greatest sign of success for a teacher is to be able to say, 'The children are now working as if I did not exist.'",
+      "Play is the work of the child.",
+      "Never help a child with a task at which he feels he can succeed.",
+      "Free the child's potential, and you will transform him into the world.",
+      "The greatest development is achieved during the first years of life.",
+      "The child is both a hope and a promise for mankind.",
+      "To assist a child we must provide him with an environment which will enable him to develop freely."
+    ]
+  },
+  {
+    "id": 111,
+    "name": "John Dewey",
+    "field": "Philosopher & Educator",
+    "dates": "1859–1952",
+    "quotes": [
+      "Education is not preparation for life; education is life itself.",
+      "We do not learn from experience. We learn from reflecting on experience.",
+      "Failure is instructive. The person who really thinks learns quite as much from his failures as from his successes.",
+      "Give the pupils something to do, not something to learn; and the doing is of such a nature as to demand thinking.",
+      "The self is not something ready-made, but something in continuous formation through choice of action.",
+      "To find out what one is fitted to do, and to secure an opportunity to do it, is the key to happiness.",
+      "The good man is the man who, no matter how morally unworthy he has been, is moving to become better."
+    ]
+  },
+  {
+    "id": 112,
+    "name": "Jean Piaget",
+    "field": "Developmental Psychologist",
+    "dates": "1896–1980",
+    "quotes": [
+      "The goal of education is not to increase the amount of knowledge but to create the possibilities for a child to invent and discover.",
+      "Intelligence is what you use when you don't know what to do.",
+      "Every time we teach a child something, we keep him from inventing it himself.",
+      "Play is the answer to how anything new comes about.",
+      "The principal goal of education is to create men who are capable of doing new things, not simply of repeating what other generations have done.",
+      "I could not think without writing.",
+      "The more the child learns by himself, the better education he gets."
+    ]
+  },
+  {
+    "id": 113,
+    "name": "Howard Gardner",
+    "field": "Educational Theorist",
+    "dates": "1943–",
+    "quotes": [
+      "It's not how smart you are that matters — what really counts is how you are smart.",
+      "We should spend less time ranking children and more time helping them identify their natural competencies and gifts.",
+      "The biggest mistake of past centuries in teaching has been to treat all children as if they were variants of the same individual.",
+      "Those who work hard and want to use their knowledge for good will make the world a better place.",
+      "We learn best when we are given the opportunity to exercise our own creativity.",
+      "A human intellectual competence must entail a set of skills of problem solving.",
+      "Education needs to be transformed to address the needs of all kinds of learners."
+    ]
+  },
+  {
+    "id": 114,
+    "name": "Ken Robinson",
+    "field": "Education Reformer",
+    "dates": "1950–2020",
+    "quotes": [
+      "If you're not prepared to be wrong, you'll never come up with anything original.",
+      "Creativity is as important as literacy.",
+      "You don't grow into creativity, you grow out of it. Or rather, you get educated out of it.",
+      "The role of a creative leader is not to have all the ideas; it's to create a culture where everyone can have ideas and feel valued.",
+      "Human resources are like natural resources — they're often buried deep. You have to go looking for them.",
+      "We have to recognize that human flourishing is not a mechanical process; it's an organic process.",
+      "The fact is that given the challenges we face, education doesn't need to be reformed — it needs to be transformed."
+    ]
+  },
+  {
+    "id": 115,
+    "name": "Peter Drucker",
+    "field": "Management Thinker",
+    "dates": "1909–2005",
+    "quotes": [
+      "The best way to predict the future is to create it.",
+      "Management is doing things right; leadership is doing the right things.",
+      "The most important thing in communication is hearing what isn't said.",
+      "Efficiency is doing things right; effectiveness is doing the right things.",
+      "The greatest danger in times of turbulence is not the turbulence — it is to act with yesterday's logic.",
+      "Knowledge has to be improved, challenged, and increased constantly, or it vanishes.",
+      "Results are gained by exploiting opportunities, not by solving problems."
+    ]
+  },
+  {
+    "id": 116,
+    "name": "Warren Buffett",
+    "field": "Investor & Mentor",
+    "dates": "1930–",
+    "quotes": [
+      "The more you learn, the more you earn.",
+      "It takes 20 years to build a reputation and five minutes to ruin it.",
+      "Someone's sitting in the shade today because someone planted a tree a long time ago.",
+      "Price is what you pay. Value is what you get.",
+      "Rule No. 1: Never lose money. Rule No. 2: Never forget rule No. 1.",
+      "The stock market is a device for transferring money from the impatient to the patient.",
+      "It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price."
+    ]
+  },
+  {
+    "id": 117,
+    "name": "Maya Angelou",
+    "field": "Poet & Author",
+    "dates": "1928–2014",
+    "quotes": [
+      "I've learned that people will forget what you said, people will forget what you did, but people will never forget how you made them feel.",
+      "We may encounter many defeats but we must not be defeated.",
+      "If you don't like something, change it. If you can't change it, change your attitude.",
+      "Nothing will work unless you do.",
+      "My mission in life is not merely to survive, but to thrive.",
+      "There is no greater agony than bearing an untold story inside you.",
+      "You can't use up creativity. The more you use, the more you have."
+    ]
+  },
+  {
+    "id": 118,
+    "name": "Brené Brown",
+    "field": "Researcher & Author",
+    "dates": "1965–",
+    "quotes": [
+      "Vulnerability is not winning or losing; it's having the courage to show up and be seen when we have no control over the outcome.",
+      "You are imperfect, you are wired for struggle, but you are also worthy of love and belonging.",
+      "Courage starts with showing up and letting ourselves be seen.",
+      "We can choose courage or we can choose comfort, but we can't have both — not at the same time.",
+      "Owning our story and loving ourselves through that process is the bravest thing that we'll ever do.",
+      "Connection is why we're here. It is what gives purpose and meaning to our lives.",
+      "Shame corrodes the very part of us that believes we are capable of change."
+    ]
+  },
+  {
+    "id": 119,
+    "name": "Deepak Chopra",
+    "field": "Spiritual Teacher & Author",
+    "dates": "1946–",
+    "quotes": [
+      "In the midst of movement and chaos, keep stillness inside of you.",
+      "Every time you are tempted to react in the same old way, ask if you want to be a prisoner of the past or a pioneer of the future.",
+      "You must find the place inside yourself where nothing is impossible.",
+      "The less you open your heart to others, the more your heart suffers.",
+      "Instead of thinking outside the box, get rid of the box.",
+      "The way you think, the way you behave, the way you eat, can influence your life by 30 to 50 years.",
+      "In the process of letting go, you will lose many things from the past, but you will find yourself."
+    ]
+  },
+  {
+    "id": 120,
+    "name": "Eckhart Tolle",
+    "field": "Spiritual Teacher & Author",
+    "dates": "1948–",
+    "quotes": [
+      "Realize deeply that the present moment is all you will ever have.",
+      "The primary cause of unhappiness is never the situation but your thoughts about it.",
+      "You find peace not by rearranging the circumstances of your life, but by realizing who you are at the deepest level.",
+      "Wherever you are, be there totally.",
+      "The past has no power over the present moment.",
+      "It is not uncommon for people to spend their whole life waiting to start living.",
+      "Life is the dancer and you are the dance."
+    ]
+  },
+  {
+    "id": 121,
+    "name": "Wayne Dyer",
+    "field": "Author & Speaker",
+    "dates": "1940–2015",
+    "quotes": [
+      "When you change the way you look at things, the things you look at change.",
+      "Stop acting as if life is a rehearsal. Live this day as if it were your last.",
+      "With everything that has happened to you, you can either feel sorry for yourself or treat what has happened as a gift.",
+      "Abundance is not something we acquire. It is something we tune into.",
+      "You'll see it when you believe it.",
+      "The highest form of ignorance is when you reject something you don't know anything about.",
+      "If I am what I do when I do it, I'm not really a person — I'm a human doing rather than a human being."
+    ]
+  },
+  {
+    "id": 122,
+    "name": "Jim Rohn",
+    "field": "Motivational Speaker",
+    "dates": "1930–2009",
+    "quotes": [
+      "You are the average of the five people you spend the most time with.",
+      "Don't wish it were easier; wish you were better.",
+      "Formal education will make you a living; self-education will make you a fortune.",
+      "Take care of your body. It's the only place you have to live.",
+      "Success is nothing more than a few simple disciplines, practiced every day.",
+      "The major value in life is not what you get. The major value in life is what you become.",
+      "You don't get paid for the hour. You get paid for the value you bring to the hour."
+    ]
+  },
+  {
+    "id": 123,
+    "name": "Zig Ziglar",
+    "field": "Motivational Speaker",
+    "dates": "1926–2012",
+    "quotes": [
+      "You don't have to be great to start, but you have to start to be great.",
+      "People often say motivation doesn't last. Well, neither does bathing — that's why we recommend it daily.",
+      "Your attitude, not your aptitude, will determine your altitude.",
+      "Outstanding people have one thing in common: an absolute sense of mission.",
+      "If you can dream it, then you can achieve it.",
+      "You were born to win, but to be a winner, you must plan to win, prepare to win, and expect to win.",
+      "It's not where you start but where you finish that counts."
+    ]
+  },
+  {
+    "id": 124,
+    "name": "Norman Vincent Peale",
+    "field": "Minister & Author",
+    "dates": "1898–1993",
+    "quotes": [
+      "Change your thoughts and you change your world.",
+      "Believe in yourself. Have faith in your abilities. Without a humble but reasonable confidence in your own powers you cannot be successful or happy.",
+      "Action is a great restorer and builder of confidence.",
+      "Empty pockets never held anyone back. Only empty heads and empty hearts can do that.",
+      "The more you lose yourself in something bigger than yourself, the more energy you will have.",
+      "It's always too early to quit.",
+      "Shoot for the moon. Even if you miss, you'll land among the stars."
+    ]
+  },
+  {
+    "id": 125,
+    "name": "Brian Tracy",
+    "field": "Author & Speaker",
+    "dates": "1944–",
+    "quotes": [
+      "Move out of your comfort zone. You can only grow if you are willing to feel awkward and uncomfortable.",
+      "Successful people are simply those with successful habits.",
+      "You have within you right now, everything you need to deal with whatever the world can throw at you.",
+      "Invest three percent of your income in yourself in order to guarantee your future.",
+      "The greatest gift that you can give to others is the gift of unconditional love and acceptance.",
+      "It doesn't matter where you are coming from. All that matters is where you are going.",
+      "Self-discipline is the ability to make yourself do what you should do, when you should do it."
+    ]
+  },
+  {
+    "id": 126,
+    "name": "John C. Maxwell",
+    "field": "Leadership Author",
+    "dates": "1947–",
+    "quotes": [
+      "A leader is one who knows the way, goes the way, and shows the way.",
+      "Leadership is not about titles, positions, or flowcharts. It is about one life influencing another.",
+      "The secret of your success is determined by your daily agenda.",
+      "People don't care how much you know until they know how much you care.",
+      "Teamwork makes the dream work.",
+      "When you learn, teach. When you get, give.",
+      "A dream you dream alone is only a dream. A dream you dream together is reality."
+    ]
+  },
+  {
+    "id": 127,
+    "name": "Simon Sinek",
+    "field": "Author & Speaker",
+    "dates": "1973–",
+    "quotes": [
+      "People don't buy what you do; they buy why you do it.",
+      "Leadership is not about being in charge. Leadership is about taking care of those in your charge.",
+      "The goal is not to be perfect by the end. The goal is to be better today.",
+      "A team is not a group of people who work together. A team is a group of people who trust each other.",
+      "Dream big. Start small. But most of all, start.",
+      "There are only two ways to influence human behavior: you can manipulate it or you can inspire it.",
+      "Working hard for something we don't care about is called stress. Working hard for something we love is called passion."
+    ]
+  },
+  {
+    "id": 128,
+    "name": "Malcolm Gladwell",
+    "field": "Author & Journalist",
+    "dates": "1963–",
+    "quotes": [
+      "Practice isn't the thing you do once you're good. It's the thing you do that makes you good.",
+      "The key to good decision making is not knowledge. It is understanding.",
+      "Achievement is talent plus preparation.",
+      "We have, as human beings, a storytelling problem. We're a bit too quick to come up with explanations for things we don't have an explanation for.",
+      "The act of facing overwhelming odds produces greatness and beauty.",
+      "Success is not a random act. It arises out of a predictable and powerful set of circumstances and opportunities.",
+      "Truly successful decision making relies on a balance between deliberate and instinctive thinking."
+    ]
+  },
+  {
+    "id": 129,
+    "name": "Jordan Peterson",
+    "field": "Professor & Author",
+    "dates": "1962–",
+    "quotes": [
+      "Compare yourself to who you were yesterday, not to who someone else is today.",
+      "Treat yourself like someone you are responsible for helping.",
+      "You should never sacrifice what you could be for what you are.",
+      "To stand up straight with your shoulders back is to accept the terrible responsibility of life.",
+      "If you don't say what you think, then you kill your unborn self.",
+      "The purpose of life is finding the largest burden that you can bear and bearing it.",
+      "Set your house in perfect order before you criticize the world."
+    ]
+  },
+  {
+    "id": 130,
+    "name": "Noam Chomsky",
+    "field": "Linguist & Professor",
+    "dates": "1928–",
+    "quotes": [
+      "If we don't believe in freedom of expression for people we despise, we don't believe in it at all.",
+      "Either you repeat the same conventional doctrines everybody is saying, or else you say something true, and it will sound like it's from Neptune.",
+      "Propaganda is to a democracy what the bludgeon is to a totalitarian state.",
+      "The most effective way to restrict democracy is to transfer decision-making from the public arena to unaccountable institutions.",
+      "Education must provide the opportunities for self-fulfillment; it can at best provide a rich and challenging environment for the individual to explore.",
+      "The general population doesn't know what's happening, and it doesn't even know that it doesn't know.",
+      "Optimism is a strategy for making a better future."
+    ]
+  },
+  {
+    "id": 131,
+    "name": "Joseph Campbell",
+    "field": "Mythologist & Author",
+    "dates": "1904–1987",
+    "quotes": [
+      "Follow your bliss.",
+      "The cave you fear to enter holds the treasure you seek.",
+      "We must let go of the life we have planned, so as to accept the one that is waiting for us.",
+      "The privilege of a lifetime is being who you are.",
+      "Life has no meaning. Each of us has meaning and we bring it to life.",
+      "The goal of life is to make your heartbeat match the beat of the universe.",
+      "If you can see your path laid out in front of you step by step, you know it's not your path."
+    ]
+  },
+  {
+    "id": 132,
+    "name": "Alan Watts",
+    "field": "Philosopher & Speaker",
+    "dates": "1915–1973",
+    "quotes": [
+      "The only way to make sense out of change is to plunge into it, move with it, and join the dance.",
+      "You are the universe experiencing itself.",
+      "This is the real secret of life — to be completely engaged with what you are doing in the here and now.",
+      "The menu is not the meal.",
+      "Muddy water is best cleared by leaving it alone.",
+      "We seldom realize that our most private thoughts and emotions are not actually our own.",
+      "Problems that remain persistently insoluble should always be suspected as questions asked in the wrong way."
+    ]
+  },
+  {
+    "id": 133,
+    "name": "Jiddu Krishnamurti",
+    "field": "Philosopher & Teacher",
+    "dates": "1895–1986",
+    "quotes": [
+      "It is no measure of health to be well adjusted to a profoundly sick society.",
+      "The ability to observe without evaluating is the highest form of intelligence.",
+      "Truth is a pathless land.",
+      "If you begin to understand what you are without trying to change it, then what you are undergoes a transformation.",
+      "In oneself lies the whole world and if you know how to look and learn, the door is there and the key is in your hand.",
+      "To understand the immeasurable, the mind must be extraordinarily quiet, still.",
+      "Real learning comes about when the competitive spirit has ceased."
+    ]
+  },
+  {
+    "id": 134,
+    "name": "Thich Nhat Hanh",
+    "field": "Zen Master & Author",
+    "dates": "1926–2022",
+    "quotes": [
+      "Because you are alive, everything is possible.",
+      "Smile, breathe, and go slowly.",
+      "The most precious gift we can offer anyone is our attention.",
+      "Walk as if you are kissing the Earth with your feet.",
+      "Sometimes the most important thing in a whole day is the rest we take between two deep breaths.",
+      "Waking up this morning, I smile. Twenty-four brand new hours are before me.",
+      "The present moment is the only moment available to us, and it is the door to all moments."
+    ]
+  },
+  {
+    "id": 135,
+    "name": "Dalai Lama XIV",
+    "field": "Spiritual Leader",
+    "dates": "1935–",
+    "quotes": [
+      "My religion is very simple. My religion is kindness.",
+      "The purpose of our lives is to be happy.",
+      "If you want others to be happy, practice compassion. If you want to be happy, practice compassion.",
+      "Remember that sometimes not getting what you want is a wonderful stroke of luck.",
+      "An open heart is an open mind.",
+      "Judge your success by what you had to give up in order to get it.",
+      "With realization of one's own potential and self-confidence in one's ability, one can build a better world."
+    ]
+  },
+  {
+    "id": 136,
+    "name": "Mother Teresa",
+    "field": "Humanitarian & Saint",
+    "dates": "1910–1997",
+    "quotes": [
+      "If you judge people, you have no time to love them.",
+      "Not all of us can do great things. But we can do small things with great love.",
+      "We shall never know all the good that a simple smile can do.",
+      "I alone cannot change the world, but I can cast a stone across the waters to create many ripples.",
+      "The most terrible poverty is loneliness, and the feeling of being unloved.",
+      "Kind words can be short and easy to speak, but their echoes are truly endless.",
+      "If you are humble nothing will touch you, neither praise nor disgrace, because you know what you are."
+    ]
+  },
+  {
+    "id": 137,
+    "name": "Steve Jobs",
+    "field": "Entrepreneur & Visionary",
+    "dates": "1955–2011",
+    "quotes": [
+      "Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work.",
+      "Stay hungry, stay foolish.",
+      "Innovation distinguishes between a leader and a follower.",
+      "The people who are crazy enough to think they can change the world are the ones who do.",
+      "You can't connect the dots looking forward; you can only connect them looking backwards.",
+      "Design is not just what it looks like and feels like. Design is how it works.",
+      "I'm convinced that about half of what separates successful entrepreneurs from the non-successful ones is pure perseverance."
+    ]
+  },
+  {
+    "id": 138,
+    "name": "Daniel Kahneman",
+    "field": "Behavioral Economist",
+    "dates": "1934–2024",
+    "quotes": [
+      "A reliable way to make people believe in falsehoods is frequent repetition, because familiarity is not easily distinguished from truth.",
+      "Nothing in life is as important as you think it is, while you are thinking about it.",
+      "The confidence people have in their beliefs is not a measure of the quality of evidence but of the coherence of the story the mind has constructed.",
+      "If you care about being thought credible and intelligent, do not use complex language where simpler language will do.",
+      "Our comforting conviction that the world makes sense rests on our almost unlimited ability to ignore our ignorance.",
+      "We can be blind to the obvious, and we are also blind to our blindness.",
+      "The world makes much less sense than you think. The coherence comes mostly from the way your mind works."
+    ]
+  },
+  {
+    "id": 139,
+    "name": "Daniel Goleman",
+    "field": "Psychologist & Author",
+    "dates": "1946–",
+    "quotes": [
+      "If your emotional abilities aren't in hand, if you don't have self-awareness, if you can't manage your distressing emotions, then no matter how smart you are, you are not going to get very far.",
+      "The emotional brain responds to an event more quickly than the thinking brain.",
+      "Empathy represents the foundation skill for all the social competencies important for work.",
+      "Self-awareness — recognizing a feeling as it happens — is the keystone of emotional intelligence.",
+      "Motivating oneself is perhaps the most important emotional skill.",
+      "Those who have developed strong emotional intelligence are able to connect with others on a deep human level.",
+      "In a very real sense we have two minds, one that thinks and one that feels."
+    ]
+  },
+  {
+    "id": 140,
+    "name": "Martin Seligman",
+    "field": "Positive Psychologist",
+    "dates": "1942–",
+    "quotes": [
+      "Life inflicts the same setbacks and tragedies on the optimist as on the pessimist, but the optimist weathers them better.",
+      "The good life is using your signature strengths every day to produce authentic happiness and abundant gratification.",
+      "The skills of becoming happy turn out to be almost entirely different from the skills of not being sad.",
+      "Optimism is the foundation of courage.",
+      "Authentic happiness comes from identifying and cultivating your most fundamental strengths and using them every day.",
+      "The defining characteristic of pessimists is that they tend to believe bad events will last a long time.",
+      "Well-being cannot exist just in your own head."
+    ]
+  },
+  {
+    "id": 141,
+    "name": "Mihaly Csikszentmihalyi",
+    "field": "Psychologist & Author",
+    "dates": "1934–2021",
+    "quotes": [
+      "The best moments in our lives are not the passive, receptive, relaxing times — the best moments usually occur when a person's body or mind is stretched to its limits.",
+      "Happiness is not something that happens. It is not the result of good fortune or random chance.",
+      "Flow is being completely involved in an activity for its own sake. The ego falls away. Time flies.",
+      "It is not skills we actually have that determine how we feel, but the ones we think we have.",
+      "Of all the virtues we can learn, no trait is more useful than the ability to transform adversity into an enjoyable challenge.",
+      "Attention is our most important tool in the task of improving the quality of experience.",
+      "The future will belong to those who learn more skills and combine them in creative ways."
+    ]
+  },
+  {
+    "id": 142,
+    "name": "Carol Dweck",
+    "field": "Psychologist & Author",
+    "dates": "1946–",
+    "quotes": [
+      "The passion for stretching yourself and sticking to it, even when it's not going well, is the hallmark of the growth mindset.",
+      "In a growth mindset, challenges are exciting rather than threatening.",
+      "No matter what your ability is, effort is what ignites that ability and turns it into accomplishment.",
+      "Why waste time proving over and over how great you are, when you could be getting better?",
+      "Becoming is better than being.",
+      "If parents want to give their children a gift, the best thing they can do is teach their children to love challenges.",
+      "Failure is information — we label it failure, but it's more like this is a message telling us what to do next."
+    ]
+  },
+  {
+    "id": 143,
+    "name": "Angela Duckworth",
+    "field": "Psychologist & Author",
+    "dates": "1970–",
+    "quotes": [
+      "Enthusiasm is common. Endurance is rare.",
+      "Grit is living life like it's a marathon, not a sprint.",
+      "Without effort, your talent is nothing more than your unmet potential.",
+      "Consistency of effort over the long run is everything.",
+      "The secret to outstanding achievement is not talent but a special blend of passion and persistence.",
+      "Grit is passion and perseverance for very long-term goals.",
+      "At its core, the idea of grit is about not giving up even when things get difficult."
+    ]
+  },
+  {
+    "id": 144,
+    "name": "Robert Cialdini",
+    "field": "Psychologist & Author",
+    "dates": "1945–",
+    "quotes": [
+      "The way to love anything is to realize that it might be lost.",
+      "People simply like to have reasons — even if the reasons don't make much sense.",
+      "A well-known principle of human behavior says that when we ask someone to do us a favor we will be more successful if we provide a reason.",
+      "Once we have made a choice or taken a stand, we will encounter personal and interpersonal pressure to behave consistently with that commitment.",
+      "The greatest weapon is influence. The most important principle of influence is similarity.",
+      "Those who do not learn from the mistakes of their predecessors are destined to repeat them.",
+      "We are all influenced by the people around us, whether we know it or not."
+    ]
+  },
+  {
+    "id": 145,
+    "name": "Daniel Pink",
+    "field": "Author & Speaker",
+    "dates": "1964–",
+    "quotes": [
+      "Control leads to compliance; autonomy leads to engagement.",
+      "The secret to high performance and satisfaction is the deeply human need to direct our own lives.",
+      "Goals that people set for themselves and that are devoted to attaining mastery are usually healthy.",
+      "Human beings have an innate inner drive to be autonomous, self-determined, and connected to one another.",
+      "We are intrinsically motivated to do things that matter.",
+      "The most human capabilities are becoming the most economically valuable.",
+      "Purpose provides activation energy for living."
+    ]
+  },
+  {
+    "id": 146,
+    "name": "Yuval Noah Harari",
+    "field": "Historian & Author",
+    "dates": "1976–",
+    "quotes": [
+      "Humans think in stories rather than in facts, numbers, or equations, and the simpler the story, the better.",
+      "We study history not to know the future but to widen our horizons, to understand that our present situation is neither natural nor inevitable.",
+      "Questions you cannot answer are usually far better for you than answers you cannot question.",
+      "The greatest crimes in modern history resulted not just from hatred and greed, but above all from ignorance and indifference.",
+      "In the twenty-first century we need to be far more creative in the ways we think about identity and community.",
+      "The idea that humans will always have a unique ability beyond the reach of non-conscious algorithms is just wishful thinking.",
+      "Self-knowledge is the beginning of wisdom."
+    ]
+  },
+  {
+    "id": 147,
+    "name": "Neil deGrasse Tyson",
+    "field": "Astrophysicist & Educator",
+    "dates": "1958–",
+    "quotes": [
+      "The universe is under no obligation to make sense to you.",
+      "For me, I am driven by two main philosophies: know more today about the world than I knew yesterday, and lessen the suffering of others.",
+      "The good thing about science is that it's true whether or not you believe in it.",
+      "Kids are never the problem. They are born scientists. The problem is always the adults, who beat the curiosity out of them.",
+      "I dream of a world where the truth is what shapes people's politics, rather than politics shaping what people think is true.",
+      "Science is not a body of facts. Science is a state of mind.",
+      "We are all connected — to each other biologically, to the earth chemically, to the rest of the universe atomically."
+    ]
+  },
+  {
+    "id": 148,
+    "name": "Fred Rogers",
+    "field": "Educator & TV Host",
+    "dates": "1928–2003",
+    "quotes": [
+      "The greatest thing we can do is to help somebody know that they're loved and capable of loving.",
+      "Frankly, there isn't anyone you couldn't learn to love once you've heard their story.",
+      "Knowing that we can be loved exactly as we are gives us all the best opportunity for growing into the healthiest of people.",
+      "The greatest gift you ever give is your honest self.",
+      "It's not the honors and prizes and fancy outsides of life which ultimately nourish our souls.",
+      "You've made this day a special day, by just your being you. There's no person in the whole world like you, and I like you just the way you are.",
+      "Feeling good about ourselves is essential in our being able to love others."
+    ]
+  },
+  {
+    "id": 149,
+    "name": "Paulo Coelho",
+    "field": "Author & Mentor",
+    "dates": "1947–",
+    "quotes": [
+      "And, when you want something, all the universe conspires in helping you to achieve it.",
+      "Tell your heart that the fear of suffering is worse than the suffering itself.",
+      "The secret of life is to fall seven times and to get up eight times.",
+      "It's the possibility of having a dream come true that makes life interesting.",
+      "One is loved because one is loved. No reason is needed for loving.",
+      "When you find your path, you must not be afraid. You need to have sufficient courage to make mistakes.",
+      "You are what you believe yourself to be."
+    ]
+  },
+  {
+    "id": 150,
+    "name": "Robin Sharma",
+    "field": "Author & Leadership Speaker",
+    "dates": "1965–",
+    "quotes": [
+      "Leadership is not about a title or a designation. It's about impact, influence, and inspiration.",
+      "The smallest of actions is always better than the noblest of intentions.",
+      "Every master was once a disaster.",
+      "Change is hard at first, messy in the middle, and gorgeous at the end.",
+      "Dream big. Start small. Begin now.",
+      "Be so good at what you do that people can't take their eyes off you.",
+      "Don't live the same year 75 times and call it a life."
+    ]
+  },
+  {
+    "id": 151,
+    "name": "Gabor Maté",
+    "field": "Physician & Author",
+    "dates": "1944–",
+    "quotes": [
+      "Not why the addiction, but why the pain.",
+      "Trauma is not what happens to you. Trauma is what happens inside you as a result of what happened to you.",
+      "Compassion is not a relationship between the healer and the wounded. It's a relationship between equals.",
+      "The attempt to escape from pain is what creates more pain.",
+      "Children don't need to be taught how to learn; they are born learners.",
+      "The greatest damage done by neglect and trauma is not the immediate pain they inflict but the long-term distortions they induce in how a child will interpret the world.",
+      "To be fully human means to be fully ourselves — not in spite of our suffering, but through it."
+    ]
+  },
+  {
+    "id": 152,
+    "name": "Robert Greene",
+    "field": "Author",
+    "dates": "1959–",
+    "quotes": [
+      "Mastery is not a function of genius or talent. It is a function of time and intense focus.",
+      "The most important quality for mastery is an insatiable hunger for learning.",
+      "Reframe your mental outlook: see your entry-level position not as something beneath your dignity, but as the perfect position from which to learn.",
+      "In the social realm, appearances are the reality.",
+      "The greatest mistake of life is to believe that we have all the time in the world to fulfill our dreams.",
+      "Become who you are by learning who you are.",
+      "You must work on yourself and your self-mastery first."
+    ]
+  },
+  {
+    "id": 153,
+    "name": "Ryan Holiday",
+    "field": "Author & Stoic",
+    "dates": "1987–",
+    "quotes": [
+      "The obstacle is the way.",
+      "Stillness is not the absence of life or action. It's actually what makes action possible.",
+      "Control your perceptions, direct your actions properly, willingly accept what's outside your control.",
+      "You don't control what happens. You control how you respond.",
+      "The world wants you to be typical — in a thousand ways, it pulls at you. Don't.",
+      "There's no good or bad without us — there is only perception. There is the event itself and the story we tell ourselves about what it means.",
+      "Ego is the enemy of what you want and of what you have."
+    ]
+  },
+  {
+    "id": 154,
+    "name": "Tim Ferriss",
+    "field": "Author & Entrepreneur",
+    "dates": "1977–",
+    "quotes": [
+      "What we fear doing most is usually what we most need to do.",
+      "Focus on being productive instead of busy.",
+      "Being busy is a form of laziness — lazy thinking and indiscriminate action.",
+      "The question you should be asking isn't 'What do I want?' but 'What would excite me?'",
+      "Information is useless if it is not applied to something important.",
+      "Doing the impossible is not simply a matter of effort, but of perspective.",
+      "Life doesn't have to be so damn hard. It really doesn't. But it takes practice."
+    ]
+  },
+  {
+    "id": 155,
+    "name": "James Clear",
+    "field": "Author & Speaker",
+    "dates": "1986–",
+    "quotes": [
+      "You do not rise to the level of your goals. You fall to the level of your systems.",
+      "Every action you take is a vote for the type of person you wish to become.",
+      "Success is the product of daily habits — not once-in-a-lifetime transformations.",
+      "The most effective form of learning is practice, not planning.",
+      "You should be far more concerned with your current trajectory than with your current results.",
+      "Goals are good for setting a direction, but systems are best for making progress.",
+      "Habits are the compound interest of self-improvement."
+    ]
+  },
+  {
+    "id": 156,
+    "name": "Nassim Nicholas Taleb",
+    "field": "Author & Statistician",
+    "dates": "1960–",
+    "quotes": [
+      "Wind extinguishes a candle and energizes fire. Likewise with randomness and chaos: you want to use them, not hide from them.",
+      "A Stoic is someone who transforms fear into prudence, pain into information, mistakes into initiation, and desire into undertaking.",
+      "The three most harmful addictions are heroin, carbohydrates, and a monthly salary.",
+      "Read books are far less valuable than unread ones. The library should contain as much of what you don't know as your financial means allow.",
+      "Real life is messy, inconsistent, and it's seldom when anything ever really resolves.",
+      "The weak shows his strength and hides his weaknesses; the magnificent exhibits his weaknesses like ornaments.",
+      "We are not rational enough to be exposed to the press."
+    ]
+  },
+  {
+    "id": 157,
+    "name": "Les Brown",
+    "field": "Motivational Speaker",
+    "dates": "1945–",
+    "quotes": [
+      "You have greatness within you.",
+      "The graveyard is the richest place on earth — it contains all the dreams and ideas that were never fulfilled.",
+      "No one rises to low expectations.",
+      "If you set goals and go after them with all the determination you can muster, your gifts will take you places that will amaze you.",
+      "You don't have to be great to get started, but you have to get started to be great.",
+      "Forgive yourself for your faults and your mistakes and move on.",
+      "Shoot for the moon. Even if you miss, you'll land among the stars."
+    ]
+  },
+  {
+    "id": 158,
+    "name": "Tara Brach",
+    "field": "Psychologist & Teacher",
+    "dates": "1953–",
+    "quotes": [
+      "Radical acceptance is the willingness to experience ourselves and our lives as they are.",
+      "The boundary to what we can accept is the boundary to our freedom.",
+      "Nothing is wrong — whatever is happening is just 'real life.'",
+      "The great gift of a spiritual path is coming to trust that it's safe to let go.",
+      "Meditation is all about the pursuit of nothingness. It's like the ultimate rest.",
+      "We get lost in doing, thinking, remembering, anticipating — lost in a maze of complexity. Mindfulness is the way home.",
+      "The most courageous thing any of us can do is to continue to open our hearts."
+    ]
+  },
+  {
+    "id": 159,
+    "name": "Pema Chödrön",
+    "field": "Buddhist Teacher & Author",
+    "dates": "1936–",
+    "quotes": [
+      "You are the sky. Everything else is just the weather.",
+      "Nothing ever goes away until it has taught us what we need to know.",
+      "Feelings like disappointment, embarrassment, irritation, resentment, and fear, instead of being bad news, are very clear moments that teach us where it is that we're holding back.",
+      "Do I prefer that I be right, or that I be happy?",
+      "Life is a good teacher and a good friend.",
+      "The root of suffering is resisting the certainty that no matter what the circumstances, uncertainty is what's left.",
+      "We think that the point is to pass the test or overcome the problem, but the truth is that things don't really get resolved."
+    ]
+  },
+  {
+    "id": 160,
+    "name": "Ram Dass",
+    "field": "Spiritual Teacher",
+    "dates": "1931–2019",
+    "quotes": [
+      "Be here now.",
+      "The quieter you become, the more you can hear.",
+      "We are all just walking each other home.",
+      "The most important aspect of love is not in giving or the receiving — it's in the being.",
+      "You are loved just for being who you are, just for existing.",
+      "Treat everyone you meet like God in drag.",
+      "The spiritual journey is individual, highly personal. It can't be organized or regulated. It isn't true that everyone should follow one path."
+    ]
+  },
+  {
+    "id": 161,
+    "name": "Paramahansa Yogananda",
+    "field": "Yogi & Author",
+    "dates": "1893–1952",
+    "quotes": [
+      "Live quietly in the moment and see the beauty of all before you.",
+      "You must not let your life run in the ordinary way; do something that nobody else has done.",
+      "The soul loves to meditate, for in contact with the spirit lies its greatest joy.",
+      "There is a magnet in your heart that will attract true friends. That magnet is unselfishness.",
+      "Let my soul smile through my heart and my heart smile through my eyes.",
+      "Remain calm, serene, always in command of yourself. You will then find out how easy it is to get along.",
+      "The power of unfulfilled desires is the root of all man's slavery."
+    ]
+  },
+  {
+    "id": 162,
+    "name": "Swami Vivekananda",
+    "field": "Spiritual Leader & Teacher",
+    "dates": "1863–1902",
+    "quotes": [
+      "Take up one idea. Make that one idea your life — think of it, dream of it, live on that idea.",
+      "The greatest sin is to think yourself weak.",
+      "The world is the great gymnasium where we come to make ourselves strong.",
+      "We are what our thoughts have made us; so take care about what you think.",
+      "In a conflict between the heart and the brain, follow your heart.",
+      "All the powers in the universe are already ours. It is we who have put our hands before our eyes and cry that it is dark.",
+      "The more we come out and do good to others, the more our hearts will be purified."
+    ]
+  },
+  {
+    "id": 163,
+    "name": "Richard Dawkins",
+    "field": "Evolutionary Biologist",
+    "dates": "1941–",
+    "quotes": [
+      "We are all atheists about most of the gods that humanity has ever believed in. Some of us just go one god further.",
+      "By all means let's be open-minded, but not so open-minded that our brains drop out.",
+      "One of the things that is wrong with religion is that it teaches us to be satisfied with answers which are not really answers at all.",
+      "Science is not only compatible with spirituality; it is a profound source of wonder.",
+      "The universe we observe has precisely the properties we should expect if there is, at bottom, no design, no purpose — nothing but blind, pitiless indifference.",
+      "If something is true, no amount of wishful thinking will make it false.",
+      "Evolution is a fact. Beyond reasonable doubt, beyond serious doubt, beyond sane, informed, intelligent doubt."
+    ]
+  },
+  {
+    "id": 164,
+    "name": "Sam Harris",
+    "field": "Neuroscientist & Author",
+    "dates": "1967–",
+    "quotes": [
+      "The reality is that we have no idea where our thoughts come from, and most of them arise without our knowledge.",
+      "Beliefs matter — especially if they are false.",
+      "How can we build a future worth wanting if we have no vision of what we actually want?",
+      "The truth is, we do not experience the world directly. We experience a model of the world that our brains construct.",
+      "Mindfulness meditation is simply the practice of noticing what is already here.",
+      "To be wise is to be in possession of a clear picture of the world, or at least a somewhat less wrong one.",
+      "Our minds are the most complex things in the known universe, and the meditation techniques are the tools to understand them."
+    ]
+  },
+  {
+    "id": 165,
+    "name": "Earl Nightingale",
+    "field": "Motivational Speaker & Author",
+    "dates": "1921–1989",
+    "quotes": [
+      "We become what we think about.",
+      "The biggest mistake that you can make is to believe that you are working for somebody else.",
+      "Never give up on a dream just because of the time it will take to accomplish it. The time will pass anyway.",
+      "Your world is a living expression of how you are using and have used your mind.",
+      "People with goals succeed because they know where they're going.",
+      "A great attitude does much more than turn on the lights in our world — it seems to magically connect us to all sorts of opportunities.",
+      "Everything begins with an idea."
+    ]
+  },
+  {
+    "id": 166,
+    "name": "Erich Fromm",
+    "field": "Psychologist & Philosopher",
+    "dates": "1900–1980",
+    "quotes": [
+      "Creativity requires the courage to let go of certainties.",
+      "Immature love says: 'I love you because I need you.' Mature love says: 'I need you because I love you.'",
+      "If I am what I have and if I lose what I have who then am I?",
+      "Love is the only sane and satisfactory answer to the problem of human existence.",
+      "The task we must set for ourselves is not to feel secure, but to be able to tolerate insecurity.",
+      "Selfish persons are incapable of loving others, but they are not capable of loving themselves either.",
+      "The most beautiful as well as the most ugly inclinations of man are not part of a fixed and biologically given human nature, but result from the social process which creates man."
+    ]
+  },
+  {
+    "id": 167,
+    "name": "Albert Ellis",
+    "field": "Psychologist & Therapist",
+    "dates": "1913–2007",
+    "quotes": [
+      "The best years of your life are the ones in which you decide your problems are your own.",
+      "People don't just get upset. They contribute to their upsetness.",
+      "You mainly feel the way you think.",
+      "The art of love is largely the art of persistence.",
+      "By not caring too much about what people think, I'm able to think for myself.",
+      "If you refuse to give yourself unconditional self-acceptance, you will almost inevitably create self-defeating beliefs.",
+      "There are three musts that hold us back: I must do well. You must treat me well. And the world must be easy."
+    ]
+  },
+  {
+    "id": 168,
+    "name": "B.F. Skinner",
+    "field": "Behavioral Psychologist",
+    "dates": "1904–1990",
+    "quotes": [
+      "Education is what survives when what has been learned has been forgotten.",
+      "The way positive reinforcement is carried out is more important than the amount.",
+      "A failure is not always a mistake — it may simply be the best one can do under the circumstances. The real mistake is to stop trying.",
+      "Science is a willingness to accept facts even when they are opposed to wishes.",
+      "We shouldn't teach great books; we should teach a love of reading.",
+      "The real problem is not whether machines think but whether men do.",
+      "We must appeal to the student's interest and motivation."
+    ]
+  },
+  {
+    "id": 169,
+    "name": "Erik Erikson",
+    "field": "Developmental Psychologist",
+    "dates": "1902–1994",
+    "quotes": [
+      "The most deadly of all possible sins is the mutilation of a child's spirit.",
+      "In the social jungle of human existence, there is no feeling of being alive without a sense of identity.",
+      "Life doesn't make any sense without interdependence. We need each other, and the sooner we learn that, the better for us all.",
+      "Healthy children will not fear life if their elders have integrity enough not to fear death.",
+      "The richest and fullest lives attempt to achieve an inner balance between three realms: work, love, and play.",
+      "Children love and want to be loved and they very much prefer the joy of accomplishment to the triumph of hateful failure.",
+      "You must learn to see yourself, recognize yourself, and love yourself."
+    ]
+  },
+  {
+    "id": 170,
+    "name": "Alfred Adler",
+    "field": "Psychologist & Psychiatrist",
+    "dates": "1870–1937",
+    "quotes": [
+      "The only normal people are the ones you don't know very well.",
+      "Man knows much more than he understands.",
+      "Trust only movement. Life happens at the level of events, not of words.",
+      "Meanings are not determined by situations, but we determine ourselves by the meanings we give to situations.",
+      "The chief danger in life is that you may take too many precautions.",
+      "It is easier to fight for one's principles than to live up to them.",
+      "Follow your heart but take your brain with you."
+    ]
+  },
+  {
+    "id": 171,
+    "name": "Martin Buber",
+    "field": "Philosopher & Educator",
+    "dates": "1878–1965",
+    "quotes": [
+      "All real living is meeting.",
+      "Every person born into this world represents something new, something that never existed before.",
+      "Play is the exaltation of the possible.",
+      "The free man is he who wills without caprice.",
+      "Through the Thou a person becomes I.",
+      "The world is not comprehensible, but it is embraceable — through the embracing of one of its beings.",
+      "Each one of us is a new thing in the world and is called upon to fulfill his particularity in this world."
+    ]
+  },
+  {
+    "id": 172,
+    "name": "Kahlil Gibran",
+    "field": "Poet & Philosopher",
+    "dates": "1883–1931",
+    "quotes": [
+      "Your children are not your children. They are the sons and daughters of Life's longing for itself.",
+      "Out of suffering have emerged the strongest souls; the most massive characters are seared with scars.",
+      "Yesterday is but today's memory, and tomorrow is today's dream.",
+      "Your pain is the breaking of the shell that encloses your understanding.",
+      "We shall never understand one another until we reduce the language to seven words.",
+      "The timeless in you is aware of life's timelessness.",
+      "Beauty is not in the face; beauty is a light in the heart."
+    ]
+  },
+  {
+    "id": 173,
+    "name": "Buckminster Fuller",
+    "field": "Designer & Futurist",
+    "dates": "1895–1983",
+    "quotes": [
+      "You never change things by fighting the existing reality. To change something, build a new model that makes the existing model obsolete.",
+      "I am convinced all of humanity is born with more gifts than we know.",
+      "The best way to predict the future is to design it.",
+      "There is nothing in a caterpillar that tells you it's going to be a butterfly.",
+      "Dare to be naive.",
+      "When I am working on a problem, I never think about beauty. But when I have finished, if the solution is not beautiful, I know it is wrong.",
+      "We are called to be architects of the future, not its victims."
+    ]
+  },
+  {
+    "id": 174,
+    "name": "Warren Bennis",
+    "field": "Leadership Scholar",
+    "dates": "1925–2014",
+    "quotes": [
+      "Leadership is the capacity to translate vision into reality.",
+      "Becoming a leader is synonymous with becoming yourself. It is precisely that simple and it is also that difficult.",
+      "The most dangerous leadership myth is that leaders are born.",
+      "A mentor is someone who allows you to see the hope inside yourself.",
+      "Good leaders make people feel that they're at the very heart of things, not at the periphery.",
+      "Trust is the lubrication that makes it possible for organizations to work.",
+      "Excellence is a better teacher than mediocrity. The lessons of the ordinary are everywhere — truly profound insights are found only in studying the exemplary."
+    ]
+  },
+  {
+    "id": 175,
+    "name": "Clayton Christensen",
+    "field": "Innovation Theorist",
+    "dates": "1952–2020",
+    "quotes": [
+      "It's easier to hold your principles 100% of the time than it is to hold them 98% of the time.",
+      "Decide what you stand for. And then stand for it all the time.",
+      "Management is the most noble of professions if it's practiced well.",
+      "The only way I know to survive a busy life is to be deliberate about what matters.",
+      "If you have a clear, principled definition of what makes you happy, it will be much easier to build a life that matters.",
+      "The safest road to hell is the gradual one — the gentle slope, soft underfoot, without sudden turnings.",
+      "How will you measure your life?"
+    ]
+  },
+  {
+    "id": 176,
+    "name": "Oprah Winfrey",
+    "field": "Media Leader & Mentor",
+    "dates": "1954–",
+    "quotes": [
+      "The biggest adventure you can take is to live the life of your dreams.",
+      "Turn your wounds into wisdom.",
+      "Be thankful for what you have; you'll end up having more.",
+      "Think like a queen. A queen is not afraid to fail. Failure is another stepping stone to greatness.",
+      "I know for sure what we dwell on is who we become.",
+      "Every day brings a chance for you to draw in a breath, kick off your shoes, and dance.",
+      "You get in life what you have the courage to ask for."
+    ]
+  },
+  {
+    "id": 177,
+    "name": "bell hooks",
+    "field": "Author & Educator",
+    "dates": "1952–2021",
+    "quotes": [
+      "The function of art is to do more than tell it like it is — it's to imagine what is possible.",
+      "When we choose to love, we choose to move against fear — against alienation and separation.",
+      "The practice of love offers no place of safety. We risk loss, hurt, pain. We risk being acted upon by forces outside our control.",
+      "If we do not learn how to love, we will live in the shadow of our own inadequacy.",
+      "Inspired teaching keeps the spirit alive.",
+      "To be truly visionary we have to root our imagination in our concrete reality.",
+      "Living simply makes loving simple."
+    ]
+  },
+  {
+    "id": 178,
+    "name": "Oliver Sacks",
+    "field": "Neurologist & Author",
+    "dates": "1933–2015",
+    "quotes": [
+      "I cannot pretend I am without fear. But my predominant feeling is one of gratitude.",
+      "To be ourselves we must have ourselves — possess, if need be re-possess, our life-stories.",
+      "We speak not only to tell other people what we think, but to tell ourselves what we think.",
+      "One is suddenly grateful for all pleasures, for all the everyday pleasures.",
+      "A man does not consist of memory alone. He has feeling, will, sensibility, moral being.",
+      "Creativity involves not just generating new ideas but also selecting, shaping, and embodying them.",
+      "There will be dying. There will be the last weeks, the last days — and then, only the love."
+    ]
+  },
+  {
+    "id": 179,
+    "name": "Peter Senge",
+    "field": "Systems Thinker & Author",
+    "dates": "1947–",
+    "quotes": [
+      "Systems thinking is a discipline for seeing wholes.",
+      "Real learning gets to the heart of what it means to be human.",
+      "Learning organizations are organizations where people continually expand their capacity to create the results they truly desire.",
+      "The world we have created is a product of our thinking; it cannot be changed without changing our thinking.",
+      "All learning is ultimately about learning together.",
+      "The most fundamental dysfunction of the systems thinking, as a language, is our linear view of causality.",
+      "People don't resist change. They resist being changed."
+    ]
+  },
+  {
+    "id": 180,
+    "name": "Toni Morrison",
+    "field": "Author & Nobel Laureate",
+    "dates": "1931–2019",
+    "quotes": [
+      "If you have some power, then your job is to empower somebody else.",
+      "You are your best thing.",
+      "The function of freedom is to free someone else.",
+      "At some point in life the world's beauty becomes enough. You don't need to photograph, paint, or even remember it. It is enough.",
+      "Write. Start with a sentence, then go from there.",
+      "If you want to fly, you have to give up the things that weigh you down.",
+      "There is no time for despair, no place for self-pity, no need for silence, no room for fear."
+    ]
+  },
+  {
+    "id": 181,
+    "name": "James Baldwin",
+    "field": "Author & Activist",
+    "dates": "1924–1987",
+    "quotes": [
+      "Not everything that is faced can be changed. But nothing can be changed until it is faced.",
+      "I imagine one of the reasons people cling to their hates so stubbornly is because they sense, once hate is gone, they will be forced to deal with pain.",
+      "The most dangerous creation of any society is the man who has nothing to lose.",
+      "Children have never been very good at listening to their elders, but they have never failed to imitate them.",
+      "The challenge is in the moment; the time is always now.",
+      "Not everything that is faced can be changed, but nothing can be changed until it is faced.",
+      "Hatred, which could destroy so much, never failed to destroy the man who hated."
+    ]
+  },
+  {
+    "id": 182,
+    "name": "Don Miguel Ruiz",
+    "field": "Author & Teacher",
+    "dates": "1952–",
+    "quotes": [
+      "Be impeccable with your word.",
+      "Don't take anything personally. Nothing others do is because of you.",
+      "Don't make assumptions. Find the courage to ask questions and to express what you really want.",
+      "Always do your best. Your best is going to change from moment to moment.",
+      "Real love is accepting other people the way they are without trying to change them.",
+      "The only way to change your world is to change yourself.",
+      "True justice is paying only once for each mistake."
+    ]
+  },
+  {
+    "id": 183,
+    "name": "Louise Hay",
+    "field": "Self-Help Author & Teacher",
+    "dates": "1926–2017",
+    "quotes": [
+      "Every thought we think is creating our future.",
+      "You've been criticizing yourself for years and it hasn't worked. Try approving of yourself and see what happens.",
+      "I am in the right place, at the right time, doing the right thing.",
+      "Love is the greatest healing power I know.",
+      "Self-approval and self-acceptance in the now are the main keys to positive changes in every area of our lives.",
+      "Your thoughts and beliefs of the past have created this moment, and all the moments up to this moment.",
+      "I am in the process of positive change."
+    ]
+  },
+  {
+    "id": 184,
+    "name": "Byron Katie",
+    "field": "Author & Speaker",
+    "dates": "1942–",
+    "quotes": [
+      "When I argue with reality, I lose — but only 100% of the time.",
+      "It's not your job to like me — it's mine.",
+      "Life is simple. Everything happens for you, not to you.",
+      "Peace doesn't require two people; it only requires one. It has to be you.",
+      "The only time we suffer is when we believe a thought that argues with what is.",
+      "Reality is always kinder than the story we tell ourselves about it.",
+      "I don't let go of my thoughts — I meet them with understanding. Then they let go of me."
+    ]
+  },
+  {
+    "id": 185,
+    "name": "Marianne Williamson",
+    "field": "Author & Speaker",
+    "dates": "1952–",
+    "quotes": [
+      "Our deepest fear is not that we are inadequate. Our deepest fear is that we are powerful beyond measure.",
+      "Love is what we were born with. Fear is what we learned here.",
+      "Joy is what happens to us when we allow ourselves to recognize how good things really are.",
+      "The key to abundance is meeting limited circumstances with unlimited thoughts.",
+      "It is our light, not our darkness, that most frightens us.",
+      "Success means we go to sleep at night knowing that our talents and abilities were used in a way that served others.",
+      "Maturity includes the recognition that no one is going to see us completely, understand us completely, or give us everything we need."
+    ]
+  },
+  {
+    "id": 186,
+    "name": "Virginia Satir",
+    "field": "Family Therapist & Author",
+    "dates": "1916–1988",
+    "quotes": [
+      "The greatest gift I can give is to see, hear, understand, and touch another person.",
+      "We need 4 hugs a day for survival. We need 8 hugs a day for maintenance. We need 12 hugs a day for growth.",
+      "We must not allow other people's limited perceptions to define us.",
+      "People prefer the certainty of misery to the misery of uncertainty.",
+      "Feelings of worth can flourish only in an atmosphere where individual differences are appreciated.",
+      "Life is not what it's supposed to be. It's what it is. The way you cope with it is what makes the difference.",
+      "The family is a place where minds come in contact with one another."
+    ]
+  },
+  {
+    "id": 187,
+    "name": "John Gottman",
+    "field": "Relationship Researcher",
+    "dates": "1942–",
+    "quotes": [
+      "Emotionally intelligent couples are intimately familiar with each other's world.",
+      "The antidote to contempt is expressing admiration and respect.",
+      "In every conflict, there is a legitimate concern and an unhelpful way of expressing it.",
+      "Healthy relationships are based on shared meaning and shared purpose.",
+      "The determining factor in whether wives feel satisfied with sex, romance, and passion in their marriages is the quality of the couple's friendship.",
+      "When the masters of marriage argue — and all couples do — they pepper their disputes with affection, teasing, and mutual respect.",
+      "Every positive thing you do in your relationship is a deposit in the emotional bank account."
+    ]
+  },
+  {
+    "id": 188,
+    "name": "Shunryu Suzuki",
+    "field": "Zen Teacher & Author",
+    "dates": "1904–1971",
+    "quotes": [
+      "In the beginner's mind there are many possibilities, but in the expert's mind there are few.",
+      "Each of you is perfect the way you are — and you can use a little improvement.",
+      "The most important thing is to find out what is the most important thing.",
+      "Without accepting the fact that everything changes, we cannot find perfect composure.",
+      "When you do something, you should burn yourself up completely, like a good bonfire, leaving no trace of yourself.",
+      "If you lose the spirit of repetition, your practice will become quite difficult.",
+      "To give your sheep or cow a large, spacious meadow is the way to control him."
+    ]
+  },
+  {
+    "id": 189,
+    "name": "Ken Wilber",
+    "field": "Integral Philosopher",
+    "dates": "1949–",
+    "quotes": [
+      "An integral approach acknowledges that all views have a partial truth.",
+      "Spirit is not something that exists; it is the act of existing itself.",
+      "We are all equally expressions of the one consciousness.",
+      "We are all waves on the same ocean.",
+      "The goal is not to fix the broken self, but to realize there is no broken self — there is only the self that was never broken.",
+      "The more you identify with the witness, the more you realize that what you are is the witness.",
+      "Growth is the movement from the simple to the complex, from the unconscious to the conscious, from matter to life to mind."
+    ]
+  },
+  {
+    "id": 190,
+    "name": "Terence McKenna",
+    "field": "Author & Ethnobotanist",
+    "dates": "1946–2000",
+    "quotes": [
+      "Culture is your operating system.",
+      "The world is not made of quarks, electromagnetic waves, or any other such thing, but of stories.",
+      "Half the time you think you're thinking, you're actually listening.",
+      "Nature is not mute; it is man who is deaf.",
+      "The creative act is not hanging on, but yielding to a new creative movement.",
+      "If the words 'life, liberty, and the pursuit of happiness' don't include the right to experiment with your own consciousness, then the Declaration of Independence isn't worth the hemp it was written on.",
+      "What you call reality is a cultural construct."
+    ]
+  },
+  {
+    "id": 191,
+    "name": "James Hillman",
+    "field": "Archetypal Psychologist",
+    "dates": "1926–2011",
+    "quotes": [
+      "Each person enters the world called.",
+      "Dreams are the guiding words of the soul.",
+      "The growing point is not in the head, but in the soul.",
+      "We spend a great deal of time studying history, which, let's face it, is mostly the history of stupidity.",
+      "The soul of the world is in things and places, not just inside human minds.",
+      "Psyche's first task is to notice where it is and what it is doing.",
+      "To know your soul's calling requires listening to the world's crying."
+    ]
+  },
+  {
+    "id": 192,
+    "name": "Howard Thurman",
+    "field": "Theologian & Mentor",
+    "dates": "1899–1981",
+    "quotes": [
+      "Don't ask what the world needs. Ask what makes you come alive, and go do it. Because what the world needs is people who have come alive.",
+      "A dream is the bearer of a new possibility, the enlarged horizon, the great hope.",
+      "There is something in every one of you that waits and listens for the genuine in yourself.",
+      "Community cannot for long feed on itself; it can only flourish with the coming of others from beyond.",
+      "The movement of the spirit of man is the true test of civilization.",
+      "During times of war, hatred becomes quite respectable, even though it has to masquerade often as patriotism.",
+      "Seek always to do some good, somewhere. Every man has to seek in his own way to realize his true worth."
+    ]
+  },
+  {
+    "id": 193,
+    "name": "W. Edwards Deming",
+    "field": "Quality Pioneer",
+    "dates": "1900–1993",
+    "quotes": [
+      "It is not necessary to change. Survival is not mandatory.",
+      "In God we trust; all others bring data.",
+      "Without data you're just another person with an opinion.",
+      "The most important things cannot be measured.",
+      "Learning is not compulsory — neither is survival.",
+      "Quality is everyone's responsibility.",
+      "You cannot inspect quality into the product; it is already there."
+    ]
+  },
+  {
+    "id": 194,
+    "name": "Paul Tillich",
+    "field": "Theologian & Philosopher",
+    "dates": "1886–1965",
+    "quotes": [
+      "The first duty of love is to listen.",
+      "Boredom is rage spread thin.",
+      "Language has created the word 'loneliness' to express the pain of being alone. And it has created the word 'solitude' to express the glory of being alone.",
+      "The awareness of the ambiguity of one's highest achievements is a sign of maturity.",
+      "Faith is the state of being ultimately concerned.",
+      "He who knows about depth knows about God.",
+      "The courage to be is the ethical act in which man affirms his own being in spite of those elements of his existence which conflict with his essential self-affirmation."
+    ]
+  },
+  {
+    "id": 195,
+    "name": "Reinhold Niebuhr",
+    "field": "Theologian & Ethicist",
+    "dates": "1892–1971",
+    "quotes": [
+      "God grant me the serenity to accept the things I cannot change, courage to change the things I can, and wisdom to know the difference.",
+      "Nothing worth doing is completed in our lifetime.",
+      "Man's capacity for justice makes democracy possible, but man's inclination to injustice makes democracy necessary.",
+      "Frantic orthodoxy is never rooted in faith but in doubt.",
+      "Love is the motive, but justice is the instrument.",
+      "The sad duty of politics is to establish justice in a sinful world.",
+      "One of the most pathetic aspects of human history is that every civilization expresses itself most pretentiously, compounds its partial and universal values most convincingly, and claims immortality for its finite existence at the very moment when the decay which leads to death has already begun."
+    ]
+  },
+  {
+    "id": 196,
+    "name": "Thomas Kuhn",
+    "field": "Philosopher of Science",
+    "dates": "1922–1996",
+    "quotes": [
+      "The answers you get depend on the questions you ask.",
+      "Almost always the men who achieve fundamental inventions of a new paradigm have been either very young or very new to the field.",
+      "Under normal conditions the research scientist is not an innovator but a solver of puzzles.",
+      "The transition from a paradigm in crisis to a new one is not a cumulative process.",
+      "In learning a paradigm the scientist acquires theory, methods, and standards together.",
+      "Scientific development depends in part on a process of non-incremental or revolutionary change.",
+      "The most important thing I can do is bring a new problem to the surface."
+    ]
+  },
+  {
+    "id": 197,
+    "name": "Cornel West",
+    "field": "Philosopher & Activist",
+    "dates": "1953–",
+    "quotes": [
+      "You can't lead the people if you don't love the people. You can't save the people if you don't serve the people.",
+      "Justice is what love looks like in public.",
+      "Democracy is not just a system of government; it's a way of life.",
+      "Integrity is saying what I mean and meaning what I say.",
+      "The examined life requires courage and honesty.",
+      "Never forget that justice is what love looks like in public, just as care is what love feels like in private.",
+      "In these times of spectacle and superficiality, we need a bluesman sensibility that keeps alive the tradition of speaking truth."
+    ]
+  },
+  {
+    "id": 198,
+    "name": "John Wooden",
+    "field": "Basketball Coach & Mentor",
+    "dates": "1910–2010",
+    "quotes": [
+      "Success is peace of mind which is a direct result of self-satisfaction in knowing you made the effort to become the best of which you are capable.",
+      "Be more concerned with your character than your reputation, because your character is what you really are, while your reputation is merely what others think you are.",
+      "Talent is God given. Be humble. Fame is man-given. Be grateful. Conceit is self-given. Be careful.",
+      "It's what you learn after you know it all that counts.",
+      "Never mistake activity for achievement.",
+      "Young people need models, not critics.",
+      "The main ingredient of stardom is the rest of the team."
+    ]
+  },
+  {
+    "id": 199,
+    "name": "Og Mandino",
+    "field": "Author & Speaker",
+    "dates": "1923–1996",
+    "quotes": [
+      "Beginning today, treat everyone you meet as if they were going to be dead by midnight.",
+      "I will love the light for it shows me the way, yet I will endure the darkness for it shows me the stars.",
+      "It is those who concentrate on but one thing at a time who advance in this world.",
+      "Never feel shame for trying and failing — he who has never failed is he who has never tried.",
+      "Sound character provides the power with which a person may ride the emergencies of life instead of being overwhelmed by them.",
+      "Take the attitude of a student: never be too big to ask questions, never know too much to learn something new.",
+      "I will act now. I will act now. I will act now."
+    ]
+  },
+  {
+    "id": 200,
+    "name": "Jocko Willink",
+    "field": "Author & Leadership Speaker",
+    "dates": "1971–",
+    "quotes": [
+      "Discipline equals freedom.",
+      "You must own everything in your world. There is no one else to blame.",
+      "Don't count on motivation; count on discipline.",
+      "There are no bad teams, only bad leaders.",
+      "Prioritize and execute. Even the best leaders cannot effectively manage multiple crises at once.",
+      "Leadership requires belief in the mission and unyielding perseverance to achieve victory.",
+      "Get up. Make your bed. Drink water. Take a cold shower. Get after it."
+    ]
+  }
+]
