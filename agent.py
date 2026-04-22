@@ -20,6 +20,7 @@ from taskboard_tool import (
     taskboard_get_tasks, taskboard_get_projects,
     taskboard_add_task, taskboard_update_task, taskboard_delete_task,
 )
+from gmail_tool import gmail_search, gmail_read
 
 SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנטלי של גדי. יש לך שני כובעים:
 
@@ -46,6 +47,7 @@ SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנ
     - "כל 15 לחודש" → monthly:15
   - כשגדי אומר "תזכורות", השתמש ב-list_reminders
 - יומן Google - לראות ולהוסיף אירועים
+- Gmail - לחפש ולקרוא מיילים (קריאה בלבד)
 - Taskboard - לראות משימות, להוסיף משימה, לסמן כבוצע, למחוק
 - Finance Tracker - לראות הוצאות והכנסות, להוסיף הוצאות/הכנסות חדשות
 - My Schedule - לראות ולתעד שעות עבודה, לעקוב אחרי הרגלים
@@ -302,6 +304,38 @@ TOOLS = [
                 "reminder_id": {"type": "integer", "description": "ה-ID של התזכורת למחיקה"}
             },
             "required": ["reminder_id"]
+        }
+    },
+    {
+        "name": "gmail_search",
+        "description": "מחפש מיילים בתיבת הדואר של גדי. השתמש כשגדי שואל על מיילים, הודעות שלא נקראו, מיילים ממישהו מסוים וכו'.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "שאילתת חיפוש Gmail, למשל: 'is:unread', 'from:boss@example.com', 'subject:חשבונית'. ברירת מחדל: 'is:unread'"
+                },
+                "max_results": {
+                    "type": "integer",
+                    "description": "מספר מקסימלי של תוצאות (ברירת מחדל: 10)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "gmail_read",
+        "description": "קורא את התוכן המלא של מייל לפי ID. השתמש אחרי gmail_search כשגדי רוצה לקרוא מייל ספציפי.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "message_id": {
+                    "type": "string",
+                    "description": "ה-ID של המייל (מגיע מ-gmail_search)"
+                }
+            },
+            "required": ["message_id"]
         }
     },
     {
@@ -571,6 +605,22 @@ def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
         elif tool_name == "delete_reminder":
             success = db_delete_reminder(tool_input["reminder_id"])
             return f"תזכורת #{tool_input['reminder_id']} נמחקה" if success else "תזכורת לא נמצאה"
+
+        elif tool_name == "gmail_search":
+            emails = gmail_search(
+                query=tool_input.get("query", "is:unread"),
+                max_results=tool_input.get("max_results", 10),
+            )
+            if not emails:
+                return "לא נמצאו מיילים"
+            lines = []
+            for e in emails:
+                lines.append(f"📧 [{e['id']}]\nמ: {e['from']}\nנושא: {e['subject']}\nתאריך: {e['date']}\n{e['snippet'][:100]}\n")
+            return "\n".join(lines)
+
+        elif tool_name == "gmail_read":
+            email = gmail_read(tool_input["message_id"])
+            return f"📧 {email['subject']}\nמ: {email['from']}\nתאריך: {email['date']}\n\n{email['body']}"
 
         elif tool_name == "taskboard_get_tasks":
             tasks = taskboard_get_tasks(

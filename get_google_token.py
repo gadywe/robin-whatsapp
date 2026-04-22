@@ -11,7 +11,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 CLIENT_ID = input("Client ID: ").strip()
 CLIENT_SECRET = input("Client secret: ").strip()
 REDIRECT_URI = "http://localhost:8080"
-SCOPES = "https://www.googleapis.com/auth/calendar"
+SCOPES = "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/gmail.readonly"
 
 auth_url = (
     "https://accounts.google.com/o/oauth2/v2/auth?"
