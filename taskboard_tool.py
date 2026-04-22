@@ -27,8 +27,12 @@ def _post(path: str, data: dict) -> dict:
 def _patch(path: str, params: dict, data: dict) -> dict:
     resp = httpx.patch(f"{BASE}/{path}", headers=HEADERS, params=params, json=data, timeout=15)
     resp.raise_for_status()
+    if not resp.content:
+        return {"updated": True}
     result = resp.json()
-    return result[0] if isinstance(result, list) else result
+    if isinstance(result, list):
+        return result[0] if result else {"updated": True}
+    return result
 
 
 def _delete(path: str, params: dict) -> bool:
