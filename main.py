@@ -3,12 +3,15 @@ import httpx
 import uvicorn
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
-from config import META_ACCESS_TOKEN, META_PHONE_NUMBER_ID, META_WEBHOOK_VERIFY_TOKEN, CRON_SECRET
+from config import META_ACCESS_TOKEN, META_PHONE_NUMBER_ID, META_WEBHOOK_VERIFY_TOKEN, CRON_SECRET, GADI_PHONE
 from db_postgres import init_db, is_message_processed, mark_message_processed
 from agent import get_response
 from transcribe import transcribe_audio_bytes
 from file_tool import process_file_by_mime
 from reminders import get_due_reminders, mark_reminder_sent, advance_recurring_reminder, delete_reminder
+from weather_tool import get_jerusalem_weather, get_clothing_advice
+from quotes_tool import get_random_quote
+from gmail_tool import gmail_search, gmail_read
 
 MAX_MESSAGE_AGE_SECONDS = 300  # התעלם מהודעות ישנות מ-5 דקות (מונע retry storms)
 
@@ -233,6 +236,88 @@ async def check_reminders(token: str = ""):
             mark_reminder_sent(reminder['id'])
 
     return {"sent": sent_count}
+
+
+@app.get("/morning-briefing")
+async def morning_briefing(token: str = ""):
+    """Called by cron every morning. Sends a personalized morning message to Gadi."""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+
+    try:
+        # 1. Weather
+        weather = get_jerusalem_weather()
+        clothing = get_clothing_advice(weather)
+        weather_text = (
+            f"מזג האוויר בירושלים היום:\n"
+            f"{weather['description']}\n"
+            f"טמפרטורה: {weather['temp_min']}°–{weather['temp_max']}° (עכשיו {weather['temp_now']}°, מורגש {weather['feels_like']}°)\n"
+            f"{'גשם צפוי: ' + str(weather['rain_mm']) + ' מ\"מ 🌂' + chr(10) if weather['rain_mm'] > 0 else ''}"
+            f"בגדים: {clothing}"
+        )
+
+        # 2. Quote
+        quote_data = get_random_quote(daily=False)
+        quote_text = f'"{quote_data["quote"]}"\n— {quote_data["author"]}'
+
+        # 3. The Rundown AI email (search last 24h)
+        rundown_text = ""
+        try:
+            emails = gmail_search(query='from:(therundown.ai) newer_than:1d', max_results=1)
+            if emails:
+                email = gmail_read(emails[0]["id"])
+                # Truncate body for Claude
+                body = email["body"][:2000] if email["body"] else ""
+                rundown_text = body
+        except Exception as e:
+            print(f"Morning briefing: Gmail error: {e}")
+            rundown_text = "(לא הצלחתי לטעון את המייל היום)"
+
+        # 4. Compose with Claude
+        from agent import ANTHROPIC_API_KEY, LLM_MODEL
+        import httpx as _httpx
+
+        prompt = f"""אתה רובין, העוזר האישי של גדי. כתוב הודעת בוקר טוב בעברית שתכלול:
+
+1. ברכת בוקר לבבית ומקורית (שונה כל יום, לא סתם "בוקר טוב")
+2. מזג האוויר + המלצת לבוש:
+{weather_text}
+3. ציטוט יומי:
+{quote_text}
+4. סיכום קצר (3-5 שורות) של ניוזלטר The Rundown AI על בינה מלאכותית:
+{rundown_text if rundown_text else '(אין מייל זמין היום)'}
+
+הנחיות:
+- הודעה קצרה וקולחת, כמו WhatsApp אמיתי
+- לא רשמי — חבר'מן, חם, אנרגטי
+- סדר: ברכה → מזג אוויר → ציטוט → סיכום AI
+- השתמש באמוג'י במידה
+- בסוף — משפט מעודד קצר ליום"""
+
+        headers = {
+            "x-api-key": ANTHROPIC_API_KEY,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json",
+        }
+        payload = {
+            "model": LLM_MODEL,
+            "max_tokens": 1024,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+        resp = _httpx.post("https://api.anthropic.com/v1/messages", headers=headers, json=payload, timeout=60)
+        resp.raise_for_status()
+        message = resp.json()["content"][0]["text"]
+
+        # 5. Send via WhatsApp
+        send_whatsapp_message(GADI_PHONE, message)
+        print(f"Morning briefing sent to {GADI_PHONE}")
+        return {"status": "sent", "length": len(message)}
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f"ERROR morning briefing: {e}")
+        return {"status": "error", "error": str(e)}
 
 
 @app.get("/health")
