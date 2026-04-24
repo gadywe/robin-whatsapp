@@ -289,8 +289,8 @@ async def morning_briefing(token: str = ""):
 {weather_text}
 3. ציטוט יומי:
 {quote_text}
-4. סיכום קצר (3-5 שורות) של ניוזלטר The Rundown AI על בינה מלאכותית:
-{rundown_text if rundown_text else '(אין מייל זמין היום)'}
+4. Short summary (3-5 lines) of The Rundown AI newsletter — write this section in English:
+{rundown_text if rundown_text else '(no email available today)'}
 
 הנחיות:
 - הודעה קצרה וקולחת, כמו WhatsApp אמיתי
