@@ -246,15 +246,20 @@ async def morning_briefing(token: str = ""):
 
     try:
         # 1. Weather
-        weather = get_jerusalem_weather()
-        clothing = get_clothing_advice(weather)
-        weather_text = (
-            f"מזג האוויר בירושלים היום:\n"
-            f"{weather['description']}\n"
-            f"טמפרטורה: {weather['temp_min']}°–{weather['temp_max']}° (עכשיו {weather['temp_now']}°, מורגש {weather['feels_like']}°)\n"
-            f"{'גשם צפוי: ' + str(weather['rain_mm']) + ' מ\"מ 🌂' + chr(10) if weather['rain_mm'] > 0 else ''}"
-            f"בגדים: {clothing}"
-        )
+        weather_text = ""
+        try:
+            weather = get_jerusalem_weather()
+            clothing = get_clothing_advice(weather)
+            weather_text = (
+                f"מזג האוויר בירושלים היום:\n"
+                f"{weather['description']}\n"
+                f"טמפרטורה: {weather['temp_min']}°–{weather['temp_max']}° (עכשיו {weather['temp_now']}°, מורגש {weather['feels_like']}°)\n"
+                f"{'גשם צפוי: ' + str(weather['rain_mm']) + ' מ\"מ 🌂' + chr(10) if weather['rain_mm'] > 0 else ''}"
+                f"בגדים: {clothing}"
+            )
+        except Exception as e:
+            print(f"Morning briefing: Weather error: {e}")
+            weather_text = "(לא הצלחתי לטעון את מזג האוויר היום)"
 
         # 2. Quote
         quote_data = get_random_quote(daily=False)
