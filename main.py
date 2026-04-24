@@ -263,7 +263,7 @@ async def morning_briefing(token: str = ""):
 
         # 2. Quote
         quote_data = get_random_quote(daily=False)
-        quote_text = f'"{quote_data["quote"]}"\n— {quote_data["author"]}'
+        quote_text = f'"{quote_data["quote"]}"\n— {quote_data["name"]}'
 
         # 3. The Rundown AI email (search last 24h)
         rundown_text = ""
