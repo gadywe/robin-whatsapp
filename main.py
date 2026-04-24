@@ -314,6 +314,8 @@ async def morning_briefing(token: str = ""):
         message = resp.json()["content"][0]["text"]
 
         # 5. Send via WhatsApp
+        message = message[:4000]
+        print(f"Morning briefing message ({len(message)} chars): {message[:200]}")
         send_whatsapp_message(GADI_PHONE, message)
         print(f"Morning briefing sent to {GADI_PHONE}")
         return {"status": "sent", "length": len(message)}
