@@ -282,22 +282,22 @@ async def morning_briefing(token: str = ""):
         from agent import ANTHROPIC_API_KEY, LLM_MODEL
         import httpx as _httpx
 
-        prompt = f"""אתה רובין, העוזר האישי של גדי. כתוב הודעת בוקר טוב בעברית שתכלול:
+        prompt = f"""You are Robin, Gadi's personal assistant. Write a morning message entirely in English that includes:
 
-1. ברכת בוקר לבבית ומקורית (שונה כל יום, לא סתם "בוקר טוב")
-2. מזג האוויר + המלצת לבוש:
+1. A warm and original morning greeting (different every day, not just "good morning")
+2. Weather + clothing recommendation:
 {weather_text}
-3. ציטוט יומי:
+3. Daily quote:
 {quote_text}
-4. Short summary (3-5 lines) of The Rundown AI newsletter — write this section in English:
+4. Short summary (3-5 lines) of The Rundown AI newsletter:
 {rundown_text if rundown_text else '(no email available today)'}
 
-הנחיות:
-- הודעה קצרה וקולחת, כמו WhatsApp אמיתי
-- לא רשמי — חבר'מן, חם, אנרגטי
-- סדר: ברכה → מזג אוויר → ציטוט → סיכום AI
-- השתמש באמוג'י במידה
-- בסוף — משפט מעודד קצר ליום"""
+Guidelines:
+- Short and flowing, like a real WhatsApp message
+- Casual — friendly, warm, energetic
+- Order: greeting → weather → quote → AI summary
+- Use emojis in moderation
+- End with a short encouraging sentence for the day"""
 
         headers = {
             "x-api-key": ANTHROPIC_API_KEY,
