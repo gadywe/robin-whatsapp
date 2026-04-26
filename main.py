@@ -12,6 +12,7 @@ from reminders import get_due_reminders, mark_reminder_sent, advance_recurring_r
 from weather_tool import get_jerusalem_weather, get_clothing_advice
 from quotes_tool import get_random_quote
 from gmail_tool import gmail_search, gmail_read
+from reading_plan_tool import get_today_reading
 
 MAX_MESSAGE_AGE_SECONDS = 300  # התעלם מהודעות ישנות מ-5 דקות (מונע retry storms)
 
@@ -278,9 +279,16 @@ async def morning_briefing(token: str = ""):
             print(f"Morning briefing: Gmail error: {e}")
             rundown_text = "(לא הצלחתי לטעון את המייל היום)"
 
-        # 4. Compose with Claude
+        # 4. Today's reading
+        reading_today = get_today_reading()
+
+        # 5. Compose with Claude
         from agent import ANTHROPIC_API_KEY, LLM_MODEL
         import httpx as _httpx
+
+        reading_section = f"""5. Today's reading/listening assignment (from Gadi's weekly learning plan):
+{reading_today}
+""" if reading_today else ""
 
         prompt = f"""You are Robin, Gadi's personal assistant. Write a morning message entirely in English that includes:
 
@@ -291,11 +299,11 @@ async def morning_briefing(token: str = ""):
 {quote_text}
 4. Short summary (3-5 lines) of The Rundown AI newsletter:
 {rundown_text if rundown_text else '(no email available today)'}
-
+{reading_section}
 Guidelines:
 - Short and flowing, like a real WhatsApp message
 - Casual — friendly, warm, energetic
-- Order: greeting → weather → quote → AI summary
+- Order: greeting → weather → quote → AI summary{' → reading assignment' if reading_today else ''}
 - Use emojis in moderation
 - End with a short encouraging sentence for the day"""
 
