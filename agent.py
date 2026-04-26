@@ -756,7 +756,7 @@ def get_response(chat_id: str, user_message: str, image_bytes: bytes = None, ima
         for _ in range(5):
             payload = {
                 "model": LLM_MODEL,
-                "max_tokens": 1024,
+                "max_tokens": 4096,
                 "system": system,
                 "tools": TOOLS,
                 "messages": messages,
@@ -777,7 +777,7 @@ def get_response(chat_id: str, user_message: str, image_bytes: bytes = None, ima
             stop_reason = data.get("stop_reason")
             content = data.get("content", [])
 
-            if stop_reason == "end_turn":
+            if stop_reason in ("end_turn", "max_tokens"):
                 # Extract text response
                 for block in content:
                     if block.get("type") == "text":
