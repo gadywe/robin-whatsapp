@@ -62,6 +62,53 @@ def init_db():
 
     CREATE INDEX IF NOT EXISTS idx_reminders_due ON reminders(remind_at) WHERE status = 'active';
     CREATE INDEX IF NOT EXISTS idx_reminders_chat ON reminders(chat_id, status);
+
+    -- ── המעיין (The Spring): memory bubbles ──────────────────────────────────
+    CREATE TABLE IF NOT EXISTS bubbles (
+        id SERIAL PRIMARY KEY,
+        chat_id TEXT NOT NULL,
+        text TEXT NOT NULL,
+        tags TEXT[] DEFAULT '{}',
+        category TEXT,
+        source TEXT DEFAULT 'text',
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_bubbles_chat ON bubbles(chat_id, created_at DESC);
+
+    -- ── הגשר (The Bridge): tasks + subtasks ──────────────────────────────────
+    CREATE TABLE IF NOT EXISTS tasks (
+        id SERIAL PRIMARY KEY,
+        chat_id TEXT NOT NULL,
+        title TEXT NOT NULL,
+        description TEXT,
+        status TEXT DEFAULT 'new',
+        priority TEXT DEFAULT 'med',
+        parent_task_id INTEGER REFERENCES tasks(id) ON DELETE CASCADE,
+        due_date DATE,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        completed_at TIMESTAMP WITH TIME ZONE
+    );
+    CREATE INDEX IF NOT EXISTS idx_tasks_chat_status ON tasks(chat_id, status);
+    CREATE INDEX IF NOT EXISTS idx_tasks_parent ON tasks(parent_task_id);
+
+    -- ── Lists (e.g. shopping lists from voice) ───────────────────────────────
+    CREATE TABLE IF NOT EXISTS lists (
+        id SERIAL PRIMARY KEY,
+        chat_id TEXT NOT NULL,
+        title TEXT NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_lists_chat ON lists(chat_id, created_at DESC);
+
+    CREATE TABLE IF NOT EXISTS list_items (
+        id SERIAL PRIMARY KEY,
+        list_id INTEGER NOT NULL REFERENCES lists(id) ON DELETE CASCADE,
+        text TEXT NOT NULL,
+        is_checked BOOLEAN DEFAULT FALSE,
+        position INTEGER DEFAULT 0,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_list_items_list ON list_items(list_id, position);
     """
 
     with get_connection() as conn:

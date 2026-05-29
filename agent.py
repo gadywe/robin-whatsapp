@@ -4,7 +4,11 @@ from datetime import datetime
 from config import ANTHROPIC_API_KEY, LLM_MODEL, MAX_HISTORY
 from db_postgres import get_history, save_message
 from calendar_tool import get_upcoming_events, create_event, delete_event
-from file_tool import create_docx_bytes, create_pdf_bytes, send_document_whatsapp, fetch_link_content
+from file_tool import create_docx_bytes, create_pdf_bytes, fetch_link_content
+from telegram_tool import tg_send_document, tg_send_buttons
+import bubbles as bubbles_db
+import tasks_neon
+import lists as lists_db
 from reminders import (
     create_reminder as db_create_reminder,
     get_reminders as db_get_reminders,
@@ -31,15 +35,24 @@ SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנ
 רובין שארמא (מאמן מנטלי):
 אתה שותף לעבודה הפנימית של גדי. אתה עוזר לו בתהליכי התפתחות אישית, בהטמעת הרגלים חדשים, בחשיבה מעמיקה על החיים. אתה שואל שאלות טובות, מעודד רפלקציה, ומחזיק מראה כשצריך. אתה לא שופט, אתה שותף.
 
+אתה בנוי משתי שכבות:
+- המעיין (הזיכרון) - כל רעיון, ציטוט, מחשבה או תובנה שגדי רוצה לשמור הופך ל"בועת זיכרון". אתה מתייג ומסווג אוטומטית, וכשגדי שואל אתה שולף את מה שרלוונטי.
+- הגשר (הפעולה) - תזכורות, משימות, רשימות, יומן. כאן הדברים קורים בפועל.
+
+ניתוב כוונות: גדי כותב לך בעברית חופשית בלי לציין מה זה. אתה מבין לבד אם זו תזכורת, אירוע ליומן, פריט לרשימה, בועת זיכרון, משימה - ופועל בהתאם. אם זה ממש לא ברור, שאל שאלה קצרה אחת.
+
 איך אתה מדבר:
 - עברית תמיד
 - כשמדובר במשימות יומיומיות - אתה חבר'מן, קליל, עם הומור
 - כשמדובר בעבודה פנימית - אתה רציני יותר, עמוק, אמפתי
 - אתה מכיר את גדי ולומד עליו כל הזמן. אתה זוכר מה הוא סיפר לך ומשתמש בזה
-- הודעות קצרות וממוקדות, כמו בוואטסאפ אמיתי. לא מאמרים ארוכים
+- הודעות קצרות וממוקדות, כמו בטלגרם אמיתי. לא מאמרים ארוכים
 
 כלים שיש לך:
-- תזכורות - המערכת שלך שולחת תזכורות WhatsApp אוטומטיות! כשגדי מבקש תזכורת, קרא מיד ל-create_reminder (ללא הסברים - פשוט תעשה את זה).
+- בועות זיכרון (המעיין) - כשגדי משתף רעיון/מחשבה/תובנה/ציטוט שכדאי לזכור, שמור ב-save_memory_bubble. כשהוא שואל "מה רשמתי על..." / "מה אמרתי בנושא..." חפש ב-search_memory_bubbles.
+- משימות (הגשר) - task_create למשימה חדשה (אפשר תת-משימה עם parent_task_id), task_list להצגה, task_update לעדכון סטטוס/עדיפות. סטטוסים: new/working/done. עדיפויות: low/med/high. זה לוח המשימות הפנימי של רובין (לא ה-Taskboard החיצוני).
+- רשימות - כשגדי מכתיב רשימת קניות/מטלות (במיוחד בהקלטה קולית), פרק לפריטים נפרדים וצור list_create_from_items. כל פריט יקבל כפתור סימון. list_show מציג רשימה קיימת.
+- תזכורות - המערכת שלך שולחת תזכורות טלגרם אוטומטיות! כשגדי מבקש תזכורת, קרא מיד ל-create_reminder (ללא הסברים - פשוט תעשה את זה).
   - IMPORTANT: אתה יכול לשלוח תזכורות עתידיות - זו יכולת אמיתית שלך. אל תגיד שאתה לא יכול.
   - remind_at חייב להיות ISO 8601 עם timezone ישראל: +03:00 או +02:00 לפי עונה
   - כשמבקשים תזכורת חוזרת, השתמש ב-is_recurring=true וב-recurrence_rule:
@@ -136,16 +149,15 @@ TOOLS = [
     },
     {
         "name": "create_document",
-        "description": "יוצר קובץ Word או PDF ושולח אותו לגדי בוואטסאפ. השתמש כשגדי מבקש ליצור מסמך, דוח, סיכום, רשימה וכו'.",
+        "description": "יוצר קובץ Word או PDF ושולח אותו לגדי בטלגרם. השתמש כשגדי מבקש ליצור מסמך, דוח, סיכום, רשימה וכו'.",
         "input_schema": {
             "type": "object",
             "properties": {
                 "title": {"type": "string", "description": "כותרת המסמך"},
                 "content": {"type": "string", "description": "תוכן המסמך (טקסט, שורות חדשות מפרידות בין פסקאות)"},
-                "format": {"type": "string", "enum": ["docx", "pdf"], "description": "פורמט הקובץ: docx לWord, pdf ל-PDF"},
-                "to": {"type": "string", "description": "מספר הטלפון לשליחה (בפורמט בינלאומי, למשל 972501234567)"}
+                "format": {"type": "string", "enum": ["docx", "pdf"], "description": "פורמט הקובץ: docx לWord, pdf ל-PDF"}
             },
-            "required": ["title", "content", "format", "to"]
+            "required": ["title", "content", "format"]
         }
     },
     {
@@ -424,6 +436,96 @@ TOOLS = [
             },
             "required": ["reminder_id", "new_remind_at"]
         }
+    },
+    {
+        "name": "save_memory_bubble",
+        "description": "שומר בועת זיכרון במעיין - רעיון, מחשבה, תובנה, ציטוט או כל דבר שגדי רוצה לזכור. תייג ותסווג אוטומטית. השתמש כשגדי משתף משהו שכדאי לשמור לטווח ארוך.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "text": {"type": "string", "description": "תוכן הבועה - מה לזכור"},
+                "tags": {"type": "array", "items": {"type": "string"}, "description": "תגיות רלוונטיות (אופציונלי, למשל: רעיון, עבודה, משפחה)"},
+                "category": {"type": "string", "description": "קטגוריה אחת (אופציונלי, למשל: רעיון/תובנה/ציטוט/החלטה)"}
+            },
+            "required": ["text"]
+        }
+    },
+    {
+        "name": "search_memory_bubbles",
+        "description": "מחפש בבועות הזיכרון של גדי (המעיין). השתמש כשגדי שואל מה רשם/אמר/חשב על נושא מסוים, או מבקש לשלוף זיכרון. בלי query - מחזיר את הבועות האחרונות.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "טקסט חופשי לחיפוש (אופציונלי)"}
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "task_create",
+        "description": "יוצר משימה חדשה בלוח המשימות הפנימי של רובין. אפשר תת-משימה ע\"י parent_task_id.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "title": {"type": "string", "description": "כותרת המשימה"},
+                "description": {"type": "string", "description": "פרטים נוספים (אופציונלי)"},
+                "priority": {"type": "string", "enum": ["low", "med", "high"], "description": "עדיפות (ברירת מחדל: med)"},
+                "due_date": {"type": "string", "description": "תאריך יעד YYYY-MM-DD (אופציונלי)"},
+                "parent_task_id": {"type": "integer", "description": "ID של משימת-אב אם זו תת-משימה (אופציונלי)"}
+            },
+            "required": ["title"]
+        }
+    },
+    {
+        "name": "task_list",
+        "description": "מציג את המשימות של גדי מהלוח הפנימי. אפשר לסנן לפי סטטוס או עדיפות.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "status": {"type": "string", "enum": ["new", "working", "done"], "description": "סינון לפי סטטוס (אופציונלי)"},
+                "priority": {"type": "string", "enum": ["low", "med", "high"], "description": "סינון לפי עדיפות (אופציונלי)"}
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "task_update",
+        "description": "מעדכן משימה קיימת - סטטוס, עדיפות, כותרת, תיאור או תאריך יעד. לסימון כבוצע: status=done.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "task_id": {"type": "integer", "description": "ID המשימה"},
+                "title": {"type": "string"},
+                "description": {"type": "string"},
+                "status": {"type": "string", "enum": ["new", "working", "done"]},
+                "priority": {"type": "string", "enum": ["low", "med", "high"]},
+                "due_date": {"type": "string", "description": "YYYY-MM-DD"}
+            },
+            "required": ["task_id"]
+        }
+    },
+    {
+        "name": "list_create_from_items",
+        "description": "יוצר רשימה ניתנת-לסימון (כמו רשימת קניות) מתוך פריטים. כל פריט מקבל כפתור סימון בטלגרם. השתמש כשגדי מכתיב רשימה, במיוחד מהקלטה קולית - פרק אותה לפריטים נפרדים.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "title": {"type": "string", "description": "כותרת הרשימה (למשל: קניות, מטלות לסופ\"ש)"},
+                "items": {"type": "array", "items": {"type": "string"}, "description": "הפריטים, כל אחד בנפרד"}
+            },
+            "required": ["title", "items"]
+        }
+    },
+    {
+        "name": "list_show",
+        "description": "מציג רשימה קיימת עם כפתורי סימון. בלי list_id - מציג את הרשימות האחרונות.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "list_id": {"type": "integer", "description": "ID הרשימה (אופציונלי)"}
+            },
+            "required": []
+        }
     }
 ]
 
@@ -467,16 +569,14 @@ def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
             fmt = tool_input.get("format", "docx")
             title = tool_input.get("title", "מסמך")
             content = tool_input.get("content", "")
-            to = tool_input.get("to", "")
+            to = tool_input.get("to") or chat_id
             if fmt == "docx":
                 file_bytes = create_docx_bytes(content, title=title)
-                mime = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 filename = f"{title}.docx"
             else:
                 file_bytes = create_pdf_bytes(content, title=title)
-                mime = "application/pdf"
                 filename = f"{title}.pdf"
-            send_document_whatsapp(to, file_bytes, mime, filename, caption=title)
+            tg_send_document(to, file_bytes, filename, caption=title)
             return f"קובץ '{filename}' נשלח בהצלחה"
 
         elif tool_name == "finance_get_expenses":
@@ -713,6 +813,104 @@ def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
             if result:
                 return f"תזכורת #{result['id']} נדחתה ל-{result['remind_at']}"
             return "תזכורת לא נמצאה"
+
+        elif tool_name == "save_memory_bubble":
+            b = bubbles_db.create_bubble(
+                chat_id=chat_id,
+                text=tool_input["text"],
+                tags=tool_input.get("tags"),
+                category=tool_input.get("category"),
+            )
+            tags_str = f" [{', '.join(b['tags'])}]" if b.get("tags") else ""
+            return f"נשמרה בועת זיכרון (#{b['id']}){tags_str} 💭"
+
+        elif tool_name == "search_memory_bubbles":
+            found = bubbles_db.get_bubbles(chat_id, query=tool_input.get("query"))
+            if not found:
+                return "לא נמצאו בועות זיכרון"
+            lines = []
+            for b in found:
+                cat = f"[{b['category']}] " if b.get("category") else ""
+                date = b["created_at"][:10]
+                lines.append(f"💭 #{b['id']} ({date}) {cat}{b['text']}")
+            return "\n".join(lines)
+
+        elif tool_name == "task_create":
+            t = tasks_neon.create_task(
+                chat_id=chat_id,
+                title=tool_input["title"],
+                description=tool_input.get("description"),
+                priority=tool_input.get("priority", "med"),
+                due_date=tool_input.get("due_date"),
+                parent_task_id=tool_input.get("parent_task_id"),
+            )
+            kind = "תת-משימה" if t.get("parent_task_id") else "משימה"
+            return f"{kind} נוצרה ✅ #{t['id']}: \"{t['title']}\" (עדיפות: {t['priority']})"
+
+        elif tool_name == "task_list":
+            tasks = tasks_neon.get_tasks(
+                chat_id,
+                status=tool_input.get("status"),
+                priority=tool_input.get("priority"),
+            )
+            if not tasks:
+                return "אין משימות"
+            status_icon = {"new": "⬜", "working": "🔄", "done": "✅"}
+            prio_icon = {"high": "🔴", "med": "🟡", "low": "⚪"}
+            by_id = {t["id"]: t for t in tasks}
+            lines = []
+            for t in tasks:
+                if t.get("parent_task_id"):
+                    continue
+                icon = status_icon.get(t["status"], "⬜")
+                p = prio_icon.get(t["priority"], "")
+                due = f" 📅{t['due_date']}" if t.get("due_date") else ""
+                lines.append(f"{icon}{p} #{t['id']} {t['title']}{due}")
+                for sub in tasks:
+                    if sub.get("parent_task_id") == t["id"]:
+                        sicon = status_icon.get(sub["status"], "⬜")
+                        lines.append(f"   ↳ {sicon} #{sub['id']} {sub['title']}")
+            return "\n".join(lines)
+
+        elif tool_name == "task_update":
+            t = tasks_neon.update_task(
+                task_id=tool_input["task_id"],
+                title=tool_input.get("title"),
+                description=tool_input.get("description"),
+                status=tool_input.get("status"),
+                priority=tool_input.get("priority"),
+                due_date=tool_input.get("due_date"),
+            )
+            if not t:
+                return "משימה לא נמצאה"
+            return f"משימה עודכנה ✅ #{t['id']}: \"{t['title']}\" סטטוס: {t['status']}"
+
+        elif tool_name == "list_create_from_items":
+            lst = lists_db.create_list(
+                chat_id=chat_id,
+                title=tool_input["title"],
+                items=tool_input.get("items", []),
+            )
+            text, buttons = lists_db.render_list(lst)
+            tg_send_buttons(chat_id, text, buttons)
+            return f"רשימה '{lst['title']}' נוצרה עם {len(lst['items'])} פריטים ונשלחה"
+
+        elif tool_name == "list_show":
+            list_id = tool_input.get("list_id")
+            if list_id:
+                lst = lists_db.get_list(list_id)
+                if not lst:
+                    return "הרשימה לא נמצאה"
+                text, buttons = lists_db.render_list(lst)
+                tg_send_buttons(chat_id, text, buttons)
+                return "הרשימה נשלחה"
+            recent = lists_db.get_lists(chat_id)
+            if not recent:
+                return "אין רשימות"
+            for lst in recent:
+                text, buttons = lists_db.render_list(lst)
+                tg_send_buttons(chat_id, text, buttons)
+            return f"נשלחו {len(recent)} רשימות"
 
         else:
             return f"כלי לא מוכר: {tool_name}"

@@ -1,9 +1,9 @@
-import time
-import httpx
 import uvicorn
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
-from config import META_ACCESS_TOKEN, META_PHONE_NUMBER_ID, META_WEBHOOK_VERIFY_TOKEN, CRON_SECRET, GADI_PHONE
+from config import (
+    TELEGRAM_SECRET_TOKEN, CRON_SECRET, GADI_TELEGRAM_CHAT_ID,
+)
 from db_postgres import init_db, is_message_processed, mark_message_processed
 from agent import get_response
 from transcribe import transcribe_audio_bytes
@@ -13,10 +13,11 @@ from weather_tool import get_jerusalem_weather, get_clothing_advice
 from quotes_tool import get_random_quote
 from gmail_tool import gmail_search, gmail_read
 from reading_plan_tool import get_today_reading
-
-MAX_MESSAGE_AGE_SECONDS = 300  # התעלם מהודעות ישנות מ-5 דקות (מונע retry storms)
-
-META_API_URL = "https://graph.facebook.com/v19.0"
+from telegram_tool import (
+    tg_send_message, tg_send_buttons, tg_answer_callback, tg_edit_buttons,
+    tg_download_file, tg_set_webhook, parse_update,
+)
+import lists as lists_db
 
 
 @asynccontextmanager
@@ -28,186 +29,149 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-def send_whatsapp_message(to: str, text: str):
-    url = f"{META_API_URL}/{META_PHONE_NUMBER_ID}/messages"
-    headers = {
-        "Authorization": f"Bearer {META_ACCESS_TOKEN}",
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": to,
-        "type": "text",
-        "text": {"body": text},
-    }
-    resp = httpx.post(url, json=payload, headers=headers, timeout=30)
-    if not resp.is_success:
-        print(f"ERROR send_whatsapp_message {resp.status_code}: {resp.text}")
-    resp.raise_for_status()
-    return resp.json()
+# ── Telegram webhook ───────────────────────────────────────────────────────────
 
+@app.post("/webhook/telegram")
+async def telegram_webhook(request: Request):
+    # Verify the secret token Telegram echoes back on every update.
+    if request.headers.get("X-Telegram-Bot-Api-Secret-Token") != TELEGRAM_SECRET_TOKEN:
+        return Response(content="Forbidden", status_code=403)
 
-def send_whatsapp_interactive(to: str, body_text: str, buttons: list[dict]):
-    """Send interactive reply button message via WhatsApp.
-    buttons: [{"id": "action_id", "title": "Button Text"}, ...]
-    """
-    url = f"{META_API_URL}/{META_PHONE_NUMBER_ID}/messages"
-    headers = {
-        "Authorization": f"Bearer {META_ACCESS_TOKEN}",
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": to,
-        "type": "interactive",
-        "interactive": {
-            "type": "button",
-            "body": {"text": body_text},
-            "action": {
-                "buttons": [
-                    {"type": "reply", "reply": {"id": b["id"], "title": b["title"]}}
-                    for b in buttons
-                ]
-            }
-        }
-    }
-    resp = httpx.post(url, json=payload, headers=headers, timeout=30)
-    if not resp.is_success:
-        print(f"ERROR send_whatsapp_interactive {resp.status_code}: {resp.text}")
-    resp.raise_for_status()
-    return resp.json()
+    update = await request.json()
+    u = parse_update(update)
 
+    # Idempotency on update_id (Telegram resends until it gets a 200).
+    update_id = u.get("update_id")
+    if update_id is not None:
+        uid = f"tg_{update_id}"
+        if is_message_processed(uid):
+            return {"status": "duplicate"}
+        mark_message_processed(uid)
 
-def download_meta_media(media_id: str) -> bytes:
-    headers = {"Authorization": f"Bearer {META_ACCESS_TOKEN}"}
-    # Step 1: get the media URL
-    resp = httpx.get(f"{META_API_URL}/{media_id}", headers=headers, timeout=30)
-    resp.raise_for_status()
-    media_url = resp.json().get("url", "")
-    # Step 2: download the file
-    resp2 = httpx.get(media_url, headers=headers, timeout=60)
-    resp2.raise_for_status()
-    return resp2.content
-
-
-@app.get("/webhook/meta")
-async def webhook_verify(request: Request):
-    """Meta webhook verification handshake"""
-    params = request.query_params
-    mode = params.get("hub.mode")
-    token = params.get("hub.verify_token")
-    challenge = params.get("hub.challenge")
-    if mode == "subscribe" and token == META_WEBHOOK_VERIFY_TOKEN:
-        return Response(content=challenge, media_type="text/plain")
-    return Response(content="Forbidden", status_code=403)
-
-
-@app.post("/webhook/meta")
-async def webhook(request: Request):
-    data = await request.json()
-
-    if data.get("object") != "whatsapp_business_account":
+    chat_id = u.get("chat_id")
+    if not chat_id:
         return {"status": "ignored"}
 
-    for entry in data.get("entry", []):
-        for change in entry.get("changes", []):
-            if change.get("field") != "messages":
-                continue
-            value = change.get("value", {})
-            for message in value.get("messages", []):
-                message_id = message.get("id", "")
-
-                # התעלם מהודעות ישנות (Meta retries אחרי restart)
-                msg_ts = int(message.get("timestamp", 0))
-                if msg_ts and (time.time() - msg_ts) > MAX_MESSAGE_AGE_SECONDS:
-                    print(f"SKIP old message {message_id} age={(time.time()-msg_ts):.0f}s")
-                    continue
-
-                if is_message_processed(message_id):
-                    continue
-                mark_message_processed(message_id)
-
-                from_number = message.get("from", "")
-                msg_type = message.get("type", "")
-
-                if msg_type == "text":
-                    text = message.get("text", {}).get("body", "")
-                elif msg_type == "audio":
-                    audio_obj = message.get("audio", {})
-                    audio_id = audio_obj.get("id", "")
-                    audio_mime = audio_obj.get("mime_type", "audio/ogg")
-                    try:
-                        audio_bytes = download_meta_media(audio_id)
-                        text = transcribe_audio_bytes(audio_bytes, mime_type=audio_mime)
-                        if not text:
-                            send_whatsapp_message(from_number, "לא הצלחתי לתמלל את ההודעה הקולית 🎤")
-                            continue
-                        text = f"[הודעה קולית שתומללה]: {text}"
-                    except Exception as e:
-                        print(f"ERROR voice transcription: {e}")
-                        send_whatsapp_message(from_number, "אירעה שגיאה בתמלול ההודעה הקולית 😕")
-                        continue
-                elif msg_type == "image":
-                    image_obj = message.get("image", {})
-                    image_id = image_obj.get("id", "")
-                    image_mime = image_obj.get("mime_type", "image/jpeg")
-                    caption = image_obj.get("caption", "")
-                    try:
-                        image_bytes = download_meta_media(image_id)
-                        response_text = get_response(from_number, caption or "[המשתמש שלח תמונה]", image_bytes=image_bytes, image_mime=image_mime)
-                        send_whatsapp_message(from_number, response_text)
-                        continue
-                    except Exception as e:
-                        print(f"ERROR image processing: {e}")
-                        send_whatsapp_message(from_number, "לא הצלחתי לראות את התמונה 😕")
-                        continue
-                elif msg_type == "document":
-                    doc = message.get("document", {})
-                    doc_id = doc.get("id", "")
-                    mime_type = doc.get("mime_type", "")
-                    filename = doc.get("filename", "")
-                    try:
-                        file_bytes = download_meta_media(doc_id)
-                        file_content = process_file_by_mime(file_bytes, mime_type, filename)
-                        text = f"[קובץ שנשלח: {filename}]\n{file_content}"
-                    except Exception as e:
-                        import traceback
-                        error_msg = f"{type(e).__name__}: {str(e)}"
-                        print(f"ERROR document processing: {error_msg}")
-                        traceback.print_exc()
-                        send_whatsapp_message(from_number, f"לא הצלחתי לקרוא את הקובץ {filename} (שגיאה: {type(e).__name__}) 😕")
-                        continue
-                elif msg_type == "interactive":
-                    interactive = message.get("interactive", {})
-                    if interactive.get("type") == "button_reply":
-                        button_id = interactive["button_reply"]["id"]
-                        parts = button_id.split("_")
-                        if len(parts) >= 3 and parts[0] == "reminder":
-                            action = parts[1]
-                            reminder_id = int(parts[2])
-                            if action == "delete":
-                                delete_reminder(reminder_id)
-                                send_whatsapp_message(from_number, "התזכורת נמחקה ✓")
-                                continue
-                            elif action == "snooze":
-                                text = f"[המשתמש לחץ על 'הזכר שוב' לתזכורת מספר {reminder_id}]. שאל אותו בעוד כמה זמן להזכיר."
-                            else:
-                                continue
-                        else:
-                            continue
-                    else:
-                        continue
-                else:
-                    continue
-
-                if not text.strip():
-                    continue
-
-                response_text = get_response(from_number, text)
-                send_whatsapp_message(from_number, response_text)
+    try:
+        handle_update(u, chat_id)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f"ERROR handle_update: {e}")
 
     return {"status": "ok"}
 
+
+def handle_update(u: dict, chat_id: str):
+    kind = u["kind"]
+
+    if kind == "callback":
+        handle_callback(u, chat_id)
+        return
+
+    text = ""
+
+    if kind == "text":
+        text = u["text"]
+        # Deep-link / start handling reserved for Phase 3 (sharing).
+        if text.startswith("/start"):
+            tg_send_message(chat_id, "היי, אני רובין 🤖 כתוב לי כל דבר - תזכורת, משימה, רעיון לזכור, או מה ביומן.")
+            return
+
+    elif kind == "voice":
+        try:
+            audio_bytes = tg_download_file(u["file_id"])
+            transcript = transcribe_audio_bytes(audio_bytes, mime_type=u.get("mime", "audio/ogg"))
+            if not transcript:
+                tg_send_message(chat_id, "לא הצלחתי לתמלל את ההודעה הקולית 🎤")
+                return
+            text = f"[הודעה קולית שתומללה]: {transcript}"
+        except Exception as e:
+            print(f"ERROR voice: {e}")
+            tg_send_message(chat_id, "אירעה שגיאה בתמלול ההודעה הקולית 😕")
+            return
+
+    elif kind == "photo":
+        try:
+            image_bytes = tg_download_file(u["file_id"])
+            response_text = get_response(
+                chat_id, u.get("caption") or "[המשתמש שלח תמונה]",
+                image_bytes=image_bytes, image_mime="image/jpeg",
+            )
+            tg_send_message(chat_id, response_text)
+        except Exception as e:
+            print(f"ERROR image: {e}")
+            tg_send_message(chat_id, "לא הצלחתי לראות את התמונה 😕")
+        return
+
+    elif kind == "document":
+        try:
+            file_bytes = tg_download_file(u["file_id"])
+            file_content = process_file_by_mime(file_bytes, u.get("mime", ""), u.get("filename", ""))
+            caption = u.get("caption", "")
+            text = f"[קובץ שנשלח: {u.get('filename','')}]\n{file_content}"
+            if caption:
+                text = f"{caption}\n{text}"
+        except Exception as e:
+            print(f"ERROR document: {e}")
+            tg_send_message(chat_id, f"לא הצלחתי לקרוא את הקובץ (שגיאה: {type(e).__name__}) 😕")
+            return
+
+    else:
+        return
+
+    if not text.strip():
+        return
+
+    response_text = get_response(chat_id, text)
+    tg_send_message(chat_id, response_text)
+
+
+def handle_callback(u: dict, chat_id: str):
+    """Inline button presses. callback_data convention: action_param_id."""
+    data = u.get("callback_data", "") or ""
+    tg_answer_callback(u.get("callback_id", ""))
+    parts = data.split("_")
+
+    # reminder_delete_<id> / reminder_snooze_<id>
+    if parts[0] == "reminder" and len(parts) >= 3:
+        action, rid = parts[1], int(parts[2])
+        if action == "delete":
+            delete_reminder(rid)
+            tg_send_message(chat_id, "התזכורת נמחקה ✓")
+        elif action == "snooze":
+            text = f"[המשתמש לחץ על 'הזכר שוב' לתזכורת מספר {rid}]. שאל אותו בעוד כמה זמן להזכיר."
+            tg_send_message(chat_id, get_response(chat_id, text))
+        return
+
+    # list_check_<itemId> / list_uncheck_<itemId>  → toggle + re-render in place
+    if parts[0] == "list" and len(parts) >= 3:
+        action, item_id = parts[1], int(parts[2])
+        list_id = lists_db.check_item(item_id) if action == "check" else lists_db.uncheck_item(item_id)
+        if list_id:
+            lst = lists_db.get_list(list_id)
+            text, buttons = lists_db.render_list(lst)
+            if u.get("message_id"):
+                try:
+                    tg_edit_buttons(chat_id, u["message_id"], text, buttons)
+                    return
+                except Exception:
+                    pass
+            tg_send_buttons(chat_id, text, buttons)
+        return
+
+
+@app.api_route("/admin/set-webhook", methods=["GET", "POST"])
+async def set_webhook(token: str = "", url: str = ""):
+    """One-time webhook registration. Call with ?token=<CRON_SECRET>&url=<public_url>/webhook/telegram"""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    if not url:
+        return {"error": "missing url param"}
+    return tg_set_webhook(url)
+
+
+# ── Cron: reminders ──────────────────────────────────────────────────────────
 
 @app.get("/check-reminders")
 async def check_reminders(token: str = ""):
@@ -221,16 +185,15 @@ async def check_reminders(token: str = ""):
         try:
             body = f"⏰ תזכורת:\n{reminder['text']}"
             buttons = [
-                {"id": f"reminder_delete_{reminder['id']}", "title": "מחק"},
-                {"id": f"reminder_snooze_{reminder['id']}", "title": "הזכר שוב"},
+                {"text": "מחק", "data": f"reminder_delete_{reminder['id']}"},
+                {"text": "הזכר שוב", "data": f"reminder_snooze_{reminder['id']}"},
             ]
-            send_whatsapp_interactive(reminder['chat_id'], body, buttons)
+            tg_send_buttons(reminder['chat_id'], body, buttons)
 
             if reminder['is_recurring']:
                 advance_recurring_reminder(reminder['id'])
             else:
                 mark_reminder_sent(reminder['id'])
-
             sent_count += 1
         except Exception as e:
             print(f"ERROR sending reminder {reminder['id']}: {e}")
@@ -238,6 +201,8 @@ async def check_reminders(token: str = ""):
 
     return {"sent": sent_count}
 
+
+# ── Cron: morning briefing ───────────────────────────────────────────────────
 
 @app.get("/morning-briefing")
 async def morning_briefing(token: str = ""):
@@ -272,7 +237,6 @@ async def morning_briefing(token: str = ""):
             emails = gmail_search(query='from:(therundown.ai) newer_than:1d', max_results=1)
             if emails:
                 email = gmail_read(emails[0]["id"])
-                # Truncate body for Claude
                 body = email["body"][:2000] if email["body"] else ""
                 rundown_text = body
         except Exception as e:
@@ -301,7 +265,7 @@ async def morning_briefing(token: str = ""):
 {rundown_text if rundown_text else '(no email available today)'}
 {reading_section}
 Guidelines:
-- Short and flowing, like a real WhatsApp message
+- Short and flowing, like a real Telegram message
 - Casual — friendly, warm, energetic
 - Order: greeting → weather → quote → AI summary{' → reading assignment' if reading_today else ''}
 - Use emojis in moderation
@@ -321,11 +285,9 @@ Guidelines:
         resp.raise_for_status()
         message = resp.json()["content"][0]["text"]
 
-        # 5. Send via WhatsApp
-        message = message[:4000]
         print(f"Morning briefing message ({len(message)} chars): {message[:200]}")
-        send_whatsapp_message(GADI_PHONE, message)
-        print(f"Morning briefing sent to {GADI_PHONE}")
+        tg_send_message(GADI_TELEGRAM_CHAT_ID, message)
+        print(f"Morning briefing sent to {GADI_TELEGRAM_CHAT_ID}")
         return {"status": "sent", "length": len(message)}
 
     except Exception as e:
@@ -337,7 +299,7 @@ Guidelines:
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "agent": "robin", "version": "reminders-v2", "build": "apr12-fix"}
+    return {"status": "ok", "agent": "robin", "channel": "telegram", "version": "phase1"}
 
 
 if __name__ == "__main__":

@@ -8,10 +8,15 @@ GREEN_API_URL = os.getenv("GREEN_API_URL")
 GREEN_API_INSTANCE = os.getenv("GREEN_API_INSTANCE")
 GREEN_API_TOKEN = os.getenv("GREEN_API_TOKEN")
 
-# Meta WhatsApp Cloud API
+# Meta WhatsApp Cloud API (legacy — kept one release for rollback)
 META_ACCESS_TOKEN = os.getenv("META_ACCESS_TOKEN")
 META_PHONE_NUMBER_ID = os.getenv("META_PHONE_NUMBER_ID")
 META_WEBHOOK_VERIFY_TOKEN = os.getenv("META_WEBHOOK_VERIFY_TOKEN", "robin_webhook_2026")
+
+# Telegram Bot API (primary channel)
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_SECRET_TOKEN = os.getenv("TELEGRAM_SECRET_TOKEN", "robin_tg_secret_2026")
+GADI_TELEGRAM_CHAT_ID = os.getenv("GADI_TELEGRAM_CHAT_ID")
 
 # Anthropic
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")

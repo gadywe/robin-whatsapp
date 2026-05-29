@@ -1,15 +1,31 @@
 services:
   - type: web
-    name: robin-whatsapp-agent
+    name: robin-telegram-agent
     runtime: python
     buildCommand: apt-get install -y ffmpeg && pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
-      - key: GREEN_API_URL
+      - key: TELEGRAM_BOT_TOKEN
         sync: false
-      - key: GREEN_API_INSTANCE
+      - key: TELEGRAM_SECRET_TOKEN
         sync: false
-      - key: GREEN_API_TOKEN
+      - key: GADI_TELEGRAM_CHAT_ID
         sync: false
       - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: CRON_SECRET
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REFRESH_TOKEN
+        sync: false
+      - key: TASKBOARD_SUPABASE_URL
+        sync: false
+      - key: TASKBOARD_SUPABASE_KEY
         sync: false
