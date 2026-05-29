@@ -14,8 +14,8 @@ if not DATABASE_URL:
 
 @contextmanager
 def get_connection():
-    """Get a PostgreSQL connection."""
-    conn = psycopg.connect(DATABASE_URL)
+    """Get a PostgreSQL connection. connect_timeout bounds Neon cold-start waits."""
+    conn = psycopg.connect(DATABASE_URL, connect_timeout=15)
     try:
         yield conn
         conn.commit()
@@ -26,8 +26,27 @@ def get_connection():
         conn.close()
 
 
-def init_db():
-    """Initialize database schema."""
+def init_db(retries: int = 6, delay: float = 5.0):
+    """Initialize database schema. Retries to wake a Neon compute that has been
+    scaled to zero after inactivity (the first connect can fail/time out)."""
+    last_err = None
+    for attempt in range(1, retries + 1):
+        try:
+            _init_db_once()
+            print(f"init_db OK (attempt {attempt})")
+            return
+        except Exception as e:
+            last_err = e
+            print(f"init_db attempt {attempt}/{retries} failed: {type(e).__name__}: {str(e)[:200]}")
+            if attempt < retries:
+                time.sleep(delay)
+    # Don't crash startup on a transient DB issue — log and let the app boot so
+    # /health and the webhook stay reachable; queries will retry on next request.
+    print(f"init_db gave up after {retries} attempts; continuing without verified schema. Last: {last_err}")
+
+
+def _init_db_once():
+    """Initialize database schema (single attempt)."""
     sql = """
     CREATE TABLE IF NOT EXISTS messages (
         id SERIAL PRIMARY KEY,
