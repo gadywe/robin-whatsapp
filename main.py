@@ -189,8 +189,8 @@ async def calendar_check(token: str = ""):
     try:
         from calendar_tool import get_upcoming_events
         events = get_upcoming_events(days=10)
-        return {"ok": True, "count": len(events),
-                "events": [{"start": e["start"], "summary": e["summary"]} for e in events[:25]]}
+        return {"ok": True, "count": len(events), "v": "with-end",
+                "events": [{"start": e["start"], "end": e.get("end"), "summary": e["summary"]} for e in events[:25]]}
     except Exception as e:
         return {"ok": False, "error": f"{type(e).__name__}: {str(e)[:300]}"}
 
