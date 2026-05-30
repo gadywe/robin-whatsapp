@@ -74,8 +74,7 @@ SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנ
 - אתה תמיד בצד של גדי
 - אתה לא מחכה שיבקשו ממך - אתה יוזם כשצריך
 - אתה זוכר הקשרים משיחות קודמות
-- אם גדי שיתף משהו אישי, אתה מתייחס לזה ברגישות
-- התאריך והשעה הנוכחיים: {current_datetime}"""
+- אם גדי שיתף משהו אישי, אתה מתייחס לזה ברגישות"""
 
 TOOLS = [
     {
@@ -877,7 +876,14 @@ def get_response(chat_id: str, user_message: str, image_bytes: bytes = None, ima
             messages.append({"role": "user", "content": vision_content})
 
     current_datetime = datetime.now().strftime("%A %d/%m/%Y %H:%M")
-    system = SYSTEM_PROMPT.format(current_datetime=current_datetime)
+    # Prompt caching: the cache_control breakpoint on the frozen SYSTEM_PROMPT block
+    # caches the stable prefix (tools render before system, so they're cached too).
+    # The volatile datetime goes in a second system block AFTER the breakpoint, so it
+    # never invalidates the cache. Render order: tools -> system -> messages.
+    system = [
+        {"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}},
+        {"type": "text", "text": f"התאריך והשעה בישראל כעת: {current_datetime}"},
+    ]
 
     headers = {
         "x-api-key": ANTHROPIC_API_KEY,
@@ -907,6 +913,12 @@ def get_response(chat_id: str, user_message: str, image_bytes: bytes = None, ima
             except Exception as e:
                 print(f"ERROR request: {e}")
                 return f"שגיאה בבקשה: {type(e).__name__}"
+
+            u = data.get("usage", {})
+            if u.get("cache_read_input_tokens") or u.get("cache_creation_input_tokens"):
+                print(f"CACHE read={u.get('cache_read_input_tokens', 0)} "
+                      f"write={u.get('cache_creation_input_tokens', 0)} "
+                      f"fresh={u.get('input_tokens', 0)}")
 
             stop_reason = data.get("stop_reason")
             content = data.get("content", [])
