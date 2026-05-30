@@ -7,7 +7,6 @@ from calendar_tool import get_upcoming_events, create_event, delete_event
 from file_tool import create_docx_bytes, create_pdf_bytes, fetch_link_content
 from telegram_tool import tg_send_document, tg_send_buttons
 import bubbles as bubbles_db
-import tasks_neon
 import lists as lists_db
 from reminders import (
     create_reminder as db_create_reminder,
@@ -50,7 +49,7 @@ SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנ
 
 כלים שיש לך:
 - בועות זיכרון (המעיין) - כשגדי משתף רעיון/מחשבה/תובנה/ציטוט שכדאי לזכור, שמור ב-save_memory_bubble. כשהוא שואל "מה רשמתי על..." / "מה אמרתי בנושא..." חפש ב-search_memory_bubbles.
-- משימות (הגשר) - task_create למשימה חדשה (אפשר תת-משימה עם parent_task_id), task_list להצגה, task_update לעדכון סטטוס/עדיפות. סטטוסים: new/working/done. עדיפויות: low/med/high. זה לוח המשימות הפנימי של רובין (לא ה-Taskboard החיצוני).
+- משימות (TaskBoard העסקי) - כל המשימות של גדי מנוהלות ב-TaskBoard של העסק (מוח אש). כשגדי מבקש להוסיף/לעדכן/לסמן/למחוק משימה, השתמש בכלי ה-taskboard (taskboard_add_task, taskboard_update_task, taskboard_get_tasks, taskboard_delete_task). הפרויקטים הם: תוכן, פיתוח, למידה, פרילנס, תה אפור. אם לא ברור לאיזה פרויקט המשימה שייכת - קרא ל-taskboard_get_projects כדי לקבל את ה-project_id הנכון. אם גדי לא ציין תאריך יעד, השתמש בתאריך של היום.
 - רשימות - כשגדי מכתיב רשימת קניות/מטלות (במיוחד בהקלטה קולית), פרק לפריטים נפרדים וצור list_create_from_items. כל פריט יקבל כפתור סימון. list_show מציג רשימה קיימת.
 - תזכורות - המערכת שלך שולחת תזכורות טלגרם אוטומטיות! כשגדי מבקש תזכורת, קרא מיד ל-create_reminder (ללא הסברים - פשוט תעשה את זה).
   - IMPORTANT: אתה יכול לשלוח תזכורות עתידיות - זו יכולת אמיתית שלך. אל תגיד שאתה לא יכול.
@@ -62,9 +61,8 @@ SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנ
   - כשגדי אומר "תזכורות", השתמש ב-list_reminders
 - יומן Google - לראות ולהוסיף אירועים
 - Gmail - לחפש ולקרוא מיילים (קריאה בלבד)
-- Taskboard - לראות משימות, להוסיף משימה, לסמן כבוצע, למחוק
 - Finance Tracker - לראות הוצאות והכנסות, להוסיף הוצאות/הכנסות חדשות
-- My Schedule - לראות ולתעד שעות עבודה, לעקוב אחרי הרגלים
+- My Schedule (לוז וזמן) - לראות ולתעד שעות עבודה, לעקוב אחרי הרגלים. כשגדי מספר כמה זמן עבד על משהו או רוצה לתעד זמן/הרגל - השתמש בכלי schedule.
 - יצירת מסמכים - Word ו-PDF
 - פתיחת לינקים וקריאת קבצים
 - ציטוט יומי - יש לך מאגר של 200 הוגי דעות, פילוסופים ומנהיגים עם ציטוטים. כשגדי מבקש ציטוט יומי / השראה / ציטוט אקראי - השתמש ב-get_random_quote (עם daily=true בשביל ציטוט קבוע ליום, או בלי בשביל אקראי לגמרי).
@@ -462,49 +460,6 @@ TOOLS = [
         }
     },
     {
-        "name": "task_create",
-        "description": "יוצר משימה חדשה בלוח המשימות הפנימי של רובין. אפשר תת-משימה ע\"י parent_task_id.",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "title": {"type": "string", "description": "כותרת המשימה"},
-                "description": {"type": "string", "description": "פרטים נוספים (אופציונלי)"},
-                "priority": {"type": "string", "enum": ["low", "med", "high"], "description": "עדיפות (ברירת מחדל: med)"},
-                "due_date": {"type": "string", "description": "תאריך יעד YYYY-MM-DD (אופציונלי)"},
-                "parent_task_id": {"type": "integer", "description": "ID של משימת-אב אם זו תת-משימה (אופציונלי)"}
-            },
-            "required": ["title"]
-        }
-    },
-    {
-        "name": "task_list",
-        "description": "מציג את המשימות של גדי מהלוח הפנימי. אפשר לסנן לפי סטטוס או עדיפות.",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "status": {"type": "string", "enum": ["new", "working", "done"], "description": "סינון לפי סטטוס (אופציונלי)"},
-                "priority": {"type": "string", "enum": ["low", "med", "high"], "description": "סינון לפי עדיפות (אופציונלי)"}
-            },
-            "required": []
-        }
-    },
-    {
-        "name": "task_update",
-        "description": "מעדכן משימה קיימת - סטטוס, עדיפות, כותרת, תיאור או תאריך יעד. לסימון כבוצע: status=done.",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "task_id": {"type": "integer", "description": "ID המשימה"},
-                "title": {"type": "string"},
-                "description": {"type": "string"},
-                "status": {"type": "string", "enum": ["new", "working", "done"]},
-                "priority": {"type": "string", "enum": ["low", "med", "high"]},
-                "due_date": {"type": "string", "description": "YYYY-MM-DD"}
-            },
-            "required": ["task_id"]
-        }
-    },
-    {
         "name": "list_create_from_items",
         "description": "יוצר רשימה ניתנת-לסימון (כמו רשימת קניות) מתוך פריטים. כל פריט מקבל כפתור סימון בטלגרם. השתמש כשגדי מכתיב רשימה, במיוחד מהקלטה קולית - פרק אותה לפריטים נפרדים.",
         "input_schema": {
@@ -834,56 +789,6 @@ def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
                 date = b["created_at"][:10]
                 lines.append(f"💭 #{b['id']} ({date}) {cat}{b['text']}")
             return "\n".join(lines)
-
-        elif tool_name == "task_create":
-            t = tasks_neon.create_task(
-                chat_id=chat_id,
-                title=tool_input["title"],
-                description=tool_input.get("description"),
-                priority=tool_input.get("priority", "med"),
-                due_date=tool_input.get("due_date"),
-                parent_task_id=tool_input.get("parent_task_id"),
-            )
-            kind = "תת-משימה" if t.get("parent_task_id") else "משימה"
-            return f"{kind} נוצרה ✅ #{t['id']}: \"{t['title']}\" (עדיפות: {t['priority']})"
-
-        elif tool_name == "task_list":
-            tasks = tasks_neon.get_tasks(
-                chat_id,
-                status=tool_input.get("status"),
-                priority=tool_input.get("priority"),
-            )
-            if not tasks:
-                return "אין משימות"
-            status_icon = {"new": "⬜", "working": "🔄", "done": "✅"}
-            prio_icon = {"high": "🔴", "med": "🟡", "low": "⚪"}
-            by_id = {t["id"]: t for t in tasks}
-            lines = []
-            for t in tasks:
-                if t.get("parent_task_id"):
-                    continue
-                icon = status_icon.get(t["status"], "⬜")
-                p = prio_icon.get(t["priority"], "")
-                due = f" 📅{t['due_date']}" if t.get("due_date") else ""
-                lines.append(f"{icon}{p} #{t['id']} {t['title']}{due}")
-                for sub in tasks:
-                    if sub.get("parent_task_id") == t["id"]:
-                        sicon = status_icon.get(sub["status"], "⬜")
-                        lines.append(f"   ↳ {sicon} #{sub['id']} {sub['title']}")
-            return "\n".join(lines)
-
-        elif tool_name == "task_update":
-            t = tasks_neon.update_task(
-                task_id=tool_input["task_id"],
-                title=tool_input.get("title"),
-                description=tool_input.get("description"),
-                status=tool_input.get("status"),
-                priority=tool_input.get("priority"),
-                due_date=tool_input.get("due_date"),
-            )
-            if not t:
-                return "משימה לא נמצאה"
-            return f"משימה עודכנה ✅ #{t['id']}: \"{t['title']}\" סטטוס: {t['status']}"
 
         elif tool_name == "list_create_from_items":
             lst = lists_db.create_list(
