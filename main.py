@@ -173,6 +173,14 @@ async def set_webhook(token: str = "", url: str = ""):
     return tg_set_webhook(url)
 
 
+@app.get("/admin/bubbles/recent")
+async def bubbles_recent(token: str = "", limit: int = 15):
+    """Diagnostic: most recent bubbles across all sources."""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    return {"items": bubbles_db.get_recent(limit)}
+
+
 @app.get("/admin/learning/pending")
 async def learning_pending(token: str = ""):
     """Return learning insights captured via Telegram that aren't yet filed into

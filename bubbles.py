@@ -68,6 +68,17 @@ def update_bubble(bubble_id: int, text: str = None, tags: list[str] = None,
             return _row_to_dict(row) if row else {}
 
 
+def get_recent(limit: int = 15) -> list[dict]:
+    """Most recent bubbles across all sources (diagnostic)."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT id, chat_id, text, tags, category, source, created_at
+                FROM bubbles ORDER BY created_at DESC LIMIT %s
+            """, (limit,))
+            return [_row_to_dict(r) for r in cur.fetchall()]
+
+
 def get_unfiled_learning(limit: int = 100) -> list[dict]:
     """Learning bubbles (source='learning') not yet filed into the local
     learning material. Used by the /admin/learning sync."""
