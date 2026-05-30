@@ -133,6 +133,17 @@ def _init_db_once():
         created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
     );
     CREATE INDEX IF NOT EXISTS idx_list_items_list ON list_items(list_id, position);
+
+    -- Token usage per Claude API call, for the daily cost report
+    CREATE TABLE IF NOT EXISTS usage_log (
+        id SERIAL PRIMARY KEY,
+        input_tokens INTEGER DEFAULT 0,
+        output_tokens INTEGER DEFAULT 0,
+        cache_read_tokens INTEGER DEFAULT 0,
+        cache_creation_tokens INTEGER DEFAULT 0,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_usage_created ON usage_log(created_at);
     """
 
     with get_connection() as conn:

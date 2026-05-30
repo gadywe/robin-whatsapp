@@ -8,6 +8,7 @@ from file_tool import create_docx_bytes, create_pdf_bytes, fetch_link_content
 from telegram_tool import tg_send_document, tg_send_buttons
 import bubbles as bubbles_db
 import lists as lists_db
+import usage as usage_log
 from reminders import (
     create_reminder as db_create_reminder,
     get_reminders as db_get_reminders,
@@ -918,6 +919,10 @@ def get_response(chat_id: str, user_message: str, image_bytes: bytes = None, ima
                 return f"שגיאה בבקשה: {type(e).__name__}"
 
             u = data.get("usage", {})
+            usage_log.log_usage(
+                u.get("input_tokens", 0), u.get("output_tokens", 0),
+                u.get("cache_read_input_tokens", 0), u.get("cache_creation_input_tokens", 0),
+            )
             if u.get("cache_read_input_tokens") or u.get("cache_creation_input_tokens"):
                 print(f"CACHE read={u.get('cache_read_input_tokens', 0)} "
                       f"write={u.get('cache_creation_input_tokens', 0)} "

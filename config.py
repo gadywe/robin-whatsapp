@@ -20,7 +20,13 @@ GADI_TELEGRAM_CHAT_ID = os.getenv("GADI_TELEGRAM_CHAT_ID")
 
 # Anthropic
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
-LLM_MODEL = "claude-haiku-4-5-20251001"
+# Sonnet 4.6 — far more reliable at using tool data precisely (Haiku kept
+# hallucinating). Pricing (per 1M tokens) used for the daily cost report:
+LLM_MODEL = os.getenv("LLM_MODEL", "claude-sonnet-4-6")
+PRICE_INPUT = 3.00          # fresh input
+PRICE_OUTPUT = 15.00        # output
+PRICE_CACHE_READ = 0.30     # 0.1x input
+PRICE_CACHE_WRITE = 3.75    # 1.25x input (5-min TTL)
 
 # OpenAI Whisper (transcription)
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -44,6 +50,7 @@ def _flag(name: str, default: str = "false") -> bool:
 
 REMINDERS_ENABLED = _flag("REMINDERS_ENABLED")
 BRIEFING_ENABLED = _flag("BRIEFING_ENABLED")
+COST_REPORT_ENABLED = _flag("COST_REPORT_ENABLED", "true")  # daily 20:00 cost message
 
 # Taskboard (Supabase)
 TASKBOARD_SUPABASE_URL = os.getenv("TASKBOARD_SUPABASE_URL", "https://zycgmonggluwhvvkrwmf.supabase.co")

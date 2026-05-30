@@ -3,7 +3,7 @@ from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
 from config import (
     TELEGRAM_SECRET_TOKEN, CRON_SECRET, GADI_TELEGRAM_CHAT_ID,
-    REMINDERS_ENABLED, BRIEFING_ENABLED,
+    REMINDERS_ENABLED, BRIEFING_ENABLED, COST_REPORT_ENABLED,
 )
 from db_postgres import init_db, is_message_processed, mark_message_processed
 from agent import get_response
@@ -342,6 +342,34 @@ Guidelines:
         import traceback
         traceback.print_exc()
         print(f"ERROR morning briefing: {e}")
+        return {"status": "error", "error": str(e)}
+
+
+@app.get("/daily-cost")
+async def daily_cost(token: str = ""):
+    """Called by cron at 20:00. Sends Gadi today's Claude API cost."""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    if not COST_REPORT_ENABLED:
+        return {"status": "disabled"}
+    try:
+        import usage as usage_log
+        t = usage_log.get_today_totals()
+        usd = t["cost_usd"]
+        ils = usd * 3.7
+        total_in = t["input"] + t["cache_read"] + t["cache_creation"]
+        msg = (
+            f"💸 עלות ההתכתבות עם רובין היום:\n"
+            f"${usd:.3f}  (~₪{ils:.2f})\n\n"
+            f"📊 {t['calls']} קריאות ל-Claude\n"
+            f"קלט: {total_in:,} טוקנים (מתוכם {t['cache_read']:,} ממטמון 💾)\n"
+            f"פלט: {t['output']:,} טוקנים"
+        )
+        tg_send_message(GADI_TELEGRAM_CHAT_ID, msg)
+        return {"status": "sent", "usd": round(usd, 4), "calls": t["calls"]}
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
         return {"status": "error", "error": str(e)}
 
 
