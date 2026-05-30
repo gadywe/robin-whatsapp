@@ -181,6 +181,20 @@ async def bubbles_recent(token: str = "", limit: int = 15):
     return {"items": bubbles_db.get_recent(limit)}
 
 
+@app.get("/admin/calendar/check")
+async def calendar_check(token: str = ""):
+    """Diagnostic: does Robin's Google Calendar connection actually work?"""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    try:
+        from calendar_tool import get_upcoming_events
+        events = get_upcoming_events(days=10)
+        return {"ok": True, "count": len(events),
+                "events": [{"start": e["start"], "summary": e["summary"]} for e in events[:25]]}
+    except Exception as e:
+        return {"ok": False, "error": f"{type(e).__name__}: {str(e)[:300]}"}
+
+
 @app.get("/admin/learning/pending")
 async def learning_pending(token: str = ""):
     """Return learning insights captured via Telegram that aren't yet filed into
