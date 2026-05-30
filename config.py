@@ -36,10 +36,14 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 # Cron (for reminders)
 CRON_SECRET = os.getenv("CRON_SECRET", "robin_cron_secret_2026")
 
-# Master switch for scheduled tasks (reminders check + morning briefing).
-# OFF by default — nothing fires on a schedule, even if an old cron still pings.
-# Set AUTOMATION_ENABLED=true in the environment to re-enable later.
-AUTOMATION_ENABLED = os.getenv("AUTOMATION_ENABLED", "false").lower() in ("1", "true", "yes")
+# Independent switches for scheduled tasks. OFF by default — nothing fires on a
+# schedule (even if an old cron still pings). Flip the relevant one to true in
+# the environment to enable just that task.
+def _flag(name: str, default: str = "false") -> bool:
+    return os.getenv(name, default).lower() in ("1", "true", "yes")
+
+REMINDERS_ENABLED = _flag("REMINDERS_ENABLED")
+BRIEFING_ENABLED = _flag("BRIEFING_ENABLED")
 
 # Taskboard (Supabase)
 TASKBOARD_SUPABASE_URL = os.getenv("TASKBOARD_SUPABASE_URL", "https://zycgmonggluwhvvkrwmf.supabase.co")

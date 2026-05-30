@@ -2,7 +2,8 @@ import uvicorn
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
 from config import (
-    TELEGRAM_SECRET_TOKEN, CRON_SECRET, GADI_TELEGRAM_CHAT_ID, AUTOMATION_ENABLED,
+    TELEGRAM_SECRET_TOKEN, CRON_SECRET, GADI_TELEGRAM_CHAT_ID,
+    REMINDERS_ENABLED, BRIEFING_ENABLED,
 )
 from db_postgres import init_db, is_message_processed, mark_message_processed
 from agent import get_response
@@ -178,7 +179,7 @@ async def check_reminders(token: str = ""):
     """Called by external cron every minute. Sends due reminders."""
     if token != CRON_SECRET:
         return Response(content="Forbidden", status_code=403)
-    if not AUTOMATION_ENABLED:
+    if not REMINDERS_ENABLED:
         return {"status": "disabled"}
 
     due = get_due_reminders()
@@ -211,7 +212,7 @@ async def morning_briefing(token: str = ""):
     """Called by cron every morning. Sends a personalized morning message to Gadi."""
     if token != CRON_SECRET:
         return Response(content="Forbidden", status_code=403)
-    if not AUTOMATION_ENABLED:
+    if not BRIEFING_ENABLED:
         return {"status": "disabled"}
 
     try:
