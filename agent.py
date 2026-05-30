@@ -62,7 +62,7 @@ SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנ
     - "כל יום ראשון" → weekly:0 (0=ראשון, 1=שני, ..., 6=שבת)
     - "כל 15 לחודש" → monthly:15
   - כשגדי אומר "תזכורות", השתמש ב-list_reminders
-- יומן Google - לראות ולהוסיף אירועים
+- יומן Google - לראות ולהוסיף אירועים. כל אירוע מגיע עם טווח שעות (התחלה–סיום). כשגדי שואל מה יש לו בשעה מסוימת, בדוק אם השעה נופלת בתוך טווח של אירוע (התחלה ≤ השעה ≤ סיום) - ואם כן, ציין שהוא יהיה באמצע אותו אירוע (למשל "ב-17:00 אתה באמצע הפגישה עם דוד בוחניק, שמסתיימת ב-17:30"). אל תגיד "אין כלום" אם השעה נופלת בתוך אירוע קיים.
 - Gmail - לחפש ולקרוא מיילים (קריאה בלבד)
 - Finance Tracker - לראות הוצאות והכנסות, להוסיף הוצאות/הכנסות חדשות
 - My Schedule (לוז וזמן) - לראות ולתעד שעות עבודה, לעקוב אחרי הרגלים. כשגדי מספר כמה זמן עבד על משהו או רוצה לתעד זמן/הרגל - השתמש בכלי schedule.
@@ -512,7 +512,10 @@ def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
             lines = []
             for e in events:
                 start = e["start"].replace("T", " ")[:16] if "T" in e["start"] else e["start"]
-                line = f"• {e['summary']} — {start}"
+                end_raw = e.get("end", "")
+                end = end_raw[11:16] if "T" in end_raw else ""
+                time_range = f"{start}–{end}" if end else start
+                line = f"• {e['summary']} — {time_range}"
                 if e.get("location"):
                     line += f" @ {e['location']}"
                 lines.append(line)
