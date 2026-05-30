@@ -68,6 +68,31 @@ def update_bubble(bubble_id: int, text: str = None, tags: list[str] = None,
             return _row_to_dict(row) if row else {}
 
 
+def get_unfiled_learning(limit: int = 100) -> list[dict]:
+    """Learning bubbles (source='learning') not yet filed into the local
+    learning material. Used by the /admin/learning sync."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT id, chat_id, text, tags, category, source, created_at
+                FROM bubbles
+                WHERE source = 'learning' AND filed_at IS NULL
+                ORDER BY created_at
+                LIMIT %s
+            """, (limit,))
+            return [_row_to_dict(r) for r in cur.fetchall()]
+
+
+def mark_filed(ids: list[int]) -> int:
+    """Mark the given learning bubbles as filed (so they aren't re-synced)."""
+    if not ids:
+        return 0
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("UPDATE bubbles SET filed_at = NOW() WHERE id = ANY(%s)", (list(ids),))
+            return cur.rowcount
+
+
 def delete_bubble(bubble_id: int) -> bool:
     with get_connection() as conn:
         with conn.cursor() as cur:

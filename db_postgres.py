@@ -94,6 +94,11 @@ def _init_db_once():
     );
     CREATE INDEX IF NOT EXISTS idx_bubbles_chat ON bubbles(chat_id, created_at DESC);
 
+    -- filed_at marks a learning bubble already filed into the local learning material
+    ALTER TABLE bubbles ADD COLUMN IF NOT EXISTS filed_at TIMESTAMP WITH TIME ZONE;
+    CREATE INDEX IF NOT EXISTS idx_bubbles_unfiled_learning
+        ON bubbles(source, filed_at) WHERE source = 'learning' AND filed_at IS NULL;
+
     -- ── הגשר (The Bridge): tasks + subtasks ──────────────────────────────────
     CREATE TABLE IF NOT EXISTS tasks (
         id SERIAL PRIMARY KEY,

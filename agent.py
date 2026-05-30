@@ -49,6 +49,7 @@ SYSTEM_PROMPT = """אתה רובין - העוזר האישי והמאמן המנ
 
 כלים שיש לך:
 - בועות זיכרון (המעיין) - כשגדי משתף רעיון/מחשבה/תובנה/ציטוט שכדאי לזכור, שמור ב-save_memory_bubble. כשהוא שואל "מה רשמתי על..." / "מה אמרתי בנושא..." חפש ב-search_memory_bubbles.
+- חומר לימודי - כשגדי משתף תובנה/ציטוט/מחקר/רעיון ששמע מ-ספר, פודקאסט, קורס או הרצאה (למשל "תרשום תובנה מהספר X", "למדתי ש...", "ציטוט ששמעתי", "תרשום לחומר הלימודי"), השתמש ב-save_learning_insight (ולא ב-save_memory_bubble הרגיל). ציין את source_name (שם הספר/פודקאסט/מקור אם ידוע) ואת insight_type (מחקר/ציטוט/רעיון/תובנה). אלה נשמרים בנפרד ומתויקים אחר כך לחומר הלימודי של גדי. אם לא ברור מאיזה מקור - שאל בקצרה, או שמור בלי source_name.
 - משימות (TaskBoard העסקי) - כל המשימות של גדי מנוהלות ב-TaskBoard של העסק (מוח אש). כשגדי מבקש להוסיף/לעדכן/לסמן/למחוק משימה, השתמש בכלי ה-taskboard (taskboard_add_task, taskboard_update_task, taskboard_get_tasks, taskboard_delete_task). הפרויקטים הם: תוכן, פיתוח, למידה, פרילנס, תה אפור. אם לא ברור לאיזה פרויקט המשימה שייכת - קרא ל-taskboard_get_projects כדי לקבל את ה-project_id הנכון. אם גדי לא ציין תאריך יעד, השתמש בתאריך של היום.
 - רשימות - כשגדי מכתיב רשימת קניות/מטלות (במיוחד בהקלטה קולית), פרק לפריטים נפרדים וצור list_create_from_items. כל פריט יקבל כפתור סימון. list_show מציג רשימה קיימת.
 - תזכורות - המערכת שלך שולחת תזכורות טלגרם אוטומטיות! כשגדי מבקש תזכורת, קרא מיד ל-create_reminder (ללא הסברים - פשוט תעשה את זה).
@@ -460,6 +461,19 @@ TOOLS = [
         }
     },
     {
+        "name": "save_learning_insight",
+        "description": "שומר תובנה/ציטוט/מחקר/רעיון ששמע גדי מספר, פודקאסט, קורס או הרצאה. אלה מתויקים אחר כך לחומר הלימודי שלו. השתמש בזה (ולא ב-save_memory_bubble) כשמדובר בלמידה ממקור חיצוני.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "text": {"type": "string", "description": "התובנה/הציטוט/המחקר - הניסוח המלא לשמירה"},
+                "source_name": {"type": "string", "description": "שם המקור: ספר/פודקאסט/קורס/מרצה (אופציונלי אם לא ידוע)"},
+                "insight_type": {"type": "string", "enum": ["מחקר", "ציטוט", "רעיון", "תובנה"], "description": "סוג הפריט"}
+            },
+            "required": ["text"]
+        }
+    },
+    {
         "name": "list_create_from_items",
         "description": "יוצר רשימה ניתנת-לסימון (כמו רשימת קניות) מתוך פריטים. כל פריט מקבל כפתור סימון בטלגרם. השתמש כשגדי מכתיב רשימה, במיוחד מהקלטה קולית - פרק אותה לפריטים נפרדים.",
         "input_schema": {
@@ -789,6 +803,21 @@ def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
                 date = b["created_at"][:10]
                 lines.append(f"💭 #{b['id']} ({date}) {cat}{b['text']}")
             return "\n".join(lines)
+
+        elif tool_name == "save_learning_insight":
+            itype = tool_input.get("insight_type")
+            source_name = tool_input.get("source_name")
+            tags = [t for t in [source_name] if t]
+            b = bubbles_db.create_bubble(
+                chat_id=chat_id,
+                text=tool_input["text"],
+                tags=tags,
+                category=itype,
+                source="learning",
+            )
+            src = f" ({source_name})" if source_name else ""
+            kind = itype or "תובנה"
+            return f"נשמר לחומר הלימודי 📚 {kind}{src} (#{b['id']})"
 
         elif tool_name == "list_create_from_items":
             lst = lists_db.create_list(

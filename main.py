@@ -19,6 +19,7 @@ from telegram_tool import (
     tg_download_file, tg_set_webhook, parse_update,
 )
 import lists as lists_db
+import bubbles as bubbles_db
 
 
 @asynccontextmanager
@@ -170,6 +171,26 @@ async def set_webhook(token: str = "", url: str = ""):
     if not url:
         return {"error": "missing url param"}
     return tg_set_webhook(url)
+
+
+@app.get("/admin/learning/pending")
+async def learning_pending(token: str = ""):
+    """Return learning insights captured via Telegram that aren't yet filed into
+    the local learning material. Used by the local sync (Claude Code)."""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    items = bubbles_db.get_unfiled_learning()
+    return {"count": len(items), "items": items}
+
+
+@app.get("/admin/learning/mark")
+async def learning_mark(token: str = "", ids: str = ""):
+    """Mark learning insights as filed. ids = comma-separated bubble ids."""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    id_list = [int(x) for x in ids.split(",") if x.strip().isdigit()]
+    n = bubbles_db.mark_filed(id_list)
+    return {"marked": n, "ids": id_list}
 
 
 # ── Cron: reminders ──────────────────────────────────────────────────────────
