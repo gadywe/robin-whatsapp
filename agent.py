@@ -1,7 +1,24 @@
 import httpx
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from config import ANTHROPIC_API_KEY, LLM_MODEL, MAX_HISTORY
+
+IL_TZ = ZoneInfo("Asia/Jerusalem")
+_HEB_DAY = {0: "יום שני", 1: "יום שלישי", 2: "יום רביעי", 3: "יום חמישי",
+            4: "יום שישי", 5: "יום שבת", 6: "יום ראשון"}
+
+
+def _date_context() -> str:
+    """Explicit today + tomorrow in Israel time, so the model never has to
+    compute or guess the date (and doesn't anchor on dates from chat history)."""
+    now = datetime.now(IL_TZ)
+    tom = now + timedelta(days=1)
+    today_s = f"{_HEB_DAY[now.weekday()]} {now.strftime('%d/%m/%Y')}"
+    tom_s = f"{_HEB_DAY[tom.weekday()]} {tom.strftime('%d/%m/%Y')}"
+    return (f"עכשיו בישראל: {today_s}, השעה {now.strftime('%H:%M')}.\n"
+            f"מחר: {tom_s}.\n"
+            f"השתמש בתאריכים האלה בדיוק לכל חישוב של 'היום' ו'מחר' - אל תחשב לבד ואל תיקח תאריכים מההיסטוריה.")
 from db_postgres import get_history, save_message
 from calendar_tool import get_upcoming_events, create_event, delete_event
 from file_tool import create_docx_bytes, create_pdf_bytes, fetch_link_content
@@ -884,14 +901,13 @@ def get_response(chat_id: str, user_message: str, image_bytes: bytes = None, ima
         else:
             messages.append({"role": "user", "content": vision_content})
 
-    current_datetime = datetime.now().strftime("%A %d/%m/%Y %H:%M")
     # Prompt caching: the cache_control breakpoint on the frozen SYSTEM_PROMPT block
     # caches the stable prefix (tools render before system, so they're cached too).
-    # The volatile datetime goes in a second system block AFTER the breakpoint, so it
-    # never invalidates the cache. Render order: tools -> system -> messages.
+    # The volatile date context goes in a second system block AFTER the breakpoint, so
+    # it never invalidates the cache. Render order: tools -> system -> messages.
     system = [
         {"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}},
-        {"type": "text", "text": f"התאריך והשעה בישראל כעת: {current_datetime}"},
+        {"type": "text", "text": _date_context()},
     ]
 
     headers = {
