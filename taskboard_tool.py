@@ -42,14 +42,19 @@ def _delete(path: str, params: dict) -> bool:
 
 
 def taskboard_get_tasks(date_from: str = None, date_to: str = None, status: str = None) -> list:
-    """Get tasks, optionally filtered by date range and/or status."""
-    params = {"select": "id,name,description,due_date,due_time,status,position,project:projects(id,name,domain:domains(id,name))", "order": "due_date.asc,position.asc"}
+    """Get tasks, optionally filtered by date range and/or status.
+    Uses a list of tuples so date_from + date_to send two separate due_date
+    filters (gte + lte) — a dict can't hold the duplicate key."""
+    params = [
+        ("select", "id,name,description,due_date,due_time,status,position,project:projects(id,name,domain:domains(id,name))"),
+        ("order", "due_date.asc,position.asc"),
+    ]
     if date_from:
-        params["due_date"] = f"gte.{date_from}"
+        params.append(("due_date", f"gte.{date_from}"))
     if date_to:
-        params["due_date"] = f"lte.{date_to}" if not date_from else params.get("due_date", "") + f"&due_date=lte.{date_to}"
+        params.append(("due_date", f"lte.{date_to}"))
     if status:
-        params["status"] = f"eq.{status}"
+        params.append(("status", f"eq.{status}"))
     return _get("tasks", params)
 
 
