@@ -142,6 +142,10 @@ TOOLS = [
                 "location": {
                     "type": "string",
                     "description": "מיקום האירוע (אופציונלי)"
+                },
+                "recurrence": {
+                    "type": "string",
+                    "description": "כלל חזרה (RRULE) לאירוע חוזר (אופציונלי). start_datetime הוא המופע הראשון. דוגמאות: 'FREQ=DAILY' (כל יום), 'FREQ=WEEKLY;BYDAY=TU' (כל יום שלישי), 'FREQ=WEEKLY;INTERVAL=2;BYDAY=TU' (פעם בשבועיים ביום שלישי), 'FREQ=MONTHLY;BYMONTHDAY=15' (ב-15 לכל חודש). קודי ימים: SU MO TU WE TH FR SA. השאר ריק לאירוע חד-פעמי."
                 }
             },
             "required": ["summary", "start_datetime", "end_datetime"]
@@ -553,8 +557,10 @@ def run_tool(tool_name: str, tool_input: dict, chat_id: str = "") -> str:
                 end_datetime=tool_input["end_datetime"],
                 description=tool_input.get("description", ""),
                 location=tool_input.get("location", ""),
+                recurrence=tool_input.get("recurrence", ""),
             )
-            return f"נוצר: {result.get('summary')} ב-{result.get('start', {}).get('dateTime', '')}"
+            rec = " (אירוע חוזר)" if result.get("recurrence") else ""
+            return f"נוצר: {result.get('summary')} ב-{result.get('start', {}).get('dateTime', '')}{rec}"
 
         elif tool_name == "delete_calendar_event":
             success = delete_event(tool_input["event_id"])

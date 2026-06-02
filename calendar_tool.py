@@ -131,9 +131,12 @@ def get_upcoming_events(days: int = 7) -> list:
     events.sort(key=lambda x: x.get("start") or "")
     return events
 
-def create_event(summary: str, start_datetime: str, end_datetime: str, description: str = "", location: str = "") -> dict:
+def create_event(summary: str, start_datetime: str, end_datetime: str, description: str = "", location: str = "", recurrence: str = "") -> dict:
     """
     start_datetime and end_datetime format: "2026-04-15T14:00:00+03:00"
+    recurrence: optional RRULE for a repeating event, e.g.
+    "RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=TU" (biweekly Tuesday). start_datetime is
+    the first occurrence; Google repeats it per the rule.
     """
     token = get_access_token()
     body = {
@@ -143,6 +146,11 @@ def create_event(summary: str, start_datetime: str, end_datetime: str, descripti
         "start": {"dateTime": start_datetime, "timeZone": "Asia/Jerusalem"},
         "end": {"dateTime": end_datetime, "timeZone": "Asia/Jerusalem"},
     }
+    if recurrence and recurrence.strip():
+        rule = recurrence.strip()
+        if not rule.upper().startswith(("RRULE:", "RDATE", "EXDATE")):
+            rule = "RRULE:" + rule  # accept bare "FREQ=..." from the model
+        body["recurrence"] = [rule]
     resp = httpx.post(
         f"{CALENDAR_API}/calendars/primary/events",
         headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
