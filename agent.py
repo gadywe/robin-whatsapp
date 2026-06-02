@@ -1,5 +1,6 @@
 import httpx
 import json
+import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from config import ANTHROPIC_API_KEY, LLM_MODEL, MAX_HISTORY
@@ -928,17 +929,37 @@ def get_response(chat_id: str, user_message: str, image_bytes: bytes = None, ima
                 "messages": messages,
             }
 
-            try:
-                with httpx.Client(timeout=60.0) as client:
-                    response = client.post(ANTHROPIC_API_URL, headers=headers, json=payload)
-                    response.raise_for_status()
-                    data = response.json()
-            except httpx.HTTPError as e:
-                print(f"ERROR API call: {e}")
-                return f"שגיאת API: {response.status_code} - {str(e)[:100]}"
-            except Exception as e:
-                print(f"ERROR request: {e}")
-                return f"שגיאה בבקשה: {type(e).__name__}"
+            # Retry transient API failures (429 rate-limit, 529 overloaded, 5xx)
+            # with exponential backoff so they never reach the user as raw errors.
+            data = None
+            for attempt in range(4):  # initial try + 3 retries: waits 1s, 2s, 4s
+                try:
+                    with httpx.Client(timeout=60.0) as client:
+                        response = client.post(ANTHROPIC_API_URL, headers=headers, json=payload)
+                        response.raise_for_status()
+                        data = response.json()
+                    break
+                except httpx.HTTPStatusError as e:
+                    code = e.response.status_code
+                    if code in (429, 500, 502, 503, 529) and attempt < 3:
+                        wait = 2 ** attempt
+                        print(f"API {code} (transient), retry {attempt + 1}/3 in {wait}s")
+                        time.sleep(wait)
+                        continue
+                    print(f"ERROR API call: {code} {str(e)[:120]}")
+                    break
+                except httpx.RequestError as e:  # timeout / connection blip
+                    if attempt < 3:
+                        wait = 2 ** attempt
+                        print(f"API request error {type(e).__name__}, retry {attempt + 1}/3 in {wait}s")
+                        time.sleep(wait)
+                        continue
+                    print(f"ERROR request: {e}")
+                    break
+
+            if data is None:
+                # transient failure persisted across all retries
+                return "אני קצת עמוס כרגע (עומס זמני בשרת) 🙏 נסה שוב עוד רגע."
 
             u = data.get("usage", {})
             usage_log.log_usage(
