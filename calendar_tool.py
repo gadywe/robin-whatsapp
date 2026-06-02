@@ -35,6 +35,11 @@ def _fetch_calendar_items(token: str, calendar_id: str, time_min: str, time_max:
             "singleEvents": True,
             "orderBy": "startTime",
             "maxResults": max_results,
+            # Normalize every event to Israel time in the response. Without this,
+            # calendars whose default TZ is UTC return start/end as "...Z", and the
+            # naive HH:MM display shows them 3h early (and breaks the string sort).
+            # Google applies the correct DST offset per date automatically.
+            "timeZone": "Asia/Jerusalem",
         },
         timeout=15,
     )
