@@ -438,5 +438,22 @@ async def health():
     return {"status": "ok", "agent": "robin", "channel": "telegram", "version": "phase1"}
 
 
+@app.get("/admin/scheduler")
+async def admin_scheduler(token: str = ""):
+    """Diagnostic: is the in-process scheduler running and when do jobs next fire?"""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    return {
+        "running": scheduler.running,
+        "jobs": [
+            {
+                "id": j.id,
+                "next_run": j.next_run_time.isoformat() if j.next_run_time else None,
+            }
+            for j in scheduler.get_jobs()
+        ],
+    }
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
