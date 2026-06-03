@@ -2,7 +2,6 @@ import asyncio
 import uvicorn
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
-from zoneinfo import ZoneInfo
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from apscheduler.triggers.cron import CronTrigger
@@ -27,7 +26,10 @@ import lists as lists_db
 import bubbles as bubbles_db
 
 
-ISRAEL_TZ = ZoneInfo("Asia/Jerusalem")
+# Pass the tz as a string: APScheduler resolves it via pytz, which it expects.
+# A zoneinfo.ZoneInfo object is silently ignored here and the scheduler falls
+# back to the host tz (UTC on Render) — which shifted the 20:00 cost report.
+ISRAEL_TZ = "Asia/Jerusalem"
 scheduler = AsyncIOScheduler(timezone=ISRAEL_TZ)
 
 
@@ -47,7 +49,7 @@ async def lifespan(app: FastAPI):
         )
     if COST_REPORT_ENABLED:
         scheduler.add_job(
-            _scheduled_daily_cost, CronTrigger(hour=20, minute=0),
+            _scheduled_daily_cost, CronTrigger(hour=20, minute=0, timezone=ISRAEL_TZ),
             id="daily_cost", max_instances=1, coalesce=True,
         )
     scheduler.start()
