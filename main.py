@@ -1,6 +1,11 @@
+import asyncio
 import uvicorn
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
+from zoneinfo import ZoneInfo
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.interval import IntervalTrigger
+from apscheduler.triggers.cron import CronTrigger
 from config import (
     TELEGRAM_SECRET_TOKEN, CRON_SECRET, GADI_TELEGRAM_CHAT_ID,
     REMINDERS_ENABLED, BRIEFING_ENABLED, COST_REPORT_ENABLED,
@@ -22,10 +27,51 @@ import lists as lists_db
 import bubbles as bubbles_db
 
 
+ISRAEL_TZ = ZoneInfo("Asia/Jerusalem")
+scheduler = AsyncIOScheduler(timezone=ISRAEL_TZ)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
-    yield
+    # In-process scheduler. Reminder firing no longer depends on an external
+    # cron (cron-job.org) that auto-disables itself after a burst of failures.
+    # Whenever the service is awake these jobs run, so the bot self-heals after
+    # any outage instead of staying dead until a manual re-enable. A free
+    # keep-alive pinger (UptimeRobot on /health) just prevents the free-tier
+    # spin-down; it never disables itself.
+    if REMINDERS_ENABLED:
+        scheduler.add_job(
+            _scheduled_reminder_check, IntervalTrigger(minutes=1),
+            id="reminders", max_instances=1, coalesce=True,
+        )
+    if COST_REPORT_ENABLED:
+        scheduler.add_job(
+            _scheduled_daily_cost, CronTrigger(hour=20, minute=0),
+            id="daily_cost", max_instances=1, coalesce=True,
+        )
+    scheduler.start()
+    print(f"Scheduler started: jobs={[j.id for j in scheduler.get_jobs()]}")
+    try:
+        yield
+    finally:
+        scheduler.shutdown(wait=False)
+
+
+async def _scheduled_reminder_check():
+    try:
+        sent = await asyncio.to_thread(_do_check_reminders)
+        if sent:
+            print(f"[scheduler] reminders sent: {sent}")
+    except Exception as e:
+        print(f"[scheduler] reminder check error: {e}")
+
+
+async def _scheduled_daily_cost():
+    try:
+        await asyncio.to_thread(_do_daily_cost)
+    except Exception as e:
+        print(f"[scheduler] daily cost error: {e}")
 
 
 app = FastAPI(lifespan=lifespan)
@@ -217,14 +263,12 @@ async def learning_mark(token: str = "", ids: str = ""):
 
 # ── Cron: reminders ──────────────────────────────────────────────────────────
 
-@app.get("/check-reminders")
-async def check_reminders(token: str = ""):
-    """Called by external cron every minute. Sends due reminders."""
-    if token != CRON_SECRET:
-        return Response(content="Forbidden", status_code=403)
-    if not REMINDERS_ENABLED:
-        return {"status": "disabled"}
+def _do_check_reminders() -> int:
+    """Send all due reminders; return how many were sent.
 
+    Safe to call concurrently (scheduler + external pinger): get_due_reminders
+    atomically claims rows (status active -> sending) so no reminder double-sends.
+    """
     due = get_due_reminders()
     sent_count = 0
     for reminder in due:
@@ -244,7 +288,18 @@ async def check_reminders(token: str = ""):
         except Exception as e:
             print(f"ERROR sending reminder {reminder['id']}: {e}")
             mark_reminder_sent(reminder['id'])
+    return sent_count
 
+
+@app.get("/check-reminders")
+async def check_reminders(token: str = ""):
+    """External-cron fallback. The in-process scheduler is now the primary
+    trigger; this endpoint stays so an external pinger can still drive it."""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    if not REMINDERS_ENABLED:
+        return {"status": "disabled"}
+    sent_count = await asyncio.to_thread(_do_check_reminders)
     return {"sent": sent_count}
 
 
@@ -345,28 +400,33 @@ Guidelines:
         return {"status": "error", "error": str(e)}
 
 
+def _do_daily_cost() -> dict:
+    """Send Gadi today's Claude API cost."""
+    import usage as usage_log
+    t = usage_log.get_today_totals()
+    usd = t["cost_usd"]
+    ils = usd * 3.7
+    total_in = t["input"] + t["cache_read"] + t["cache_creation"]
+    msg = (
+        f"💸 עלות ההתכתבות עם רובין היום:\n"
+        f"${usd:.3f}  (~₪{ils:.2f})\n\n"
+        f"📊 {t['calls']} קריאות ל-Claude\n"
+        f"קלט: {total_in:,} טוקנים (מתוכם {t['cache_read']:,} ממטמון 💾)\n"
+        f"פלט: {t['output']:,} טוקנים"
+    )
+    tg_send_message(GADI_TELEGRAM_CHAT_ID, msg)
+    return {"status": "sent", "usd": round(usd, 4), "calls": t["calls"]}
+
+
 @app.get("/daily-cost")
 async def daily_cost(token: str = ""):
-    """Called by cron at 20:00. Sends Gadi today's Claude API cost."""
+    """External-cron fallback for the 20:00 cost report (scheduler is primary)."""
     if token != CRON_SECRET:
         return Response(content="Forbidden", status_code=403)
     if not COST_REPORT_ENABLED:
         return {"status": "disabled"}
     try:
-        import usage as usage_log
-        t = usage_log.get_today_totals()
-        usd = t["cost_usd"]
-        ils = usd * 3.7
-        total_in = t["input"] + t["cache_read"] + t["cache_creation"]
-        msg = (
-            f"💸 עלות ההתכתבות עם רובין היום:\n"
-            f"${usd:.3f}  (~₪{ils:.2f})\n\n"
-            f"📊 {t['calls']} קריאות ל-Claude\n"
-            f"קלט: {total_in:,} טוקנים (מתוכם {t['cache_read']:,} ממטמון 💾)\n"
-            f"פלט: {t['output']:,} טוקנים"
-        )
-        tg_send_message(GADI_TELEGRAM_CHAT_ID, msg)
-        return {"status": "sent", "usd": round(usd, 4), "calls": t["calls"]}
+        return await asyncio.to_thread(_do_daily_cost)
     except Exception as e:
         import traceback
         traceback.print_exc()
