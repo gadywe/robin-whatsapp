@@ -126,6 +126,43 @@ def reactivate_reminder(reminder_id: int, new_remind_at: str = None) -> dict:
             return _row_to_dict(row) if row else {}
 
 
+def sweep_orphaned_sending() -> int:
+    """Reset every row stuck in 'sending' back to 'active'. Called on startup:
+    a fresh process means the previous one died, so any 'sending' row is orphaned
+    (its send never completed) and is safe to re-arm. Returns rows reset."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("UPDATE reminders SET status = 'active' WHERE status = 'sending'")
+            n = cur.rowcount
+            conn.commit()
+            return n
+
+
+def reminder_health() -> dict:
+    """Detect reminder-delivery anomalies. {ok, problems[], stuck, overdue}.
+    - stuck:   rows wedged in 'sending' >15min (a send that never recovered).
+    - overdue: 'active' rows whose time passed >15min ago = the firing path is
+               broken (catch-up fires within a minute of wake, so >15min is real)."""
+    problems = []
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT count(*) FROM reminders
+                WHERE status = 'sending' AND remind_at < NOW() - INTERVAL '15 minutes'
+            """)
+            stuck = cur.fetchone()[0]
+            cur.execute("""
+                SELECT count(*) FROM reminders
+                WHERE status = 'active' AND remind_at < NOW() - INTERVAL '15 minutes'
+            """)
+            overdue = cur.fetchone()[0]
+    if stuck:
+        problems.append(f"{stuck} reminder(s) stuck in 'sending' >15min")
+    if overdue:
+        problems.append(f"{overdue} active reminder(s) overdue >15min — not firing")
+    return {"ok": not problems, "problems": problems, "stuck": stuck, "overdue": overdue}
+
+
 def mark_reminder_sent(reminder_id: int):
     with get_connection() as conn:
         with conn.cursor() as cur:

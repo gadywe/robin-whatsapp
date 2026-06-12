@@ -16,6 +16,7 @@ from file_tool import process_file_by_mime
 from reminders import (
     get_due_reminders, mark_reminder_sent, advance_recurring_reminder,
     delete_reminder, snooze_reminder, get_all_reminders, reactivate_reminder,
+    sweep_orphaned_sending, reminder_health,
 )
 from weather_tool import get_jerusalem_weather, get_clothing_advice
 from quotes_tool import get_random_quote
@@ -46,9 +47,25 @@ async def lifespan(app: FastAPI):
     # keep-alive pinger (UptimeRobot on /health) just prevents the free-tier
     # spin-down; it never disables itself.
     if REMINDERS_ENABLED:
+        # Heal on boot: a fresh process means the old one died, so any row left
+        # in 'sending' is orphaned. Re-arm it instantly instead of waiting for
+        # the every-minute reclaim. This is what stops the weekly silent death.
+        try:
+            n = sweep_orphaned_sending()
+            if n:
+                print(f"Startup: re-armed {n} orphaned 'sending' reminder(s)")
+        except Exception as e:
+            print(f"Startup sweep error: {e}")
         scheduler.add_job(
             _scheduled_reminder_check, IntervalTrigger(minutes=1),
             id="reminders", max_instances=1, coalesce=True,
+        )
+        # Watchdog: hourly self-check. Auto-heals stuck rows and pings Gadi ONLY
+        # if reminders look broken (silent when healthy) — so a failure surfaces
+        # in an hour, not after days of missed reminders.
+        scheduler.add_job(
+            _scheduled_watchdog, IntervalTrigger(hours=1),
+            id="watchdog", max_instances=1, coalesce=True,
         )
     if COST_REPORT_ENABLED:
         scheduler.add_job(
@@ -77,6 +94,35 @@ async def _scheduled_daily_cost():
         await asyncio.to_thread(_do_daily_cost)
     except Exception as e:
         print(f"[scheduler] daily cost error: {e}")
+
+
+async def _scheduled_watchdog():
+    try:
+        await asyncio.to_thread(_do_watchdog)
+    except Exception as e:
+        print(f"[scheduler] watchdog error: {e}")
+
+
+def _do_watchdog() -> dict:
+    """Self-heal + alert. Re-arm any orphaned 'sending' rows, then alert Gadi if
+    reminders still look broken. Silent (log only) when everything is healthy."""
+    swept = sweep_orphaned_sending()
+    if swept:
+        print(f"[watchdog] re-armed {swept} orphaned 'sending' reminder(s)")
+    h = reminder_health()
+    problems = list(h["problems"])
+    if not scheduler.running:
+        problems.append("scheduler not running")
+    if problems:
+        msg = "⚠️ רובין — תקלה במערכת התזכורות:\n" + "\n".join(f"• {p}" for p in problems)
+        try:
+            tg_send_message(GADI_TELEGRAM_CHAT_ID, msg)
+        except Exception as e:
+            print(f"[watchdog] failed to send alert: {e}")
+        print(f"[watchdog] ALERT: {problems}")
+    else:
+        print("[watchdog] reminders healthy")
+    return {"swept": swept, "problems": problems}
 
 
 app = FastAPI(lifespan=lifespan)
@@ -483,6 +529,15 @@ async def admin_reactivate(token: str = "", id: int = 0, remind_at: str = ""):
         return Response(content="Forbidden", status_code=403)
     r = await asyncio.to_thread(reactivate_reminder, id, remind_at or None)
     return {"reminder": r}
+
+
+@app.get("/admin/reminders/health")
+async def admin_reminder_health(token: str = ""):
+    """Diagnostic: is reminder delivery healthy? (stuck/overdue rows + scheduler)."""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    h = await asyncio.to_thread(reminder_health)
+    return {**h, "scheduler_running": scheduler.running}
 
 
 if __name__ == "__main__":
