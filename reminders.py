@@ -60,14 +60,70 @@ def snooze_reminder(reminder_id: int, new_remind_at: str) -> dict:
 def get_due_reminders() -> list[dict]:
     with get_connection() as conn:
         with conn.cursor() as cur:
+            # Claim due rows atomically (active -> sending). Also reclaim rows
+            # stuck in 'sending' for >5 min: that means a previous send crashed
+            # mid-flight (process recycle) and the row would otherwise stay dead
+            # forever. The 5-min guard avoids racing a genuine in-flight send
+            # (which transitions out of 'sending' within the same second).
             cur.execute("""
                 UPDATE reminders
                 SET status = 'sending'
-                WHERE remind_at <= NOW() AND status = 'active'
+                WHERE remind_at <= NOW()
+                  AND (status = 'active'
+                       OR (status = 'sending'
+                           AND remind_at < NOW() - INTERVAL '5 minutes'))
                 RETURNING id, chat_id, text, remind_at, is_recurring, recurrence_rule, status
             """)
             conn.commit()
             return [_row_to_dict(row) for row in cur.fetchall()]
+
+
+def get_all_reminders(limit: int = 50) -> list[dict]:
+    """Diagnostic: every reminder regardless of status, newest fire-time first."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT id, chat_id, text, remind_at, is_recurring,
+                       recurrence_rule, status, sent_at
+                FROM reminders
+                ORDER BY remind_at DESC
+                LIMIT %s
+            """, (limit,))
+            out = []
+            for row in cur.fetchall():
+                out.append({
+                    "id": row[0],
+                    "chat_id": row[1],
+                    "text": row[2],
+                    "remind_at": row[3].isoformat() if hasattr(row[3], 'isoformat') else str(row[3]),
+                    "is_recurring": row[4],
+                    "recurrence_rule": row[5],
+                    "status": row[6],
+                    "sent_at": row[7].isoformat() if (row[7] and hasattr(row[7], 'isoformat')) else None,
+                })
+            return out
+
+
+def reactivate_reminder(reminder_id: int, new_remind_at: str = None) -> dict:
+    """Bring a dead (sent/sending) reminder back to 'active'. With new_remind_at,
+    also reschedule it; otherwise keep the existing remind_at (fires next tick)."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            if new_remind_at:
+                cur.execute("""
+                    UPDATE reminders SET status = 'active', remind_at = %s, sent_at = NULL
+                    WHERE id = %s
+                    RETURNING id, chat_id, text, remind_at, is_recurring, recurrence_rule, status
+                """, (new_remind_at, reminder_id))
+            else:
+                cur.execute("""
+                    UPDATE reminders SET status = 'active', sent_at = NULL
+                    WHERE id = %s
+                    RETURNING id, chat_id, text, remind_at, is_recurring, recurrence_rule, status
+                """, (reminder_id,))
+            conn.commit()
+            row = cur.fetchone()
+            return _row_to_dict(row) if row else {}
 
 
 def mark_reminder_sent(reminder_id: int):

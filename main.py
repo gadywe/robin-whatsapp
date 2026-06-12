@@ -13,7 +13,10 @@ from db_postgres import init_db, is_message_processed, mark_message_processed
 from agent import get_response
 from transcribe import transcribe_audio_bytes
 from file_tool import process_file_by_mime
-from reminders import get_due_reminders, mark_reminder_sent, advance_recurring_reminder, delete_reminder
+from reminders import (
+    get_due_reminders, mark_reminder_sent, advance_recurring_reminder,
+    delete_reminder, snooze_reminder, get_all_reminders, reactivate_reminder,
+)
 from weather_tool import get_jerusalem_weather, get_clothing_advice
 from quotes_tool import get_random_quote
 from gmail_tool import gmail_search, gmail_read
@@ -289,7 +292,14 @@ def _do_check_reminders() -> int:
             sent_count += 1
         except Exception as e:
             print(f"ERROR sending reminder {reminder['id']}: {e}")
-            mark_reminder_sent(reminder['id'])
+            # Re-arm instead of killing it. The old code marked the row 'sent',
+            # which permanently disabled recurring reminders after one transient
+            # send failure. Reset to 'active' (same remind_at) so the next tick
+            # retries; a recurring reminder only advances after it truly sends.
+            try:
+                snooze_reminder(reminder['id'], reminder['remind_at'])
+            except Exception as e2:
+                print(f"ERROR re-arming reminder {reminder['id']}: {e2}")
     return sent_count
 
 
@@ -455,6 +465,24 @@ async def admin_scheduler(token: str = ""):
             for j in scheduler.get_jobs()
         ],
     }
+
+
+@app.get("/admin/reminders")
+async def admin_reminders(token: str = "", limit: int = 50):
+    """Diagnostic: dump the reminders table (all statuses) to debug missed fires."""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    return {"reminders": await asyncio.to_thread(get_all_reminders, limit)}
+
+
+@app.get("/admin/reminders/reactivate")
+async def admin_reactivate(token: str = "", id: int = 0, remind_at: str = ""):
+    """Repair: revive a dead (sent/sending) reminder. Pass remind_at (ISO) to
+    reschedule, or omit to fire it on the next tick with its existing time."""
+    if token != CRON_SECRET:
+        return Response(content="Forbidden", status_code=403)
+    r = await asyncio.to_thread(reactivate_reminder, id, remind_at or None)
+    return {"reminder": r}
 
 
 if __name__ == "__main__":
