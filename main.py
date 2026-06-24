@@ -1,4 +1,6 @@
 import asyncio
+from datetime import datetime
+from zoneinfo import ZoneInfo
 import uvicorn
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
@@ -16,7 +18,7 @@ from file_tool import process_file_by_mime
 from reminders import (
     get_due_reminders, mark_reminder_sent, advance_recurring_reminder,
     delete_reminder, snooze_reminder, get_all_reminders, reactivate_reminder,
-    sweep_orphaned_sending, reminder_health,
+    sweep_orphaned_sending, reminder_health, get_reminders,
 )
 from weather_tool import get_jerusalem_weather, get_clothing_advice
 from quotes_tool import get_random_quote
@@ -161,6 +163,48 @@ async def telegram_webhook(request: Request):
     return {"status": "ok"}
 
 
+# Hebrew weekday by datetime.weekday() (Mon=0 … Sun=6).
+_HEB_DOW = ["שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת", "ראשון"]
+# Exact-match triggers for the deterministic "list my reminders" shortcut.
+_REMINDERS_KEYWORDS = {"תזכורות", "/תזכורות", "התזכורות שלי", "רשימת תזכורות"}
+
+
+def _recurrence_label(rule: str) -> str:
+    rule = rule or ""
+    if rule == "daily":
+        return "יומי"
+    if rule.startswith("weekly"):
+        return "שבועי"
+    if rule.startswith("monthly"):
+        return "חודשי"
+    if rule.startswith("yearly"):
+        return "שנתי"
+    return "חוזר"
+
+
+def _format_reminders_list(chat_id: str) -> str:
+    """Deterministic reminders list (no LLM). get_reminders returns only active
+    rows ordered by remind_at; for a recurring reminder remind_at is already the
+    NEXT occurrence (advance_recurring_reminder rolls it forward each fire), so a
+    recurring item naturally shows just its next time, tagged 🔁."""
+    rems = get_reminders(chat_id)
+    if not rems:
+        return "אין לך תזכורות פעילות כרגע 📭"
+    lines = [f"📋 התזכורות שלך ({len(rems)}):", ""]
+    for i, r in enumerate(rems, 1):
+        try:
+            dt = datetime.fromisoformat(r["remind_at"]).astimezone(ZoneInfo("Asia/Jerusalem"))
+            when = f"{dt.day:02d}/{dt.month:02d} (יום {_HEB_DOW[dt.weekday()]}) {dt.hour:02d}:{dt.minute:02d}"
+        except Exception:
+            when = r["remind_at"]
+        body = " ".join((r["text"] or "").split())
+        if len(body) > 80:
+            body = body[:79] + "…"
+        tag = f"  🔁 {_recurrence_label(r['recurrence_rule'])}" if r["is_recurring"] else ""
+        lines.append(f"{i}. ⏰ {when} — {body}{tag}")
+    return "\n".join(lines)
+
+
 def handle_update(u: dict, chat_id: str):
     kind = u["kind"]
 
@@ -175,6 +219,11 @@ def handle_update(u: dict, chat_id: str):
         # Deep-link / start handling reserved for Phase 3 (sharing).
         if text.startswith("/start"):
             tg_send_message(chat_id, "היי, אני רובין 🤖 כתוב לי כל דבר - תזכורת, משימה, רעיון לזכור, או מה ביומן.")
+            return
+        # Deterministic shortcut: the bare word "תזכורות" lists active reminders
+        # straight from the DB — no LLM call (zero tokens, can't hallucinate).
+        if text.strip() in _REMINDERS_KEYWORDS:
+            tg_send_message(chat_id, _format_reminders_list(chat_id))
             return
 
     elif kind == "voice":
