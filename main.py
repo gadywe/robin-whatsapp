@@ -69,11 +69,11 @@ async def lifespan(app: FastAPI):
             _scheduled_watchdog, IntervalTrigger(hours=1),
             id="watchdog", max_instances=1, coalesce=True,
         )
-    if COST_REPORT_ENABLED:
-        scheduler.add_job(
-            _scheduled_daily_cost, CronTrigger(hour=20, minute=0, timezone=ISRAEL_TZ),
-            id="daily_cost", max_instances=1, coalesce=True,
-        )
+    # NOTE: the 20:00 cost report no longer fires in-process — it would miss when
+    # Render is asleep at 20:00. It now runs from the independent GitHub Actions
+    # sender (send_daily_cost.py / .github/workflows/daily-cost.yml), triggered by
+    # cron-job.org at 20:00 Asia/Jerusalem. The /daily-cost endpoint + _do_daily_cost
+    # stay as a manual fallback. Keep it removed here to avoid a duplicate message.
     scheduler.start()
     print(f"Scheduler started: jobs={[j.id for j in scheduler.get_jobs()]}")
     try:

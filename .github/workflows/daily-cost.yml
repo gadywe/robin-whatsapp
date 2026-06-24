@@ -1,0 +1,32 @@
+name: Robin daily cost report (independent sender)
+
+# Sends Gadi's 20:00 cost report from GitHub's infrastructure, independent of the
+# Render web service (which sleeps/suspends on the free tier). Triggered by a
+# cron-job.org job set to 20:00 Asia/Jerusalem via the workflow_dispatch API.
+on:
+  workflow_dispatch: {}
+  # Deliberately NO on:schedule — GitHub cron is UTC-only (would drift an hour
+  # across Israeli DST) and unreliable. cron-job.org fires this at the correct
+  # 20:00 Israel time, DST included.
+
+concurrency:
+  group: robin-daily-cost
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install minimal deps
+        run: pip install "psycopg[binary]==3.2.13" "python-dotenv==1.0.1" "httpx==0.27.2"
+      - name: Send daily cost report
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          GADI_TELEGRAM_CHAT_ID: ${{ secrets.GADI_TELEGRAM_CHAT_ID }}
+        run: python send_daily_cost.py
