@@ -28,10 +28,25 @@ jobs:
           python-version: "3.12"
       - name: Install minimal deps
         # Only what send_due_reminders.py transitively needs — pinned to match
-        # requirements.txt. Avoids installing the heavy web/LLM stack.
-        run: pip install "psycopg[binary]==3.2.13" "python-dotenv==1.0.1" "httpx==0.27.2" "python-dateutil==2.9.0"
-      - name: Send due reminders
+        # requirements.txt. Avoids installing the heavy web/LLM stack. --retries
+        # rides out the top-of-hour network blips that fail pip on GitHub's busy runners.
+        run: pip install --retries 5 --timeout 60 "psycopg[binary]==3.2.13" "python-dotenv==1.0.1" "httpx==0.27.2" "python-dateutil==2.9.0"
+      - name: Send due reminders (retry transient blips)
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        run: python send_due_reminders.py
+        # Retry the sender a few times in-run so a transient Neon cold-connect or
+        # Telegram blip (common at the top of the hour, GitHub's busiest time)
+        # doesn't fail the whole run and fire a nuisance failure email. Reminders
+        # are still safe regardless — a fully failed run is caught up by the next
+        # one 5 min later (remind_at <= NOW + the stale-'sending' reclaim).
+        run: |
+          for attempt in 1 2 3; do
+            if python send_due_reminders.py; then
+              exit 0
+            fi
+            echo "attempt $attempt failed; retrying in 10s..."
+            sleep 10
+          done
+          echo "all 3 attempts failed"
+          exit 1
